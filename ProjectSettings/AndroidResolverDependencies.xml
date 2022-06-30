@@ -1,0 +1,31 @@
+<dependencies>
+  <packages>
+    <package>com.google.android.gms:play-services-base:17.6.0</package>
+    <package>com.google.android.play:core:1.10.3</package>
+    <package>com.google.firebase:firebase-analytics:18.0.3</package>
+    <package>com.google.firebase:firebase-analytics-unity:7.2.0</package>
+    <package>com.google.firebase:firebase-app-unity:7.2.0</package>
+    <package>com.google.firebase:firebase-common:19.5.0</package>
+  </packages>
+  <files>
+    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-analytics-unity/7.2.0/firebase-analytics-unity-7.2.0.aar</file>
+    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-analytics-unity/7.2.0/firebase-analytics-unity-7.2.0.pom</file>
+    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-app-unity/7.2.0/firebase-app-unity-7.2.0.aar</file>
+    <file>Assets/GeneratedLocalRepo/Firebase/m2repository/com/google/firebase/firebase-app-unity/7.2.0/firebase-app-unity-7.2.0.pom</file>
+  </files>
+  <settings>
+    <setting name="androidAbis" value="armeabi-v7a" />
+    <setting name="bundleId" value="com.OrdynsStudio.MakeNewWay" />
+    <setting name="explodeAars" value="True" />
+    <setting name="gradleBuildEnabled" value="True" />
+    <setting name="gradlePropertiesTemplateEnabled" value="True" />
+    <setting name="gradleTemplateEnabled" value="True" />
+    <setting name="installAndroidPackages" value="True" />
+    <setting name="localMavenRepoDir" value="Assets/GeneratedLocalRepo" />
+    <setting name="packageDir" value="Assets/Plugins/Android" />
+    <setting name="patchAndroidManifest" value="True" />
+    <setting name="patchMainTemplateGradle" value="True" />
+    <setting name="projectExportEnabled" value="False" />
+    <setting name="useJetifier" value="True" />
+  </settings>
+</dependencies>

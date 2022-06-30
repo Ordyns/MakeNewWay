@@ -1,0 +1,104 @@
+{
+    "LocalizationList": [
+        {
+            "Key": "tap_to_continue",
+            "Value": "Tap to continue"
+        },
+        {
+            "Key": "tap_to_finish",
+            "Value": "Tap to finish"
+        },
+        {
+            "Key": "tutorial_0",
+            "Value": "Here is start"
+        },
+        {
+            "Key": "tutorial_1",
+            "Value": "Here is finish"
+        },
+        {
+            "Key": "tutorial_2",
+            "Value": "You need to create path from start to finish"
+        },
+        {
+            "Key": "tutorial_completed",
+            "Value": "Tutorial completed!"
+        },
+        {
+            "Key": "level_completed",
+            "Value": "Level completed!"
+        },
+        {
+            "Key": "level_not_passed",
+            "Value": "Level not passed!"
+        },
+        {
+            "Key": "game_paused",
+            "Value": "Game paused"
+        },
+        {
+            "Key": "steps_for_bonus",
+            "Value": "Finish in {0} steps"
+        },
+        {
+            "Key": "all_levels_completed",
+            "Value": "All levels completed!"
+        },
+        {
+            "Key": "next",
+            "Value": "Next"
+        },
+        {
+            "Key": "previous",
+            "Value": "Previous"
+        },
+        {
+            "Key": "hint_steps_text",
+            "Value": "Step {0}/{1}"
+        },
+        {
+            "Key": "menu_levels",
+            "Value": "Levels"
+        },
+        {
+            "Key": "guide_1.1",
+            "Value": "You have a limited number of steps"
+        },
+        {
+            "Key": "guide_1.2",
+            "Value": "Use this button to go back one step"
+        },
+        {
+            "Key": "guide_5",
+            "Value": "<b>•</b> Can't be moved \n<b>•</b> Can be rotated by tap"
+        },
+        {
+            "Key": "guide_11",
+            "Value": "<b>•</b> Movable only in two directions"
+        },
+        {
+            "Key": "new_island",
+            "Value": "New island!"
+        },
+        {
+            "Key": "ad_loading_error_message",
+            "Value": "<b>Can't load ad.</b>\nPlease try again or check your Internet connection"
+        },
+        {
+            "Key": "review_request",
+            "Value": "<b>We'd love your feedback!</b>\nIt's really important for us to get feedback on our game. We will be glad if you share your opinion."
+        },
+        {
+            "Key": "rate_a_game",
+            "Value": "Rate a game"
+        },
+        {
+            "Key": "no_thanks",
+            "Value": "No, thanks"
+        },
+        {
+            "Key": "loading_ad",
+            "Value": "<b>Loading ad. Please wait.</b>\n\nThis may take a few seconds if you are watching an ad for the first time during this session."  
+        }
+    ]
+}
