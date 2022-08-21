@@ -16,8 +16,8 @@ public class HintSystem : MonoBehaviour
 
     [SerializeField] private List<Step> steps;
 
-    private const float ISLAND_ANIMATION_DURATION = 0.3f;
-    private const Ease ISLAND_ANIMATION_EASE = Ease.OutCubic;
+    private const float IslandAnimationDuration = 0.3f;
+    private const Ease IslandAnimationEase = Ease.OutCubic;
 
     private HintsRenderer _hintsRenderer;
     private List<Transform> _hintIslands = new List<Transform>();
@@ -41,15 +41,6 @@ public class HintSystem : MonoBehaviour
         PrecalculateIslandsStates();
 
         OnInitializationFinished();
-    }
-
-    [NaughtyAttributes.Button]
-    public void Fix(){
-        for(int i = 0; i< steps.Count; i++){
-            Step step = steps[i];
-            step.IslandTargetCoordinates += new Vector3(0, 0, 6.5f);
-            steps[i] = step;
-        }
     }
 
     private void SaveStartIslandsStates(){
@@ -138,8 +129,8 @@ public class HintSystem : MonoBehaviour
 
     private IEnumerator IslandsAnimationRoutine(int step){
         while(_hintsRenderer.gameObject.activeSelf){
-            AnimateAllIslandsToState(_islandsStatesAtSteps[CurrentStepIndex], ISLAND_ANIMATION_DURATION);
-            yield return new WaitForSeconds(ISLAND_ANIMATION_DURATION + 0.5f);
+            AnimateAllIslandsToState(_islandsStatesAtSteps[CurrentStepIndex], IslandAnimationDuration);
+            yield return new WaitForSeconds(IslandAnimationDuration + 0.5f);
                 
             AnimateAllIslandsToState(_islandsStatesAtSteps[CurrentStepIndex - 1], 0);
             yield return new WaitForSeconds(0.25f);
@@ -150,8 +141,8 @@ public class HintSystem : MonoBehaviour
         for(int i = 0; i < islandsStates.Islands.Count; i++){
             IslandState islandState = islandsStates.Islands[i];
 
-            islandState.IslandTransform.DOLocalMove(islandState.LocalPosition, duration).SetEase(ISLAND_ANIMATION_EASE);
-            islandState.IslandTransform.DOLocalRotate(islandState.Rotation, duration).SetEase(ISLAND_ANIMATION_EASE);
+            islandState.IslandTransform.DOLocalMove(islandState.LocalPosition, duration).SetEase(IslandAnimationEase);
+            islandState.IslandTransform.DOLocalRotate(islandState.Rotation, duration).SetEase(IslandAnimationEase);
         }
     }
 

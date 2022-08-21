@@ -1,7 +1,3 @@
-/*
-    [TEXT]
-*/
-
 using UnityEngine;
 //using Firebase;
 //using Firebase.Analytics;
@@ -23,10 +19,10 @@ public class Analytics : MonoBehaviour
         });*/
     }
 
-    private void Start() => ScenesLoader.Instance.OnGameLevelLoaded += GameLevelLoaded;
+    private void Start() => ScenesLoader.Instance.GameLevelLoaded += GameLevelLoaded;
 
     private void GameLevelLoaded(int levelNumber){
-        PathChecker.Instance.OnPathChecked += (pathCorrect) => {
+        PathChecker.Instance.PathChecked += (pathCorrect) => {
             if(pathCorrect){
                 LevelCompleted(levelNumber);
             }

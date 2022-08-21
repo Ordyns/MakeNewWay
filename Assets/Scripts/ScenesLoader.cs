@@ -7,8 +7,8 @@ public class ScenesLoader : MonoBehaviour
 {
     public static ScenesLoader Instance;
 
-    public event System.Action<int> OnGameLevelLoaded;
-    public event System.Action<int> OnGameLevelLoadBegin;
+    public event System.Action<int> GameLevelLoaded;
+    public event System.Action<int> GameLevelLoading;
 
     [SerializeField] private string tutorialSceneName = "Tutorial";
     [SerializeField] private string menuSceneName = "Menu";
@@ -28,8 +28,8 @@ public class ScenesLoader : MonoBehaviour
         _adsManager = AdsManager.Instance;
         _saveSystem = SaveSystem.Instance;    
 
-        OnGameLevelLoaded += (levelNumber) => CloseTransition(null);
-        OnGameLevelLoaded += (levelNumber) => SceneChanged();
+        GameLevelLoaded += (levelNumber) => CloseTransition(null);
+        GameLevelLoaded += (levelNumber) => SceneChanged();
         
         if(_saveSystem.Data.TutorialCompleted)
             LoadMenu();
@@ -39,11 +39,11 @@ public class ScenesLoader : MonoBehaviour
 
     public void LoadLevel(int number){
         if(number == 0) number = 1;
-        OnGameLevelLoadBegin?.Invoke(number);
+        GameLevelLoading?.Invoke(number);
 
         AddTransition(() => {
             LastLoadedLevelNumber = number;
-            SceneManager.LoadSceneAsync($"{levelSceneName} {number}").completed += (asyncOperation) => OnGameLevelLoaded?.Invoke(number);
+            SceneManager.LoadSceneAsync($"{levelSceneName} {number}").completed += (asyncOperation) => GameLevelLoaded?.Invoke(number);
             SceneManager.LoadSceneAsync(baseSceneName, LoadSceneMode.Additive);
         });
     }

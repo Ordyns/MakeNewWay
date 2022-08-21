@@ -68,7 +68,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLis
             if(ad.isAdLoading){
                 _overlayPanel = OverlayPanels.CreateNewInformationPanel(Localization.Instance.GetLocalizedValue("loading_ad"), null, false);
                 _adLoadingTimer = TimeOperations.CreateTimer(maxTimeForAdLoadingInSeconds, null, () => {
-                    OverlayPanels.CreateNewInformationPanel(Localization.Instance.GetLocalizedValue("cant_load_ad"), null, true);
+                    OverlayPanels.CreateNewInformationPanel(Localization.Instance.GetLocalizedValue("ad_loading_error_message"), null, true);
                     _overlayPanel.Cancel();
                     ad.OnAdLoaded = null;
                 });
@@ -149,9 +149,9 @@ public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLis
 
     [Serializable]
     public class Ad{
-        public Ad(string placementID, bool skipAdIfItIsNotNotReady){
+        public Ad(string placementID, bool skipAdIfItIsNotReady){
             PlacementID = placementID;
-            SkipAdIfItIsNotNotReady = skipAdIfItIsNotNotReady;
+            SkipAdIfItIsNotNotReady = skipAdIfItIsNotReady;
         }
 
         public string PlacementID;
@@ -173,9 +173,9 @@ public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLis
         }
 
         public void SetCallbacks(Action onComplete, Action onFailure, Action onLoaded){
-            OnAdComplete = (onComplete == null) ? OnAdComplete : onComplete;
-            OnAdFailure = (onFailure == null) ? OnAdFailure : onFailure;
-            OnAdLoaded = (onLoaded == null) ? OnAdLoaded : onLoaded;
+            OnAdComplete = onComplete ?? OnAdComplete;
+            OnAdFailure = onFailure ?? OnAdFailure;
+            OnAdLoaded = onLoaded ?? OnAdLoaded;
         }
 
         public void AdLoaded(){

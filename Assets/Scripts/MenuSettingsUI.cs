@@ -65,15 +65,15 @@ public class MenuSettingsUI : MonoBehaviour
     private void UpdateAudioButtonIcon(AudioButton audioButton, bool enabled)
         => audioButton.ButtonIcon.sprite = enabled ? audioButton.EnabledSprite : audioButton.DisabledSprite;
 
-    private const float BUTTONS_ANIMATION_DURATION = 0.15f;
-    private const float BUTTONS_ANIMATION_DELAY = 0.025f;
+    private const float ButtonsAnimationDuration = 0.15f;
+    private const float ButtonsAnimationDelay = 0.025f;
     public void ChangeSettingsPanelVisibility(){
         float targetAlpha = isSettingsOpened ? 0 : 1;
         float targetPosition = isSettingsOpened ? 0 : settingsButton.rect.height;
 
         for(int i = 0; i < buttons.Length; i++){
-            buttons[i].transform.DOLocalMoveY(targetPosition * (i + 1), BUTTONS_ANIMATION_DURATION).SetEase(Ease.OutCubic).SetDelay(BUTTONS_ANIMATION_DELAY * i);
-            buttons[i].DOFade(targetAlpha, BUTTONS_ANIMATION_DURATION).SetDelay(BUTTONS_ANIMATION_DELAY * i);
+            buttons[i].transform.DOLocalMoveY(targetPosition * (i + 1), ButtonsAnimationDuration).SetEase(Ease.OutCubic).SetDelay(ButtonsAnimationDelay * i);
+            buttons[i].DOFade(targetAlpha, ButtonsAnimationDuration).SetDelay(ButtonsAnimationDelay * i);
             buttons[i].blocksRaycasts = !isSettingsOpened;
         }
 

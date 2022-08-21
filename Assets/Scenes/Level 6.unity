@@ -883,11 +883,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e9bacf8a73edf4082ee16b48947661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Steps: 8
-  StepsForBonus: 8
-  CameraSize: 33
-  CustomCameraPosition: 1
-  CameraPosition: {x: 14.137, y: 21.2, z: 8.189}
+  <Steps>k__BackingField: 8
+  <StepsForBonus>k__BackingField: 8
+  <CameraSize>k__BackingField: 33
+  <CustomCameraPosition>k__BackingField: 1
+  <CameraPosition>k__BackingField: {x: 14.137, y: 21.2, z: 8.189}
+  steps: 8
+  stepsForBonus: 8
+  cameraSize: 33
+  customCameraPosition: 1
+  cameraPosition: {x: 14.137, y: 21.2, z: 8.189}
 --- !u!1001 &818349842
 PrefabInstance:
   m_ObjectHideFlags: 0

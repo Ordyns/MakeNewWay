@@ -63,14 +63,14 @@ public class BaseUI : MonoBehaviour
         _saveSystem = SaveSystem.Instance;
 
         _stepsRecorder = StepsRecorder.Instance;
-        _stepsRecorder.OnStepRecorded += UpdatePreviousStepButton;
+        _stepsRecorder.StepRecorded += UpdatePreviousStepButton;
 
         if(_levelNumber >= requestReviewLevelNumber && _saveSystem.Data.ReviewRequested == false){
             Instantiate(reviewRequestPanelPrefab);
             _saveSystem.Data.ReviewRequested = true;
         }
 
-        PathChecker.Instance.OnPathChecked += OnPathChecked;
+        PathChecker.Instance.PathChecked += OnPathChecked;
         PlayerInput.Instance.OnStepsCountChanged += OnStepsCountChanged;
 
         OnStepsCountChanged();
@@ -88,7 +88,7 @@ public class BaseUI : MonoBehaviour
         stepsForBonusText.text = string.Format(stepsForBonusText.text, minSteps);
 
         if(GuideSystem.Instance.isGuideShowing)
-            GuideSystem.Instance.OnGuideFinished += ShowMainUI;
+            GuideSystem.Instance.GuideFinished += ShowMainUI;
         else
             ShowMainUI();
 
@@ -126,7 +126,7 @@ public class BaseUI : MonoBehaviour
     public void UnpauseGame() => SetPauseState(false);
 
     private void SetPauseState(bool paused){
-        PlayerInput.Instance.isInputAllowed = !paused;
+        PlayerInput.Instance.IsInputAllowed = !paused;
         isGamePaused = paused;
         ChangeBackgroundVisibility(paused);
 
@@ -159,7 +159,7 @@ public class BaseUI : MonoBehaviour
         isLevelCompleted = true;
 
         float panelsAnimationDuration = 1f;
-        bool bonusReceived = LevelSettings.Instance.isBonusRecieved(PlayerInput.Instance.StepsLeft);
+        bool bonusReceived = LevelSettings.Instance.IsBonusRecieved(PlayerInput.Instance.StepsLeft);
 
         _saveSystem.LevelCompleted(_levelNumber, bonusReceived);
 

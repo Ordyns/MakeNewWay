@@ -5,8 +5,8 @@ public class PlayerInput : MonoBehaviour
 {
     public static PlayerInput Instance;
 
-    [HideInInspector] public bool isIslandUpdating;
-    [HideInInspector] public bool isInputAllowed = true;
+    [HideInInspector] public bool IsIslandUpdating;
+    [HideInInspector] public bool IsInputAllowed = true;
     
     [HideInInspector] public int StepsLeft;
 
@@ -25,7 +25,7 @@ public class PlayerInput : MonoBehaviour
     private void Awake() => Instance = this;
 
     private IEnumerator Start(){
-        PathChecker.Instance.OnPathChecked += CheckEnded;
+        PathChecker.Instance.PathChecked += CheckEnded;
 
         if(BaseCamera.Instance)
             _mainCamera = BaseCamera.Instance.Camera;
@@ -42,7 +42,7 @@ public class PlayerInput : MonoBehaviour
         if(GuideSystem.Instance && GuideSystem.Instance.isGuideShowing)
             return;
 
-        if(isInputAllowed == false || isIslandUpdating || isGameEnded)
+        if(IsInputAllowed == false || IsIslandUpdating || isGameEnded)
             return;
 
         if(_mainCamera.gameObject.activeSelf == false)
@@ -108,14 +108,14 @@ public class PlayerInput : MonoBehaviour
     public void IslandUpdating(){
         SubtractStep();
 
-        isIslandUpdating = true;
+        IsIslandUpdating = true;
         OnIslandUpdating?.Invoke(_currentIsland);
     }
 
-    public static void IslandUpdatingFinished() => Instance.isIslandUpdating = false;
+    public static void IslandUpdatingFinished() => Instance.IsIslandUpdating = false;
 
     public void CheckEnded(bool pathCorrect){
-        isIslandUpdating = false;
+        IsIslandUpdating = false;
 
         if(isGameEnded)
             return;

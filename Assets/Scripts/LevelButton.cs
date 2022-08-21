@@ -4,8 +4,6 @@ using DG.Tweening;
 
 public class LevelButton : MonoBehaviour
 {
-    private int levelNumber;
-    
     [SerializeField] private CanvasGroup graphics;
     [SerializeField] private float graphicsClosedPosition;
     [SerializeField] private float graphicsLockedAlpha = 0.45f;
@@ -18,15 +16,16 @@ public class LevelButton : MonoBehaviour
     [SerializeField] private GameObject bonusPanel;
     [SerializeField] private GameObject bonusReceivedPanel;
 
+    private int _levelNumber;
     private Timer _animationTimer;
     private bool isLevelLocked;
 
     public void LoadLevel(){
-        ScenesLoader.Instance.LoadLevel(levelNumber);
+        ScenesLoader.Instance.LoadLevel(_levelNumber);
     }
 
     public void SetLevelNumber(int number){
-        levelNumber = number;
+        _levelNumber = number;
         levelNumberText.text = number.ToString();
     }
 
@@ -35,7 +34,7 @@ public class LevelButton : MonoBehaviour
 
 
     private Sequence _graphicsAnimationSequence;
-    private const float GRAPHICS_ANIMATION_DURATION = 0.2f;
+    private const float GraphicsAnimationDuration = 0.2f;
     public void Animate(float delay){
         if(_graphicsAnimationSequence != null) _graphicsAnimationSequence.Kill();
         _graphicsAnimationSequence = DOTween.Sequence();
@@ -43,8 +42,8 @@ public class LevelButton : MonoBehaviour
         graphics.transform.localPosition = new Vector3(graphics.transform.localPosition.x, graphicsClosedPosition, graphics.transform.localPosition.y);
         graphics.alpha = 0;
 
-        _graphicsAnimationSequence.Insert(0, graphics.transform.DOLocalMoveY(0, GRAPHICS_ANIMATION_DURATION).SetEase(Ease.OutCubic).SetDelay(delay));
-        _graphicsAnimationSequence.Insert(0, graphics.DOFade(GetAlphaForGraphics(), GRAPHICS_ANIMATION_DURATION).SetDelay(delay));
+        _graphicsAnimationSequence.Insert(0, graphics.transform.DOLocalMoveY(0, GraphicsAnimationDuration).SetEase(Ease.OutCubic).SetDelay(delay));
+        _graphicsAnimationSequence.Insert(0, graphics.DOFade(GetAlphaForGraphics(), GraphicsAnimationDuration).SetDelay(delay));
     } 
 
     public void SetLockedState(bool locked){

@@ -4,7 +4,7 @@ using UnityEngine;
 public class PathChecker : MonoBehaviour
 {
     public delegate void PathCheckedAction(bool pathCorrect);
-    public event PathCheckedAction OnPathChecked;
+    public event PathCheckedAction PathChecked;
 
     public static PathChecker Instance;
 
@@ -19,7 +19,7 @@ public class PathChecker : MonoBehaviour
         CheckPath();
     }
 
-    public void CheckPath() => OnPathChecked?.Invoke(isPathCorrect());
+    public void CheckPath() => PathChecked?.Invoke(isPathCorrect());
     public void ChechPathWithoutEvent() => isPathCorrect();
 
     private bool isPathCorrect(){

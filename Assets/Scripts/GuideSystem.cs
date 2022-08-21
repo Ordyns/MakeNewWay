@@ -7,7 +7,7 @@ using UnityEngine.Video;
 public class GuideSystem : MonoBehaviour
 {
     public bool isGuideShowing { get; private set; }
-    public event System.Action OnGuideFinished;
+    public event System.Action GuideFinished;
 
     public static GuideSystem Instance;
 
@@ -45,9 +45,13 @@ public class GuideSystem : MonoBehaviour
         Guide currentLevelGuide = guides.Find(guide => guide.TargetLevelNumber == ScenesLoader.Instance.LastLoadedLevelNumber);
         if(currentLevelGuide != null){
             bool guideCompleted = SaveSystem.Instance.Data.CompletedLevelsWithGuides.Contains(currentLevelGuide.TargetLevelNumber);
-            if(guideCompleted == false)
+            if(guideCompleted == false){
                 StartGuide(currentLevelGuide);
+                return;
+            }
         }
+
+        GuideFinished?.Invoke();
     }
 
     private void StartGuide(Guide guide){
@@ -60,7 +64,7 @@ public class GuideSystem : MonoBehaviour
 
         background.DOFade(1, 0.25f).SetEase(Ease.InOutSine);
 
-        OnGuideFinished += () => SaveSystem.Instance.Data.CompletedLevelsWithGuides.Add(_currentGuide.TargetLevelNumber);
+        GuideFinished += () => SaveSystem.Instance.Data.CompletedLevelsWithGuides.Add(_currentGuide.TargetLevelNumber);
 
         NextGuideStep();
     }
@@ -72,7 +76,7 @@ public class GuideSystem : MonoBehaviour
         _videoPlayer.Stop();
 
         if(_currentGuideStepIndex >= _currentGuide.Steps.Length){
-            GuideFinished();
+            FinishGuide();
             return;
         }
 
@@ -99,9 +103,9 @@ public class GuideSystem : MonoBehaviour
         _videoPlayer.Play();
     }
 
-    private void GuideFinished(){
+    private void FinishGuide(){
         isGuideShowing = false;
-        OnGuideFinished?.Invoke();
+        GuideFinished?.Invoke();
 
         _currentGuide.Parent.DOFade(0, 0.2f).SetEase(Ease.InOutSine);
         background.DOFade(0, 0.2f).SetEase(Ease.InOutSine);

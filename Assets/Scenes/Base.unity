@@ -2366,8 +2366,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45295b37b771cd246909c1d7abcd3dda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OriginalSize: 0
-  SizeOffset: 5
+  <SizeOffset>k__BackingField: 5
+  <OriginalSize>k__BackingField: 0
   playOnStart: 0
   inAnimationDelay: 0.3
   duration: 0.75
@@ -2444,6 +2444,8 @@ MonoBehaviour:
   setSizeOnStart: 0
   defaultResolution: {x: 1080, y: 2340}
   widthOrHeight: 0.15
+  DefaultResolution: {x: 1080, y: 2340}
+  WidthOrHeight: 0.15
 --- !u!114 &768694849
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,12 +1,18 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 public class LevelsContainer : MonoBehaviour
 {
-    public static LevelsContainer Instance;
+    public static LevelsContainer Instance { get; private set; }
 
-    public int LevelsCount;
-    public List<int> NumbersOfLevelsWithBonus;
+    [field:SerializeField] public int LevelsCount { get; private set; }
+    [SerializeField] private List<int> numbersOfLevelsWithBonus;
+    
+    public ReadOnlyCollection<int> NumbersOfLevelsWithBonus { get; private set; }
 
-    private void Awake() => Instance = this;
+    private void Awake(){
+        NumbersOfLevelsWithBonus = numbersOfLevelsWithBonus.AsReadOnly();
+        Instance = this;
+    } 
 }

@@ -5,9 +5,9 @@ using DG.Tweening;
 
 public class IslandsAnimator : MonoBehaviour
 {
-    private const float ANIMATION_DELAY = 0.075f;
-    private const float ANIMATION_DURATION = 0.5f;
-    private float _nextIslandAnimationDelay => ANIMATION_DURATION / _islands.Count;
+    private const float AnimatonDelay = 0.075f;
+    private const float AnimationDuration = 0.5f;
+    private float _nextIslandAnimationDelay => AnimationDuration / _islands.Count;
 
     [SerializeField] private bool playOnStart;
 
@@ -18,7 +18,7 @@ public class IslandsAnimator : MonoBehaviour
         _islands = IslandsContainer.Instance.Islands;
 
         if(playOnStart)
-            yield return new WaitForSeconds(ANIMATION_DELAY);
+            yield return new WaitForSeconds(AnimatonDelay);
         else
             yield break;
 

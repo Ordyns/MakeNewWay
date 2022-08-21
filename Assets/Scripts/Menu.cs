@@ -14,7 +14,6 @@ public class Menu : MonoBehaviour
     [Header("===== Environment =====")]
     [SerializeField] private GameObject[] menuIslands;
 
-
     private List<LevelButton> _levelsButtons;
 
     private void Start() {

@@ -1063,11 +1063,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e9bacf8a73edf4082ee16b48947661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Steps: 19
-  StepsForBonus: 15
-  CameraSize: 50.5
-  CustomCameraPosition: 1
-  CameraPosition: {x: 8.2, y: 8.9, z: 5}
+  <Steps>k__BackingField: 19
+  <StepsForBonus>k__BackingField: 15
+  <CameraSize>k__BackingField: 50.5
+  <CustomCameraPosition>k__BackingField: 1
+  <CameraPosition>k__BackingField: {x: 8.2, y: 8.9, z: 5}
+  steps: 19
+  stepsForBonus: 15
+  cameraSize: 50.5
+  customCameraPosition: 1
+  cameraPosition: {x: 8.2, y: 8.9, z: 5}
 --- !u!1001 &964245153
 PrefabInstance:
   m_ObjectHideFlags: 0

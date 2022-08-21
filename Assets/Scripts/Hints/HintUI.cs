@@ -43,7 +43,7 @@ public class HintUI : MonoBehaviour
         string stepsTextLocalizationKey = stepsText.GetComponent<LocalizedText>().LocalizationKey;
         _originalContentOfStepsText = Localization.Instance.GetLocalizedValue(stepsTextLocalizationKey);
 
-        ScenesLoader.Instance.OnGameLevelLoadBegin += (levelNumber) => {
+        ScenesLoader.Instance.GameLevelLoading += (levelNumber) => {
             if(levelNumber != ScenesLoader.Instance.LastLoadedLevelNumber){
                 SaveSystem.Instance.Data.isAdViewed = false;
             }

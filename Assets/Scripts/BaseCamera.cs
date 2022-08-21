@@ -24,13 +24,13 @@ public class BaseCamera : MonoBehaviour
 
         float cameraOriginalSize = levelSettings.CameraSize;
         Camera.orthographicSize = _cameraConstantWidth.GetConstSize(cameraOriginalSize + _cameraAnimator.SizeOffset);
-        _cameraAnimator.OriginalSize = _cameraConstantWidth.GetConstSize(cameraOriginalSize);
+        _cameraAnimator.SetOriginalSize(_cameraConstantWidth.GetConstSize(cameraOriginalSize));
 
         if(levelSettings.CustomCameraPosition)
             Camera.transform.position = levelSettings.CameraPosition;
 
         if(GuideSystem.Instance.isGuideShowing)
-            GuideSystem.Instance.OnGuideFinished += _cameraAnimator.PlayInAnimation;
+            GuideSystem.Instance.GuideFinished += _cameraAnimator.PlayInAnimation;
         else
             _cameraAnimator.PlayInAnimation();
     }

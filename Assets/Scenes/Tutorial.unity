@@ -1095,6 +1095,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 292d0ecbe4d467147b5144e8bf76a626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playOnStart: 0
 --- !u!114 &591941145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1109,6 +1110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IslandsParent: {fileID: 591941141}
   WallsParent: {fileID: 182576551}
+  islandsAnimator: {fileID: 0}
 --- !u!1 &596878978
 GameObject:
   m_ObjectHideFlags: 0
@@ -1565,8 +1567,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45295b37b771cd246909c1d7abcd3dda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OriginalSize: 0
-  SizeOffset: 5
+  <SizeOffset>k__BackingField: 5
+  <OriginalSize>k__BackingField: 0
   playOnStart: 0
   inAnimationDelay: 0.3
   duration: 0.75
@@ -1651,6 +1653,8 @@ MonoBehaviour:
   setSizeOnStart: 1
   defaultResolution: {x: 1080, y: 2340}
   widthOrHeight: 0.15
+  DefaultResolution: {x: 1080, y: 2340}
+  WidthOrHeight: 0.15
 --- !u!1 &784665394
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,10 +6,6 @@ using UnityEngine;
 
 public class Tutorial : MonoBehaviour
 {
-    #if UNITY_EDITOR
-    public string StepsPropertyName => nameof(steps);
-    #endif
-
     [SerializeField] private Step[] steps;
     private Step _currentStep{ get{
         if(_currentStepIndex >= 0 && isTutorialCompleted == false) return steps[_currentStepIndex]; 
@@ -45,10 +41,10 @@ public class Tutorial : MonoBehaviour
     private IEnumerator Start() {
         _mainCamera = Camera.main;
 
-        cameraAnimator.OriginalSize = cameraConstantWidth.GetConstSize(_mainCamera.orthographicSize);
+        cameraAnimator.SetOriginalSize(cameraConstantWidth.GetConstSize(_mainCamera.orthographicSize));
 
         _currentStepIndex = -1;
-        PlayerInput.Instance.isInputAllowed = false;
+        PlayerInput.Instance.IsInputAllowed = false;
 
         moveIslandUI.alpha = 0;
         SetBackgroundVisibility(false);
@@ -56,14 +52,14 @@ public class Tutorial : MonoBehaviour
         swipeDirectionLine.positionCount = 2;
         swipeDirectionLine.SetPositions(new Vector3[]{ Vector3.zero, Vector3.zero });
 
-        PathChecker.Instance.OnPathChecked += PathChecked;
+        PathChecker.Instance.PathChecked += PathChecked;
 
         yield return new WaitForSeconds(cameraAnimator.Duration);
         NextStep();
     }
 
     private void Update() {
-        if(isTutorialCompleted || _currentStepIndex < 0 || PlayerInput.Instance.isIslandUpdating)
+        if(isTutorialCompleted || _currentStepIndex < 0 || PlayerInput.Instance.IsIslandUpdating)
             return;
 
         if(_currentStep.Type == StepType.Info){
@@ -98,7 +94,7 @@ public class Tutorial : MonoBehaviour
 
             infoPanelTransform.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutCubic);
 
-            PlayerInput.Instance.isInputAllowed = false;
+            PlayerInput.Instance.IsInputAllowed = false;
         }
         else if(_currentStep.Type == StepType.MoveIsland){
             Step step = _currentStep;
@@ -111,7 +107,7 @@ public class Tutorial : MonoBehaviour
             _handAnimationRoutine = StartCoroutine(HandAnimation());
             SetMoveIslandUIVisibility(true);
 
-            PlayerInput.Instance.isInputAllowed = true;
+            PlayerInput.Instance.IsInputAllowed = true;
         }
     }
 
@@ -136,7 +132,7 @@ public class Tutorial : MonoBehaviour
 
     private void TutorialCompleted(){
         isTutorialCompleted = true;
-        PlayerInput.Instance.isInputAllowed = false;
+        PlayerInput.Instance.IsInputAllowed = false;
         SaveSystem.Instance.Data.TutorialCompleted = true;
         Analytics.TutorialCompleted();
 
@@ -160,8 +156,8 @@ public class Tutorial : MonoBehaviour
             yield return new WaitForSeconds(0.15f);
 
             _handAnimationSequence = DOTween.Sequence();
-            _handAnimationSequence.Append(hand.transform.DOLocalMove(_currentStep.TargetScreenPosition, 0.5f).SetEase(Ease.InOutSine).OnComplete(() => Debug.Log("[DOLocalMove] OnComplete")));
-            _handAnimationSequence.Append(hand.DOFade(0, 0.25f).SetEase(Ease.InOutSine).OnComplete(() => Debug.Log("[DOFade] OnComplete")));
+            _handAnimationSequence.Append(hand.transform.DOLocalMove(_currentStep.TargetScreenPosition, 0.5f).SetEase(Ease.InOutSine));
+            _handAnimationSequence.Append(hand.DOFade(0, 0.25f).SetEase(Ease.InOutSine));
             yield return new WaitForSeconds(1.5f);
         }
     }

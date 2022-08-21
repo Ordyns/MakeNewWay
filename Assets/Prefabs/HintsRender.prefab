@@ -46,9 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8b53701d7b8d5e459aac501c20256fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HintCamera: {fileID: 5677778822562228463}
-  HintLineRenderer: {fileID: 5677778823045620136}
-  HintIslandsParent: {fileID: 5677778822732180583}
+  <HintCamera>k__BackingField: {fileID: 5677778822562228463}
+  <HintLineRenderer>k__BackingField: {fileID: 5677778823045620136}
+  <HintIslandsParent>k__BackingField: {fileID: 5677778822732180583}
   wallMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &5677778822562228459
 GameObject:
@@ -216,6 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 292d0ecbe4d467147b5144e8bf76a626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playOnStart: 0
 --- !u!1 &5677778823045620134
 GameObject:
   m_ObjectHideFlags: 0

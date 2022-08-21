@@ -6,10 +6,11 @@ using DG.Tweening;
 [RequireComponent(typeof(Camera))]
 public class CameraAnimator : MonoBehaviour
 {
-    public float OriginalSize;
-    public float SizeOffset = 5;
+    [field:SerializeField] public float SizeOffset { get; private set; } = 5;
     public float Duration => duration;
-    [Space]
+
+    [field:Space]
+    [field:SerializeField] public float OriginalSize { get; private set; }
     [SerializeField] private bool playOnStart;
     [Space]
     [SerializeField] private float inAnimationDelay = 0.3f;
@@ -26,6 +27,10 @@ public class CameraAnimator : MonoBehaviour
             _camera.orthographicSize = OriginalSize + SizeOffset;
             PlayInAnimation();
         }
+    }
+
+    public void SetOriginalSize(float newSize){
+        OriginalSize = Mathf.Clamp(newSize, 0, Mathf.Infinity);
     }
 
     public void PlayInAnimation() => _camera.DOOrthoSize(OriginalSize, duration).SetEase(ease).SetDelay(inAnimationDelay);

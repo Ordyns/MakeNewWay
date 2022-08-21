@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class HintsRenderer : MonoBehaviour
 {
-    public static HintsRenderer Instance;
+    public static HintsRenderer Instance { get; private set; }
     
-    public Camera HintCamera;
-    public LineRenderer HintLineRenderer;
-    public Transform HintIslandsParent;
+    [field:SerializeField] public Camera HintCamera { get; private set; }
+    [field:SerializeField] public LineRenderer HintLineRenderer { get; private set; }
+    [field:SerializeField] public Transform HintIslandsParent { get; private set; }
     [Space]
     [SerializeField] private Mesh wallMesh;
 

@@ -5,8 +5,9 @@ using DG.Tweening;
 
 public class StepsRecorder : MonoBehaviour
 {
-    public static StepsRecorder Instance;
-    public event System.Action OnStepRecorded;
+    public static StepsRecorder Instance { get; private set; }
+    
+    public event System.Action StepRecorded;
 
     public int CurrentStep { get; private set; }
 
@@ -24,7 +25,7 @@ public class StepsRecorder : MonoBehaviour
         _playerInput = PlayerInput.Instance;
 
         _islandsStates = new List<IslandsState>();
-        PathChecker.Instance.OnPathChecked += (pathCorrect) => RecordStep();
+        PathChecker.Instance.PathChecked += (pathCorrect) => RecordStep();
 
         List<Island> islands = IslandsContainer.Instance.Islands;
         islandsTransforms = new List<Transform>();
@@ -55,14 +56,14 @@ public class StepsRecorder : MonoBehaviour
         }
 
         _islandsStates.Add(islandsState);
-        OnStepRecorded?.Invoke();
+        StepRecorded?.Invoke();
     }
 
     public void GoToPreviousStep(){
-        if(CurrentStep > 0 && !_playerInput.isIslandUpdating){
+        if(CurrentStep > 0 && !_playerInput.IsIslandUpdating){
             CurrentStep -= 1;
             _playerInput.AddStep();
-            _playerInput.isIslandUpdating = true;
+            _playerInput.IsIslandUpdating = true;
             
             for(int i = 0; i < islandsTransforms.Count; i++){
                 islandsTransforms[i].transform.DOLocalMove(_islandsStates[CurrentStep].IslandsPositions[i], 0.1f).SetEase(Ease.OutCubic);
@@ -72,7 +73,7 @@ public class StepsRecorder : MonoBehaviour
             _islandsStates.Remove(_islandsStates[CurrentStep + 1]);
 
             TimeOperations.CreateTimer(0.1f, null, () => {
-                _playerInput.isIslandUpdating = false;
+                _playerInput.IsIslandUpdating = false;
                 PathChecker.Instance.ChechPathWithoutEvent();
             });
         }

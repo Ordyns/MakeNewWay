@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Settings : MonoBehaviour
 {
-    public static Settings Instance;
+    public static Settings Instance { get; private set; }
 
-    public Localization Localization { private set; get; }
+    public Localization Localization { get; private set; }
 
     public bool isMusicEnabled { 
         private set => _saveSystem.Data.isMusicEnabled = value;

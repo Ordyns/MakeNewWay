@@ -1474,11 +1474,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e9bacf8a73edf4082ee16b48947661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Steps: 15
-  StepsForBonus: 0
-  CameraSize: 44.4
-  CustomCameraPosition: 1
-  CameraPosition: {x: 14.7, y: 15, z: 4.9}
+  <Steps>k__BackingField: 15
+  <StepsForBonus>k__BackingField: 0
+  <CameraSize>k__BackingField: 44.4
+  <CustomCameraPosition>k__BackingField: 1
+  <CameraPosition>k__BackingField: {x: 14.7, y: 15, z: 4.9}
+  steps: 15
+  stepsForBonus: 0
+  cameraSize: 44.4
+  customCameraPosition: 1
+  cameraPosition: {x: 14.7, y: 15, z: 4.9}
 --- !u!1 &796578464
 GameObject:
   m_ObjectHideFlags: 0
