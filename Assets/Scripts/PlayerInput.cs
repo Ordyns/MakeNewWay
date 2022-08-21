@@ -1,65 +1,41 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerInput<T> where T: class
 {
-    public static PlayerInput Instance;
+    public bool IsInputAllowed = true;
 
-    [HideInInspector] public bool IsIslandUpdating;
-    [HideInInspector] public bool IsInputAllowed = true;
-    
-    [HideInInspector] public int StepsLeft;
+    public event System.Action<T, Direction> Swipe;
+    public event System.Action<T> Click;
 
-    public event System.Action<Island> OnIslandUpdating;
-    public event System.Action OnStepsCountChanged;
+    private T _currentObject;
+    private Camera _camera;
 
-    private bool isGameEnded;
     private bool isDraging;
 
     private Vector2 _startTouch;
     private Vector2 _swipeDelta;
-    private Island _currentIsland;
-    
-    private Camera _mainCamera;
 
-    private void Awake() => Instance = this;
-
-    private IEnumerator Start(){
-        PathChecker.Instance.PathChecked += CheckEnded;
-
-        if(BaseCamera.Instance)
-            _mainCamera = BaseCamera.Instance.Camera;
-        else
-            _mainCamera = Camera.main;
-
-        while(LevelSettings.Instance == null)
-            yield return null;
-
-        StepsLeft = LevelSettings.Instance.Steps;
+    public PlayerInput(Camera camera){
+        _camera = camera;
     }
 
-    private void Update() {
-        if(GuideSystem.Instance && GuideSystem.Instance.isGuideShowing)
+    public void Update() {
+        if(_camera.gameObject.activeSelf == false)
             return;
 
-        if(IsInputAllowed == false || IsIslandUpdating || isGameEnded)
-            return;
-
-        if(_mainCamera.gameObject.activeSelf == false)
-            return;
-
-        CheckMobileInput();
-        CheckStandaloneInput();
-
-        if(Physics.Raycast(_mainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit)){
-            if(hit.transform.TryGetComponent<Island>(out Island island))
-                _currentIsland = island;
-            else 
-                return;
+        if(Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)){
+            if(Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit)){
+                hit.transform.TryGetComponent<T>(out _currentObject);
+            }
         }
 
-        if(_currentIsland == null)
+        if(_currentObject == null)
             return;
+
+        CheckMobileDraging();
+        CheckStandaloneDraging();
 
         if (isDraging){
             _swipeDelta = Vector2.zero;
@@ -81,50 +57,21 @@ public class PlayerInput : MonoBehaviour
                     if(y < 0) swipeDirection = Direction.DownLeft;
                     else swipeDirection = Direction.UpperLeft;
                 }
-
-                _currentIsland.OnSwipe(swipeDirection);
+                
+                Swipe?.Invoke(_currentObject, swipeDirection);
 
                 Reset();
             }
         }
         else{
-            if(_currentIsland != null && Input.GetMouseButtonUp(0)){
-                _currentIsland.OnClick();
-            }
+            if(_currentObject != null && Input.GetMouseButtonUp(0))
+                Click?.Invoke(_currentObject);
 
-            _currentIsland = null;
+            _currentObject = null;
         }
     }
 
-    public void AddStep(){
-        StepsLeft++;
-        OnStepsCountChanged?.Invoke();
-    } 
-    public void SubtractStep(){
-        StepsLeft--;
-        OnStepsCountChanged?.Invoke();
-    } 
-
-    public void IslandUpdating(){
-        SubtractStep();
-
-        IsIslandUpdating = true;
-        OnIslandUpdating?.Invoke(_currentIsland);
-    }
-
-    public static void IslandUpdatingFinished() => Instance.IsIslandUpdating = false;
-
-    public void CheckEnded(bool pathCorrect){
-        IsIslandUpdating = false;
-
-        if(isGameEnded)
-            return;
-
-        if(pathCorrect || StepsLeft == 0)
-            isGameEnded = true;
-    }
-
-    void CheckMobileInput(){
+    private void CheckMobileDraging(){
         if(Input.touchCount == 0)
             return;
 
@@ -138,7 +85,7 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    void CheckStandaloneInput(){
+    private void CheckStandaloneDraging(){
         if(Input.GetMouseButtonDown(0)){
             isDraging = true;
             _startTouch = Input.mousePosition;

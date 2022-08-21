@@ -6,29 +6,33 @@ using DG.Tweening;
 public class StepsRecorder : MonoBehaviour
 {
     public static StepsRecorder Instance { get; private set; }
-    
     public event System.Action StepRecorded;
 
-    public int CurrentStep { get; private set; }
+    private List<Transform> _islandsTransforms;
+    private Stack<IslandsState> _islandsStates;
 
-    private List<Transform> islandsTransforms;
-    private List<IslandsState> _islandsStates;
+    private IslandsUpdater _islandsUpdater;
+    private PathChecker _pathChecker;
 
-    private PlayerInput _playerInput;
+    private const float IslandAnimationDuration = 0.1f;
 
-    void Awake() => Instance = this;
+    private void Awake() => Instance = this;
 
     private IEnumerator Start() {
-        while(PlayerInput.Instance == null)
+        _islandsStates = new Stack<IslandsState>();
+
+        Init();
+
+        while(IslandsUpdater.Instance == null)
             yield return null;
+    
+        _islandsUpdater = IslandsUpdater.Instance;
+        _islandsUpdater.IslandUpdating += RecordStep;
+    }
 
-        _playerInput = PlayerInput.Instance;
-
-        _islandsStates = new List<IslandsState>();
-        PathChecker.Instance.PathChecked += (pathCorrect) => RecordStep();
-
+    private void Init(){
         List<Island> islands = IslandsContainer.Instance.Islands;
-        islandsTransforms = new List<Transform>();
+        _islandsTransforms = new List<Transform>();
 
         List<Island> islandsWithoutParent = islands.FindAll(island => island.Parent == null);
         List<ComplexIsland> parents = new List<ComplexIsland>();
@@ -38,51 +42,36 @@ public class StepsRecorder : MonoBehaviour
                 parents.Add(islands[j].Parent);
         }
 
-        islandsWithoutParent.ForEach(island => islandsTransforms.Add(island.transform));
-        parents.ForEach(island => islandsTransforms.Add(island.transform));
-
-        CurrentStep = -1;
-        RecordStep();
+        islandsWithoutParent.ForEach(island => _islandsTransforms.Add(island.transform));
+        parents.ForEach(island => _islandsTransforms.Add(island.transform));
     }
 
     public void RecordStep(){
-        CurrentStep++;
-
         IslandsState islandsState = new IslandsState(new List<Vector3>(), new List<Vector3>());
 
-        foreach(Transform island in islandsTransforms){
+        foreach(Transform island in _islandsTransforms){
             islandsState.IslandsPositions.Add(island.transform.localPosition);
             islandsState.IslandsRotations.Add(island.transform.localEulerAngles);
         }
 
-        _islandsStates.Add(islandsState);
+        _islandsStates.Push(islandsState);
         StepRecorded?.Invoke();
     }
 
     public void GoToPreviousStep(){
-        if(CurrentStep > 0 && !_playerInput.IsIslandUpdating){
-            CurrentStep -= 1;
-            _playerInput.AddStep();
-            _playerInput.IsIslandUpdating = true;
+        if(CanMoveToPrevStep() && _islandsUpdater.IsIslandUpdating == false){
+            _islandsUpdater.ExternalUpdate(IslandAnimationDuration, _islandsUpdater.StepsLeft + 1);
+            IslandsState state = _islandsStates.Pop();
             
-            for(int i = 0; i < islandsTransforms.Count; i++){
-                islandsTransforms[i].transform.DOLocalMove(_islandsStates[CurrentStep].IslandsPositions[i], 0.1f).SetEase(Ease.OutCubic);
-                islandsTransforms[i].transform.DOLocalRotate(_islandsStates[CurrentStep].IslandsRotations[i], 0.1f).SetEase(Ease.OutCubic);
+            for(int i = 0; i < _islandsTransforms.Count; i++){
+                _islandsTransforms[i].transform.DOLocalMove(state.IslandsPositions[i], IslandAnimationDuration).SetEase(Ease.OutCubic);
+                _islandsTransforms[i].transform.DOLocalRotate(state.IslandsRotations[i], IslandAnimationDuration).SetEase(Ease.OutCubic);
             }
-
-            _islandsStates.Remove(_islandsStates[CurrentStep + 1]);
-
-            TimeOperations.CreateTimer(0.1f, null, () => {
-                _playerInput.IsIslandUpdating = false;
-                PathChecker.Instance.ChechPathWithoutEvent();
-            });
         }
     }
 
-    public bool CanMoveToPrevStep(){
-        return CurrentStep > 0;
-    }
-
+    public bool CanMoveToPrevStep() => _islandsStates.Count > 0;
+    
     [System.Serializable]
     public struct IslandsState{
         public IslandsState(List<Vector3> islandsPositions, List<Vector3> islandsRotations){

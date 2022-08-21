@@ -1058,8 +1058,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e71cf4954f5733848bcbe34d421613c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelsCount: 24
-  NumbersOfLevelsWithBonus: 060000000c0000000e00000016000000
+  <LevelsCount>k__BackingField: 24
+  numbersOfLevelsWithBonus: 060000000c0000000e00000016000000
 --- !u!4 &1711105896
 Transform:
   m_ObjectHideFlags: 0

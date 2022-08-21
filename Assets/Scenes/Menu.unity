@@ -2835,8 +2835,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45295b37b771cd246909c1d7abcd3dda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OriginalSize: 12.9
-  SizeOffset: 20
+  <SizeOffset>k__BackingField: 20
+  <OriginalSize>k__BackingField: 12.9
   playOnStart: 1
   inAnimationDelay: 0.3
   duration: 1.4

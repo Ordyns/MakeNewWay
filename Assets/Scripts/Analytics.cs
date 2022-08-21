@@ -34,7 +34,7 @@ public class Analytics : MonoBehaviour
     public static void LevelCompleted(int levelNumber) => FirebaseAnalytics.LogEvent($"event_level_{levelNumber}_completed");
     public static void AdFailedToLoad() => FirebaseAnalytics.LogEvent("event_ad_failed_to_load");*/
 
-    public static void TutorialCompleted() => Debug.Log("event_tutorial_completed");
-    public static void LevelCompleted(int levelNumber) => Debug.Log($"event_level_{levelNumber}_completed");
-    public static void AdFailedToLoad() => Debug.Log("event_ad_failed_to_load");
+    public static void TutorialCompleted() { }
+    public static void LevelCompleted(int levelNumber) { }
+    public static void AdFailedToLoad() { }
 }

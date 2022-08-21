@@ -6,11 +6,13 @@ using DG.Tweening;
 [RequireComponent(typeof(Camera))]
 public class CameraAnimator : MonoBehaviour
 {
+    [field:Header("Size")]
     [field:SerializeField] public float SizeOffset { get; private set; } = 5;
     public float Duration => duration;
 
-    [field:Space]
     [field:SerializeField] public float OriginalSize { get; private set; }
+    
+    [field:Header("Animation")]
     [SerializeField] private bool playOnStart;
     [Space]
     [SerializeField] private float inAnimationDelay = 0.3f;

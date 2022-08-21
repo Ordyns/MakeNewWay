@@ -9,7 +9,7 @@ public class HintSystem : MonoBehaviour
 {
     public static HintSystem Instance;
 
-    public event Action OnInitializationFinished;
+    public event Action InitializationFinished;
 
     public int CurrentStepIndex { get; private set; }
     public int StepsCount => steps.Count;
@@ -40,7 +40,7 @@ public class HintSystem : MonoBehaviour
         SaveStartIslandsStates();
         PrecalculateIslandsStates();
 
-        OnInitializationFinished();
+        InitializationFinished();
     }
 
     private void SaveStartIslandsStates(){

@@ -71,9 +71,9 @@ public class BaseUI : MonoBehaviour
         }
 
         PathChecker.Instance.PathChecked += OnPathChecked;
-        PlayerInput.Instance.OnStepsCountChanged += OnStepsCountChanged;
+        IslandsUpdater.Instance.IslandUpdated += OnIslandUpdated;
 
-        OnStepsCountChanged();
+        OnIslandUpdated();
         InitMainUI();
     }
 
@@ -101,7 +101,7 @@ public class BaseUI : MonoBehaviour
     private void OnPathChecked(bool pathCorrect){
         if(pathCorrect)
             LevelCompleted();
-        else if(PlayerInput.Instance.StepsLeft == 0)
+        else if(IslandsUpdater.Instance.StepsLeft == 0)
             LevelNotPassed();
     }
 
@@ -126,7 +126,7 @@ public class BaseUI : MonoBehaviour
     public void UnpauseGame() => SetPauseState(false);
 
     private void SetPauseState(bool paused){
-        PlayerInput.Instance.IsInputAllowed = !paused;
+        IslandsUpdater.Instance.IsIslandsUpdatingAllowed = !paused;
         isGamePaused = paused;
         ChangeBackgroundVisibility(paused);
 
@@ -136,8 +136,8 @@ public class BaseUI : MonoBehaviour
             pausePanel.ClosePanel(deactivateGameObject: true);
     }
 
-    private void OnStepsCountChanged(){
-        stepsLeftText.text = PlayerInput.Instance.StepsLeft.ToString();
+    private void OnIslandUpdated(){
+        stepsLeftText.text = IslandsUpdater.Instance.StepsLeft.ToString();
         stepsLeftText.transform.DOScale(new Vector2(1.1f, 1.1f), 0.2f).SetEase(Ease.OutCubic).OnComplete(() => {
             stepsLeftText.transform.DOScale(Vector2.one, 0.15f).SetEase(Ease.OutCubic);
         });
@@ -149,7 +149,7 @@ public class BaseUI : MonoBehaviour
         UpdatePreviousStepButton();
     }
 
-    private void UpdatePreviousStepButton() => previousStepButton.Interactable = _stepsRecorder.CurrentStep > 0;
+    private void UpdatePreviousStepButton() => previousStepButton.Interactable = _stepsRecorder.CanMoveToPrevStep();
 
     public void RestartLevel() => ScenesLoader.Instance.RestartLevel();
     public void LoadMenu() => ScenesLoader.Instance.LoadMenu();
@@ -159,7 +159,7 @@ public class BaseUI : MonoBehaviour
         isLevelCompleted = true;
 
         float panelsAnimationDuration = 1f;
-        bool bonusReceived = LevelSettings.Instance.IsBonusRecieved(PlayerInput.Instance.StepsLeft);
+        bool bonusReceived = LevelSettings.Instance.IsBonusRecieved(IslandsUpdater.Instance.StepsLeft);
 
         _saveSystem.LevelCompleted(_levelNumber, bonusReceived);
 

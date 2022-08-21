@@ -26,6 +26,9 @@ public class IslandsContainer : MonoBehaviour
     }
 
     private void Start(){
-        HintSystem.Instance.OnInitializationFinished += () => islandsAnimator.Animate();
-    } 
+        if(HintSystem.Instance)
+            HintSystem.Instance.InitializationFinished += islandsAnimator.Animate;
+        else
+            islandsAnimator.Animate();
+    }   
 }

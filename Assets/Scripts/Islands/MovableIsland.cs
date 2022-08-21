@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 [SelectionBase]
 public class MovableIsland : Island
 {
-    //public MovableComplexIsland Parent;
-    [Space]
     public MoveDirections IslandMoveDirections;
     [Space]
     [SerializeField] private GameObject movableIndicator;
@@ -18,26 +17,24 @@ public class MovableIsland : Island
 
     private Direction _lastSwipteDirection;
 
-    public override void OnSwipe(Direction direction){
-        base.OnSwipe(direction);
+    private const float AnimationDuration = 0.3f;
 
+    public override bool OnSwipe(Direction direction, Action onUpdated){
         _lastSwipteDirection = direction;
 
         Vector3 moveDirection = ConvertDirectionToVector(direction);
 
-        if(Parent && Parent.AllChildIslandsCanBeUpdated(direction) == false)
-            return;
-        else if(CanMoveInDirection(direction) == false)
-            return;
+        if((Parent && Parent.AllChildIslandsCanBeUpdated(direction) == false) || CanMoveInDirection(direction) == false)
+            return false;
 
         Transform targetTransform = Parent ? Parent.transform : transform;
-        targetTransform.DOLocalMove(targetTransform.position + moveDirection * 6.5f, 0.3f).SetEase(Ease.OutCubic).OnComplete(UpdatingFinished);
-        PlayerInput.Instance.IslandUpdating();
+        targetTransform.DOLocalMove(targetTransform.position + moveDirection * 6.5f, AnimationDuration).SetEase(Ease.OutCubic).OnComplete(() => onUpdated?.Invoke());
 
         AudioPlayer.PlayClip(base.updatingSound);
+        return true;
     }
 
-    public bool CanMoveInDirection(Direction direction){
+    private bool CanMoveInDirection(Direction direction){
         if(AllowedToMoveInDirection(direction) == false)
             return false;
 

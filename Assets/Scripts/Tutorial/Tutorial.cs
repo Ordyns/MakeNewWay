@@ -44,7 +44,7 @@ public class Tutorial : MonoBehaviour
         cameraAnimator.SetOriginalSize(cameraConstantWidth.GetConstSize(_mainCamera.orthographicSize));
 
         _currentStepIndex = -1;
-        PlayerInput.Instance.IsInputAllowed = false;
+        IslandsUpdater.Instance.IsIslandsUpdatingAllowed = false;
 
         moveIslandUI.alpha = 0;
         SetBackgroundVisibility(false);
@@ -59,7 +59,7 @@ public class Tutorial : MonoBehaviour
     }
 
     private void Update() {
-        if(isTutorialCompleted || _currentStepIndex < 0 || PlayerInput.Instance.IsIslandUpdating)
+        if(isTutorialCompleted || _currentStepIndex < 0 || IslandsUpdater.Instance.IsIslandUpdating)
             return;
 
         if(_currentStep.Type == StepType.Info){
@@ -94,7 +94,7 @@ public class Tutorial : MonoBehaviour
 
             infoPanelTransform.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutCubic);
 
-            PlayerInput.Instance.IsInputAllowed = false;
+            IslandsUpdater.Instance.IsIslandsUpdatingAllowed = false;
         }
         else if(_currentStep.Type == StepType.MoveIsland){
             Step step = _currentStep;
@@ -107,7 +107,7 @@ public class Tutorial : MonoBehaviour
             _handAnimationRoutine = StartCoroutine(HandAnimation());
             SetMoveIslandUIVisibility(true);
 
-            PlayerInput.Instance.IsInputAllowed = true;
+            IslandsUpdater.Instance.IsIslandsUpdatingAllowed = true;
         }
     }
 
@@ -132,7 +132,7 @@ public class Tutorial : MonoBehaviour
 
     private void TutorialCompleted(){
         isTutorialCompleted = true;
-        PlayerInput.Instance.IsInputAllowed = false;
+        IslandsUpdater.Instance.IsIslandsUpdatingAllowed = false;
         SaveSystem.Instance.Data.TutorialCompleted = true;
         Analytics.TutorialCompleted();
 
