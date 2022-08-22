@@ -5,22 +5,34 @@ using UnityEngine;
 [RequireComponent(typeof(Camera), typeof(CameraConstantWidth), typeof(CameraAnimator))]
 public class BaseCamera : MonoBehaviour
 {
-    public static BaseCamera Instance;
-
     [HideInInspector] public Camera Camera;
+
+    [SerializeField] private GuideSystem guideSystem;
+
     private CameraAnimator _cameraAnimator;
     private CameraConstantWidth _cameraConstantWidth;
 
     private void Awake() {
-        Instance = this;
-
         Camera = GetComponent<Camera>();
         _cameraAnimator = GetComponent<CameraAnimator>();
         _cameraConstantWidth = GetComponent<CameraConstantWidth>();
+
+        //SetupCameraComponents();
+
+        guideSystem.GuideFinished += () => StartCoroutine(Init());
     }
 
-    private void Start() {
-        LevelSettings levelSettings = LevelSettings.Instance;
+    private IEnumerator Init(){
+        yield return SetupCameraComponents();
+
+        _cameraAnimator.PlayInAnimation();
+    }
+
+    private IEnumerator SetupCameraComponents() {
+        while(LevelContext.Instance == null)
+            yield return null;
+
+        LevelSettings levelSettings = LevelContext.Instance.LevelSettings;
 
         float cameraOriginalSize = levelSettings.CameraSize;
         Camera.orthographicSize = _cameraConstantWidth.GetConstSize(cameraOriginalSize + _cameraAnimator.SizeOffset);
@@ -28,10 +40,5 @@ public class BaseCamera : MonoBehaviour
 
         if(levelSettings.CustomCameraPosition)
             Camera.transform.position = levelSettings.CameraPosition;
-
-        if(GuideSystem.Instance.isGuideShowing)
-            GuideSystem.Instance.GuideFinished += _cameraAnimator.PlayInAnimation;
-        else
-            _cameraAnimator.PlayInAnimation();
     }
 }

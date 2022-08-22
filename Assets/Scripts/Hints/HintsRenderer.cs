@@ -1,21 +1,17 @@
 using UnityEngine;
 
 public class HintsRenderer : MonoBehaviour
-{
-    public static HintsRenderer Instance { get; private set; }
-    
+{    
     [field:SerializeField] public Camera HintCamera { get; private set; }
     [field:SerializeField] public LineRenderer HintLineRenderer { get; private set; }
     [field:SerializeField] public Transform HintIslandsParent { get; private set; }
     [Space]
     [SerializeField] private Mesh wallMesh;
 
-    private void Awake() => Instance = this;
-
     private void Start() {
-        LevelSettings levelSettings = LevelSettings.Instance;
+        LevelSettings levelSettings = LevelContext.Instance.LevelSettings;
 
-        Transform wallsParent = Instantiate(IslandsContainer.Instance.WallsParent, transform);
+        Transform wallsParent = Instantiate(LevelContext.Instance.IslandsContainer.WallsParent, transform);
         foreach(Transform wall in wallsParent)
             wall.GetComponent<MeshFilter>().mesh = wallMesh;
 

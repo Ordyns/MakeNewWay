@@ -742,6 +742,54 @@ MonoBehaviour:
   - IslandTransform: {fileID: 1198608770}
     Rotatable: 0
     IslandTargetCoordinates: {x: -3.25, y: 0, z: -13}
+--- !u!1 &721819879
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 721819881}
+  - component: {fileID: 721819880}
+  m_Layer: 0
+  m_Name: LevelContext
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &721819880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721819879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5098de23537fd4548bd79f0cab3408ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HintSystem>k__BackingField: {fileID: 671398320}
+  <PathChecker>k__BackingField: {fileID: 1614547319}
+  <StepsRecorder>k__BackingField: {fileID: 731179976}
+  <LevelSettings>k__BackingField: {fileID: 784665397}
+  <IslandsContainer>k__BackingField: {fileID: 990167177}
+--- !u!4 &721819881
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721819879}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &731179974
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,11 +881,6 @@ MonoBehaviour:
   <CameraSize>k__BackingField: 38.6
   <CustomCameraPosition>k__BackingField: 1
   <CameraPosition>k__BackingField: {x: 12.7, y: 16.2, z: 8.73545}
-  steps: 15
-  stepsForBonus: 0
-  cameraSize: 38.6
-  customCameraPosition: 1
-  cameraPosition: {x: 12.7, y: 16.2, z: 8.73545}
 --- !u!1 &859448996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1176,8 +1219,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b12f628d2439874a8d22b01f5e0f806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IslandsParent: {fileID: 990167175}
-  WallsParent: {fileID: 1280148530}
+  <IslandsParent>k__BackingField: {fileID: 990167175}
+  <WallsParent>k__BackingField: {fileID: 1280148530}
   islandsAnimator: {fileID: 990167176}
 --- !u!1 &1140404932
 GameObject:

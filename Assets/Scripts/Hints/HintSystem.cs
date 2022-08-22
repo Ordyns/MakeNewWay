@@ -7,8 +7,6 @@ using DG.Tweening;
 
 public class HintSystem : MonoBehaviour
 {
-    public static HintSystem Instance;
-
     public event Action InitializationFinished;
 
     public int CurrentStepIndex { get; private set; }
@@ -26,13 +24,11 @@ public class HintSystem : MonoBehaviour
 
     private Coroutine _islandsAnimationRoutine;
 
-    private void Awake() => Instance = this;
-
     private IEnumerator Start() {
-        while(HintsRenderer.Instance == null)
+        while(BaseSceneContext.Instance == null)
             yield return null;
 
-        _hintsRenderer = HintsRenderer.Instance;
+        _hintsRenderer = BaseSceneContext.Instance.HintsRenderer;
 
         _islandsStatesAtSteps = new List<IslandsStates>();
         CurrentStepIndex = 1;
@@ -40,13 +36,13 @@ public class HintSystem : MonoBehaviour
         SaveStartIslandsStates();
         PrecalculateIslandsStates();
 
-        InitializationFinished();
+        InitializationFinished?.Invoke();
     }
 
     private void SaveStartIslandsStates(){
         IslandsStates islandsStates = new IslandsStates(new List<IslandState>());
 
-        foreach(Transform child in IslandsContainer.Instance.IslandsParent){
+        foreach(Transform child in LevelContext.Instance.IslandsContainer.IslandsParent){
             if(child.gameObject.activeSelf == false)
                 continue;
 

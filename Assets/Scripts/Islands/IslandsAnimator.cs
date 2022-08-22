@@ -15,7 +15,7 @@ public class IslandsAnimator : MonoBehaviour
     private List<Vector3> _originalSizes = new List<Vector3>();
 
     private IEnumerator Start() {
-        _islands = IslandsContainer.Instance.Islands;
+        _islands = LevelContext.Instance.IslandsContainer.Islands;
 
         if(playOnStart)
             yield return new WaitForSeconds(AnimatonDelay);

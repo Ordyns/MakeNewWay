@@ -54,15 +54,15 @@ public class BaseUI : MonoBehaviour
     }
 
     private void Start() {
-        if(LevelSettings.Instance == null)
+        if(LevelContext.Instance.LevelSettings == null)
             return;
         
         _levelNumber = ScenesLoader.Instance.LastLoadedLevelNumber;
-        _stepsForBonus = LevelSettings.Instance.StepsForBonus;
+        _stepsForBonus = LevelContext.Instance.LevelSettings.StepsForBonus;
 
         _saveSystem = SaveSystem.Instance;
 
-        _stepsRecorder = StepsRecorder.Instance;
+        _stepsRecorder = LevelContext.Instance.StepsRecorder;
         _stepsRecorder.StepRecorded += UpdatePreviousStepButton;
 
         if(_levelNumber >= requestReviewLevelNumber && _saveSystem.Data.ReviewRequested == false){
@@ -70,8 +70,8 @@ public class BaseUI : MonoBehaviour
             _saveSystem.Data.ReviewRequested = true;
         }
 
-        PathChecker.Instance.PathChecked += OnPathChecked;
-        IslandsUpdater.Instance.IslandUpdated += OnIslandUpdated;
+        LevelContext.Instance.PathChecker.PathChecked += OnPathChecked;
+        BaseSceneContext.Instance.IslandsUpdater.IslandUpdated += OnIslandUpdated;
 
         OnIslandUpdated();
         InitMainUI();
@@ -80,15 +80,15 @@ public class BaseUI : MonoBehaviour
     private void InitMainUI(){
         mainUI.alpha = 0;
 
-        int minSteps = LevelSettings.Instance.StepsForBonus;
+        int minSteps = LevelContext.Instance.LevelSettings.StepsForBonus;
 
         bonusPanel.SetActive(minSteps > 0);
         if(SaveSystem.Instance) bonusFilledStar.SetActive(_saveSystem.Data.CompletedLevelsWithBonus.Contains(_levelNumber));
         bonusRecievedText.text = string.Format(bonusRecievedText.text, _stepsForBonus);
         stepsForBonusText.text = string.Format(stepsForBonusText.text, minSteps);
 
-        if(GuideSystem.Instance.isGuideShowing)
-            GuideSystem.Instance.GuideFinished += ShowMainUI;
+        if(BaseSceneContext.Instance.GuideSystem.IsGuideShowing)
+            BaseSceneContext.Instance.GuideSystem.GuideFinished += ShowMainUI;
         else
             ShowMainUI();
 
@@ -101,12 +101,12 @@ public class BaseUI : MonoBehaviour
     private void OnPathChecked(bool pathCorrect){
         if(pathCorrect)
             LevelCompleted();
-        else if(IslandsUpdater.Instance.StepsLeft == 0)
+        else if(BaseSceneContext.Instance.IslandsUpdater.StepsLeft == 0)
             LevelNotPassed();
     }
 
     private void Update() {
-        if(isLevelCompleted || GuideSystem.Instance.isGuideShowing)
+        if(isLevelCompleted || BaseSceneContext.Instance.GuideSystem.IsGuideShowing)
             return;
 
         if(Input.GetKeyDown(KeyCode.Escape)){
@@ -126,7 +126,7 @@ public class BaseUI : MonoBehaviour
     public void UnpauseGame() => SetPauseState(false);
 
     private void SetPauseState(bool paused){
-        IslandsUpdater.Instance.IsIslandsUpdatingAllowed = !paused;
+        BaseSceneContext.Instance.IslandsUpdater.IsIslandsUpdatingAllowed = !paused;
         isGamePaused = paused;
         ChangeBackgroundVisibility(paused);
 
@@ -137,7 +137,7 @@ public class BaseUI : MonoBehaviour
     }
 
     private void OnIslandUpdated(){
-        stepsLeftText.text = IslandsUpdater.Instance.StepsLeft.ToString();
+        stepsLeftText.text = BaseSceneContext.Instance.IslandsUpdater.StepsLeft.ToString();
         stepsLeftText.transform.DOScale(new Vector2(1.1f, 1.1f), 0.2f).SetEase(Ease.OutCubic).OnComplete(() => {
             stepsLeftText.transform.DOScale(Vector2.one, 0.15f).SetEase(Ease.OutCubic);
         });
@@ -159,7 +159,7 @@ public class BaseUI : MonoBehaviour
         isLevelCompleted = true;
 
         float panelsAnimationDuration = 1f;
-        bool bonusReceived = LevelSettings.Instance.IsBonusRecieved(IslandsUpdater.Instance.StepsLeft);
+        bool bonusReceived = LevelContext.Instance.LevelSettings.IsBonusRecieved(BaseSceneContext.Instance.IslandsUpdater.StepsLeft);
 
         _saveSystem.LevelCompleted(_levelNumber, bonusReceived);
 

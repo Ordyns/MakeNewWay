@@ -6,15 +6,11 @@ public class PathChecker : MonoBehaviour
     public delegate void PathCheckedAction(bool pathCorrect);
     public event PathCheckedAction PathChecked;
 
-    public static PathChecker Instance;
-
     private Island _startIsland;
     private List<Island> _islands;
-
-    private void Awake() => Instance = this;
     
     private void Start() {
-        _islands = IslandsContainer.Instance.Islands;
+        _islands = LevelContext.Instance.IslandsContainer.Islands;
         _startIsland = _islands.Find(island => island.IslandType == Island.IslandTypes.Start);
         CheckPath();
     }

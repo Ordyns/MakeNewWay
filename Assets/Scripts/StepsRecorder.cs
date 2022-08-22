@@ -5,7 +5,6 @@ using DG.Tweening;
 
 public class StepsRecorder : MonoBehaviour
 {
-    public static StepsRecorder Instance { get; private set; }
     public event System.Action StepRecorded;
 
     private List<Transform> _islandsTransforms;
@@ -16,22 +15,20 @@ public class StepsRecorder : MonoBehaviour
 
     private const float IslandAnimationDuration = 0.1f;
 
-    private void Awake() => Instance = this;
-
     private IEnumerator Start() {
         _islandsStates = new Stack<IslandsState>();
 
         Init();
 
-        while(IslandsUpdater.Instance == null)
+        while(BaseSceneContext.Instance == null)
             yield return null;
     
-        _islandsUpdater = IslandsUpdater.Instance;
+        _islandsUpdater = BaseSceneContext.Instance.IslandsUpdater;
         _islandsUpdater.IslandUpdating += RecordStep;
     }
 
     private void Init(){
-        List<Island> islands = IslandsContainer.Instance.Islands;
+        List<Island> islands = LevelContext.Instance.IslandsContainer.Islands;
         _islandsTransforms = new List<Transform>();
 
         List<Island> islandsWithoutParent = islands.FindAll(island => island.Parent == null);

@@ -29,6 +29,8 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private CameraConstantWidth cameraConstantWidth;
     [Space]
     [SerializeField] private AudioClip tutorialCompletedSound;
+    [Space]
+    [SerializeField] private IslandsUpdater islandsUpdater;
 
     private bool isTutorialCompleted;
 
@@ -44,7 +46,7 @@ public class Tutorial : MonoBehaviour
         cameraAnimator.SetOriginalSize(cameraConstantWidth.GetConstSize(_mainCamera.orthographicSize));
 
         _currentStepIndex = -1;
-        IslandsUpdater.Instance.IsIslandsUpdatingAllowed = false;
+        islandsUpdater.IsIslandsUpdatingAllowed = false;
 
         moveIslandUI.alpha = 0;
         SetBackgroundVisibility(false);
@@ -52,14 +54,14 @@ public class Tutorial : MonoBehaviour
         swipeDirectionLine.positionCount = 2;
         swipeDirectionLine.SetPositions(new Vector3[]{ Vector3.zero, Vector3.zero });
 
-        PathChecker.Instance.PathChecked += PathChecked;
+        LevelContext.Instance.PathChecker.PathChecked += PathChecked;
 
         yield return new WaitForSeconds(cameraAnimator.Duration);
         NextStep();
     }
 
     private void Update() {
-        if(isTutorialCompleted || _currentStepIndex < 0 || IslandsUpdater.Instance.IsIslandUpdating)
+        if(isTutorialCompleted || _currentStepIndex < 0 || islandsUpdater.IsIslandUpdating)
             return;
 
         if(_currentStep.Type == StepType.Info){
@@ -94,7 +96,7 @@ public class Tutorial : MonoBehaviour
 
             infoPanelTransform.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutCubic);
 
-            IslandsUpdater.Instance.IsIslandsUpdatingAllowed = false;
+            islandsUpdater.IsIslandsUpdatingAllowed = false;
         }
         else if(_currentStep.Type == StepType.MoveIsland){
             Step step = _currentStep;
@@ -107,7 +109,7 @@ public class Tutorial : MonoBehaviour
             _handAnimationRoutine = StartCoroutine(HandAnimation());
             SetMoveIslandUIVisibility(true);
 
-            IslandsUpdater.Instance.IsIslandsUpdatingAllowed = true;
+            islandsUpdater.IsIslandsUpdatingAllowed = true;
         }
     }
 
@@ -132,7 +134,7 @@ public class Tutorial : MonoBehaviour
 
     private void TutorialCompleted(){
         isTutorialCompleted = true;
-        IslandsUpdater.Instance.IsIslandsUpdatingAllowed = false;
+        islandsUpdater.IsIslandsUpdatingAllowed = false;
         SaveSystem.Instance.Data.TutorialCompleted = true;
         Analytics.TutorialCompleted();
 

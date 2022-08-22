@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class IslandsUpdater : MonoBehaviour
 {
-    public static IslandsUpdater Instance { get; private set; }
-
     public event System.Action IslandUpdating;
     public event System.Action IslandUpdated;
 
     public bool IsIslandUpdating { get; private set; }
-    //[HideInInspector] 
-    public bool IsIslandsUpdatingAllowed { get; set; } = true;
+    [HideInInspector] public bool IsIslandsUpdatingAllowed { get; set; } = true;
 
     public int StepsLeft { get; private set; }
 
@@ -20,13 +17,9 @@ public class IslandsUpdater : MonoBehaviour
     private PlayerInput<Island> _playerInput;
     private PathChecker _pathChecker;
 
-    private void Awake() {
-        Instance = this;
-    }
-
     private void Start() {
-        _pathChecker = PathChecker.Instance;
-        StepsLeft = LevelSettings.Instance.Steps;
+        _pathChecker = LevelContext.Instance.PathChecker;
+        StepsLeft = LevelContext.Instance.LevelSettings.Steps;
 
         _playerInput = new PlayerInput<Island>(mainCamera);
         _playerInput.Click += OnClick;
@@ -62,7 +55,7 @@ public class IslandsUpdater : MonoBehaviour
             throw new System.Exception("The islands are already being updating");
         
         if(Mathf.Abs(StepsLeft - newStepsLeftCount) > 1)
-            throw new System.Exception("Incorrect use of ExternalUpdate. (StepsLeft - newStepsLeftCount) must be less than 2");
+            throw new System.Exception("Incorrect use of ExternalUpdate. | StepsLeft - newStepsLeftCount | must be less than 2");
 
         StepsLeft = newStepsLeftCount;    
         

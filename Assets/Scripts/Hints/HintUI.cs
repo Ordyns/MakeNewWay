@@ -27,6 +27,8 @@ public class HintUI : MonoBehaviour
     [Space]
     [SerializeField] private Vector3 startRotation;
 
+    private GameObject _hintCamera;
+
     private HintSystem _hintSystem;
     private BaseUI _gameUI;
 
@@ -37,8 +39,10 @@ public class HintUI : MonoBehaviour
     private void Start() {
         _mainCamera = Camera.main;
 
-        _hintSystem = HintSystem.Instance;
+        _hintSystem = LevelContext.Instance.HintSystem;
         BaseUI.Instance.HintUI = this;
+
+        _hintCamera = BaseSceneContext.Instance.HintsRenderer.HintCamera.gameObject;
 
         string stepsTextLocalizationKey = stepsText.GetComponent<LocalizedText>().LocalizationKey;
         _originalContentOfStepsText = Localization.Instance.GetLocalizedValue(stepsTextLocalizationKey);
@@ -51,14 +55,19 @@ public class HintUI : MonoBehaviour
 
         InitHintButtons();
         UpdateUI();
+
+        
     }
 
     private void InitHintButtons(){
-        AdsManager.CheckInternetConnection((isInternetReachable) => {
+        /*AdsManager.CheckInternetConnection((isInternetReachable) => {
             bool isAdViewed = SaveSystem.Instance.Data.isAdViewed;
             hintButton.SetActive(isAdViewed);
             viewAdButton.SetActive(isAdViewed == false && isInternetReachable);
-        });
+        });*/
+
+        viewAdButton.SetActive(false);
+        hintButton.SetActive(true);
     }
 
     public void ViewAd(){
@@ -109,7 +118,7 @@ public class HintUI : MonoBehaviour
     public void OpenPanel(){
         HintOpened = true;
         _mainCamera.gameObject.SetActive(false);
-        HintsRenderer.Instance.HintCamera.gameObject.SetActive(true);
+        _hintCamera.SetActive(true);
 
         hintPanel.gameObject.SetActive(true);
         hintPanel.localScale = Vector3.zero;
@@ -127,7 +136,7 @@ public class HintUI : MonoBehaviour
     public void ClosePanel(){
         HintOpened = false;
         _mainCamera.gameObject.SetActive(true);
-        HintsRenderer.Instance.HintCamera.gameObject.SetActive(false);
+        _hintCamera.SetActive(false);
 
         hintPanel.DOScale(Vector3.zero, duration).SetEase(ease);
         hintPanel.DORotate(startRotation, duration).SetEase(ease);

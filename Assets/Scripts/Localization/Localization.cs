@@ -9,7 +9,7 @@ public class Localization : MonoBehaviour
 {
     public static Localization Instance;
 
-    public event System.Action OnLanguageChanged;
+    public event System.Action LanguageChanged;
 
     [SerializeField] private string defaultLanguageCode;
     [Space]
@@ -34,7 +34,7 @@ public class Localization : MonoBehaviour
 
     public void ChangeLanguage(string languageCode){
         LoadLocalization(languageCode);
-        OnLanguageChanged?.Invoke();
+        LanguageChanged?.Invoke();
         CurrentLanguageCode = languageCode;
         PlayerPrefs.SetString("Language", languageCode);
     }

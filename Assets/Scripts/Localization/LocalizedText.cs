@@ -16,7 +16,7 @@ public class LocalizedText : MonoBehaviour
         textMesh = GetComponent<TextMeshProUGUI>();
 
         if(localization){
-            localization.OnLanguageChanged += UpdateText;
+            localization.LanguageChanged += UpdateText;
             UpdateText();
         }
     }
@@ -24,6 +24,6 @@ public class LocalizedText : MonoBehaviour
     private void UpdateText() => textMesh.text = localization.GetLocalizedValue(LocalizationKey);
 
     private void OnDestroy() {
-        if(localization) localization.OnLanguageChanged -= UpdateText;
+        if(localization) localization.LanguageChanged -= UpdateText;
     }
 }

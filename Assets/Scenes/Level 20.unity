@@ -421,8 +421,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b12f628d2439874a8d22b01f5e0f806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IslandsParent: {fileID: 332805836}
-  WallsParent: {fileID: 1280148530}
+  <IslandsParent>k__BackingField: {fileID: 332805836}
+  <WallsParent>k__BackingField: {fileID: 1280148530}
   islandsAnimator: {fileID: 332805837}
 --- !u!1 &380518726
 GameObject:
@@ -861,11 +861,6 @@ MonoBehaviour:
   <CameraSize>k__BackingField: 45
   <CustomCameraPosition>k__BackingField: 1
   <CameraPosition>k__BackingField: {x: 13.84, y: 14.35, z: 13.82}
-  steps: 14
-  stepsForBonus: 0
-  cameraSize: 45
-  customCameraPosition: 1
-  cameraPosition: {x: 13.84, y: 14.35, z: 13.82}
 --- !u!1 &815206472
 GameObject:
   m_ObjectHideFlags: 0
@@ -1221,6 +1216,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1034814373
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1034814375}
+  - component: {fileID: 1034814374}
+  m_Layer: 0
+  m_Name: LevelContext
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1034814374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034814373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5098de23537fd4548bd79f0cab3408ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HintSystem>k__BackingField: {fileID: 815206473}
+  <PathChecker>k__BackingField: {fileID: 181758900}
+  <StepsRecorder>k__BackingField: {fileID: 945027591}
+  <LevelSettings>k__BackingField: {fileID: 784665397}
+  <IslandsContainer>k__BackingField: {fileID: 332805838}
+--- !u!4 &1034814375
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034814373}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1237789614
 PrefabInstance:

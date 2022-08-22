@@ -1062,8 +1062,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b12f628d2439874a8d22b01f5e0f806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IslandsParent: {fileID: 591941141}
-  WallsParent: {fileID: 182576551}
+  <Islands>k__BackingField: []
+  <IslandsParent>k__BackingField: {fileID: 591941141}
+  <WallsParent>k__BackingField: {fileID: 182576551}
   islandsAnimator: {fileID: 591941143}
 --- !u!1 &596878978
 GameObject:
@@ -1347,6 +1348,7 @@ MonoBehaviour:
   cameraAnimator: {fileID: 768694844}
   cameraConstantWidth: {fileID: 768694848}
   tutorialCompletedSound: {fileID: 8300000, guid: a23f0b9b3912db544bc4e174162c7a14, type: 3}
+  islandsUpdater: {fileID: 747669447}
 --- !u!4 &679248058
 Transform:
   m_ObjectHideFlags: 0
@@ -1485,7 +1487,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0124ad2c61236459159a038e88cec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsIslandsUpdatingAllowed: 0
   mainCamera: {fileID: 768694846}
 --- !u!4 &747669448
 Transform:
@@ -3171,6 +3172,54 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LocalizationKey: tutorial_2
+--- !u!1 &1807954468
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1807954469}
+  - component: {fileID: 1807954470}
+  m_Layer: 0
+  m_Name: LevelContext
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1807954469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1807954468}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1807954470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1807954468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5098de23537fd4548bd79f0cab3408ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HintSystem>k__BackingField: {fileID: 0}
+  <PathChecker>k__BackingField: {fileID: 529978587}
+  <StepsRecorder>k__BackingField: {fileID: 0}
+  <LevelSettings>k__BackingField: {fileID: 784665397}
+  <IslandsContainer>k__BackingField: {fileID: 591941145}
 --- !u!1 &1835495968
 GameObject:
   m_ObjectHideFlags: 0

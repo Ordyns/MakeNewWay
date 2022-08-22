@@ -4,20 +4,16 @@ using UnityEngine;
 
 public class IslandsContainer : MonoBehaviour
 {
-    public static IslandsContainer Instance;
+    [field:SerializeField] public List<Island> Islands { get; private set; }
 
-    public List<Island> Islands { get; private set; }
-
-    public Transform IslandsParent;
-    public Transform WallsParent;
+    [field:SerializeField] public Transform IslandsParent { get; private set; }
+    [field:SerializeField] public Transform WallsParent { get; private set; }
     [Space]
     [SerializeField] private IslandsAnimator islandsAnimator;
 
     private List<Transform> _walls;
 
     private void Awake(){
-        Instance = this;
-
         Islands = IslandsParent.GetAllChildrenWithComponent<Island>(false);
 
         _walls = new List<Transform>();
@@ -26,9 +22,11 @@ public class IslandsContainer : MonoBehaviour
     }
 
     private void Start(){
-        if(HintSystem.Instance)
-            HintSystem.Instance.InitializationFinished += islandsAnimator.Animate;
-        else
-            islandsAnimator.Animate();
+        islandsAnimator.Animate();
     }   
+
+    public void Set(Transform islandsParent, Transform wallsParent){
+        IslandsParent = islandsParent;
+        WallsParent = wallsParent;
+    }
 }

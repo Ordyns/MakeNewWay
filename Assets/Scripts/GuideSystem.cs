@@ -6,10 +6,8 @@ using UnityEngine.Video;
 [RequireComponent(typeof(VideoPlayer))]
 public class GuideSystem : MonoBehaviour
 {
-    public bool isGuideShowing { get; private set; }
+    public bool IsGuideShowing { get; private set; }
     public event System.Action GuideFinished;
-
-    public static GuideSystem Instance;
 
     [SerializeField] private List<Guide> guides;
     [Space]
@@ -23,11 +21,9 @@ public class GuideSystem : MonoBehaviour
     private GuideStep _currentGuideStep => _currentGuide.Steps[_currentGuideStepIndex];
     private int _currentGuideStepIndex;
 
-    private void Awake() => Instance = this;
-
     private void Start() {
         _videoPlayer = GetComponent<VideoPlayer>();
-        isGuideShowing = false;
+        IsGuideShowing = false;
 
         foreach(Guide guide in guides){
             guide.Parent.transform.gameObject.SetActive(false);
@@ -50,12 +46,12 @@ public class GuideSystem : MonoBehaviour
                 return;
             }
         }
-
+        
         GuideFinished?.Invoke();
     }
 
     private void StartGuide(Guide guide){
-        isGuideShowing = true;
+        IsGuideShowing = true;
         _currentGuide = guide;
         _currentGuideStepIndex = -1;
 
@@ -104,7 +100,7 @@ public class GuideSystem : MonoBehaviour
     }
 
     private void FinishGuide(){
-        isGuideShowing = false;
+        IsGuideShowing = false;
         GuideFinished?.Invoke();
 
         _currentGuide.Parent.DOFade(0, 0.2f).SetEase(Ease.InOutSine);

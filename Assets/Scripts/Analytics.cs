@@ -22,7 +22,7 @@ public class Analytics : MonoBehaviour
     private void Start() => ScenesLoader.Instance.GameLevelLoaded += GameLevelLoaded;
 
     private void GameLevelLoaded(int levelNumber){
-        PathChecker.Instance.PathChecked += (pathCorrect) => {
+        LevelContext.Instance.PathChecker.PathChecked += (pathCorrect) => {
             if(pathCorrect){
                 LevelCompleted(levelNumber);
             }

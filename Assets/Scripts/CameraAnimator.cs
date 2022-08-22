@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
@@ -35,6 +33,6 @@ public class CameraAnimator : MonoBehaviour
         OriginalSize = Mathf.Clamp(newSize, 0, Mathf.Infinity);
     }
 
-    public void PlayInAnimation() => _camera.DOOrthoSize(OriginalSize, duration).SetEase(ease).SetDelay(inAnimationDelay);
-    public void PlayOutAnimation(float delay = 0) => _camera.DOOrthoSize(OriginalSize + SizeOffset, duration).SetEase(ease).SetDelay(delay);
+    [NaughtyAttributes.Button] public void PlayInAnimation() => _camera.DOOrthoSize(OriginalSize, duration).SetEase(ease).SetDelay(inAnimationDelay);
+    [NaughtyAttributes.Button] public void PlayOutAnimation(float delay = 0) => _camera.DOOrthoSize(OriginalSize + SizeOffset, duration).SetEase(ease).SetDelay(delay);
 }
