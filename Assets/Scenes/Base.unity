@@ -1989,39 +1989,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86ee1188be38a394fb85c2e7c4ed598c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guides:
-  - TargetLevelNumber: 1
-    Parent: {fileID: 1442739760}
-    Steps:
-    - StepDuration: 0.5
-      ClosePreviousSteps: 0
-      AnimatedPanels:
-      - {fileID: 1789725345}
-      VideoClip: {fileID: 0}
-    - StepDuration: 0.5
-      ClosePreviousSteps: 0
-      AnimatedPanels:
-      - {fileID: 1016386870}
-      VideoClip: {fileID: 0}
-  - TargetLevelNumber: 5
-    Parent: {fileID: 1490938839}
-    Steps:
-    - StepDuration: 0.5
-      ClosePreviousSteps: 0
-      AnimatedPanels:
-      - {fileID: 16755019}
-      VideoClip: {fileID: 32900000, guid: 00999240588a93143923a97a75c83272, type: 3}
-  - TargetLevelNumber: 11
-    Parent: {fileID: 1527291605}
-    Steps:
-    - StepDuration: 0.5
-      ClosePreviousSteps: 0
-      AnimatedPanels:
-      - {fileID: 1362746009}
-      VideoClip: {fileID: 32900000, guid: 996976f5f5c674a4e9b077ab3fa1c7ba, type: 3}
-  guidesParent: {fileID: 163539158}
   background: {fileID: 368434134}
   continueButton: {fileID: 1395722562}
+  <GuideViews>k__BackingField:
+  - {fileID: 1442739761}
+  - {fileID: 1490938840}
+  - {fileID: 1527291606}
 --- !u!4 &554133084
 Transform:
   m_ObjectHideFlags: 0
@@ -3970,8 +3943,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 554133083}
-        m_TargetAssemblyTypeName: GuidesSystem, Assembly-CSharp
-        m_MethodName: NextGuideStep
+        m_TargetAssemblyTypeName: GuideSystem, Assembly-CSharp
+        m_MethodName: MoveToNextGuideStep
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4483,6 +4456,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1442739759}
+  - component: {fileID: 1442739761}
   - component: {fileID: 1442739760}
   m_Layer: 5
   m_Name: Guide 1
@@ -4524,6 +4498,30 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1442739761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442739758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46694d5194c1d064d9caea794e38f3bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <TargetLevelNumber>k__BackingField: 1
+  steps:
+  - StepDuration: 0.5
+    ClosePreviousSteps: 0
+    AnimatedPanels:
+    - {fileID: 1789725345}
+    VideoClip: {fileID: 0}
+  - StepDuration: 0.5
+    ClosePreviousSteps: 0
+    AnimatedPanels:
+    - {fileID: 1016386870}
+    VideoClip: {fileID: 0}
 --- !u!1 &1487271851
 GameObject:
   m_ObjectHideFlags: 0
@@ -4621,6 +4619,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1490938838}
+  - component: {fileID: 1490938840}
   - component: {fileID: 1490938839}
   m_Layer: 5
   m_Name: Guide 5
@@ -4661,6 +4660,25 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1490938840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490938837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46694d5194c1d064d9caea794e38f3bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <TargetLevelNumber>k__BackingField: 5
+  steps:
+  - StepDuration: 1.5
+    ClosePreviousSteps: 0
+    AnimatedPanels:
+    - {fileID: 16755019}
+    VideoClip: {fileID: 32900000, guid: 00999240588a93143923a97a75c83272, type: 3}
 --- !u!1 &1517581042
 GameObject:
   m_ObjectHideFlags: 0
@@ -4792,6 +4810,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1527291604}
+  - component: {fileID: 1527291606}
   - component: {fileID: 1527291605}
   m_Layer: 5
   m_Name: Guide 11
@@ -4832,6 +4851,25 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1527291606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527291603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46694d5194c1d064d9caea794e38f3bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <TargetLevelNumber>k__BackingField: 11
+  steps:
+  - StepDuration: 1.5
+    ClosePreviousSteps: 0
+    AnimatedPanels:
+    - {fileID: 1362746009}
+    VideoClip: {fileID: 32900000, guid: 996976f5f5c674a4e9b077ab3fa1c7ba, type: 3}
 --- !u!1 &1541310429
 GameObject:
   m_ObjectHideFlags: 0
