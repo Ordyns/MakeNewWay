@@ -682,6 +682,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68657b181dd90a140b98680bcc287543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetLevelNumber: 10
+  canvas: {fileID: 1265061290432046698}
   animatedPanel: {fileID: 4823428550262026455}
 --- !u!1 &6199623024751083925
 GameObject:
@@ -738,14 +740,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   awakeAction: 2
   startAction: 5
-  independentOfTimeScale: 1
   animationDuration: 0.25
   ease: 9
+  independentOfTimeScale: 1
   axis: 1
-  openedPositionGetMethod: 0
+  autoOpenedPosition: 0
   invertOpenedPosition: 0
   openedPosition: 0
-  closedPositionGetMethod: 2
+  autoClosedPosition: 0
   invertClosedPosition: 1
   closedPosition: 0
   autoOpenDelay: 0.5
@@ -957,14 +959,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   awakeAction: 2
   startAction: 5
-  independentOfTimeScale: 1
   animationDuration: 0.25
   ease: 9
+  independentOfTimeScale: 1
   axis: 0
-  openedPositionGetMethod: 3
+  autoOpenedPosition: 0
   invertOpenedPosition: 0
   openedPosition: 0
-  closedPositionGetMethod: 1
+  autoClosedPosition: 0
   invertClosedPosition: 1
   closedPosition: 0
   autoOpenDelay: 3.5

@@ -55,9 +55,9 @@ public class StepsRecorder : MonoBehaviour
         StepRecorded?.Invoke();
     }
 
-    public void GoToPreviousStep(){
+    public void MoveToPreviousStep(){
         if(CanMoveToPrevStep() && _islandsUpdater.IsIslandUpdating == false){
-            _islandsUpdater.ExternalUpdate(IslandAnimationDuration, _islandsUpdater.StepsLeft + 1);
+            _islandsUpdater.ExternalUpdate(IslandAnimationDuration, IslandsUpdater.StepAction.Add);
             IslandsState state = _islandsStates.Pop();
             
             for(int i = 0; i < _islandsTransforms.Count; i++){

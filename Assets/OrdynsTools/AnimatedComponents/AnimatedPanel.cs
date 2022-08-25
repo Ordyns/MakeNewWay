@@ -36,6 +36,7 @@ public class AnimatedPanel : MonoBehaviour
     private bool isInitialized;
 
     private Vector2 _awakePosition;
+    private Timer _autoOpenTimer;
 
     private void Awake() {
         _awakePosition = transform.localPosition;
@@ -65,7 +66,7 @@ public class AnimatedPanel : MonoBehaviour
             case AwakeAction.Open: Open(); break;
             case AwakeAction.CloseInstantly: CloseInstantly(); break;
             case AwakeAction.OpenInstantly: OpenInstantly(); break;
-            case AwakeAction.AutoOpenAfterDelay: TimeOperations.CreateTimer(autoOpenDelay, null, () => Open()); break;
+            case AwakeAction.AutoOpenAfterDelay: _autoOpenTimer = TimeOperations.CreateTimer(autoOpenDelay, null, () => Open()); break;
         }
     }
 
@@ -118,6 +119,11 @@ public class AnimatedPanel : MonoBehaviour
         if(!isInitialized){
             StartCoroutine(Initialization());
         }
+    }
+
+    private void OnDestroy() {
+        if(_autoOpenTimer != null)
+            _autoOpenTimer.Stop();
     }
 
     private enum Axis{

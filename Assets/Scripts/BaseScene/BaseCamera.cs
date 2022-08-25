@@ -17,9 +17,12 @@ public class BaseCamera : MonoBehaviour
         _cameraAnimator = GetComponent<CameraAnimator>();
         _cameraConstantWidth = GetComponent<CameraConstantWidth>();
 
-        //SetupCameraComponents();
-
         guideSystem.GuideFinished += () => StartCoroutine(Init());
+        LevelContext.Instance.PathChecker.PathChecked += (isPathCorrect) => {
+            if(isPathCorrect){
+                _cameraAnimator.PlayOutAnimation();
+            }
+        };
     }
 
     private IEnumerator Init(){

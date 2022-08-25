@@ -40,7 +40,7 @@ public class HintUI : MonoBehaviour
         _mainCamera = Camera.main;
 
         _hintSystem = LevelContext.Instance.HintSystem;
-        BaseUI.Instance.HintUI = this;
+        BaseSceneContext.Instance.BaseUI.HintUI = this;
 
         _hintCamera = BaseSceneContext.Instance.HintsRenderer.HintCamera.gameObject;
 
@@ -55,19 +55,14 @@ public class HintUI : MonoBehaviour
 
         InitHintButtons();
         UpdateUI();
-
-        
     }
 
     private void InitHintButtons(){
-        /*AdsManager.CheckInternetConnection((isInternetReachable) => {
+        AdsManager.CheckInternetConnection((isInternetReachable) => {
             bool isAdViewed = SaveSystem.Instance.Data.isAdViewed;
             hintButton.SetActive(isAdViewed);
             viewAdButton.SetActive(isAdViewed == false && isInternetReachable);
-        });*/
-
-        viewAdButton.SetActive(false);
-        hintButton.SetActive(true);
+        });
     }
 
     public void ViewAd(){

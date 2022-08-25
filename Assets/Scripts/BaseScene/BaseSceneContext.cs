@@ -8,6 +8,7 @@ public class BaseSceneContext : MonoBehaviour
     [field:SerializeField] public IslandsUpdater IslandsUpdater { get; private set; }
     [field:SerializeField] public BaseCamera BaseCamera { get; private set; }
     [field:SerializeField] public HintsRenderer HintsRenderer { get; private set; }
+    [field:SerializeField] public BaseUI BaseUI { get; private set; }
 
     private void Awake() {
         if(Instance != null)

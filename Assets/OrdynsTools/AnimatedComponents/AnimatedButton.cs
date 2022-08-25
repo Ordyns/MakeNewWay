@@ -26,13 +26,12 @@ public class AnimatedButton : MonoBehaviour, IPointerClickHandler
     [SerializeField] private float nonInteractableAlpha = 0.8f;
 
     [Header("Events")]
-    [SerializeField] private UnityEvent OnClick;
+    public UnityEvent OnClick;
 
     private CanvasGroup _canvasGroup;
 
-    private void Start() {
-        if(TryGetComponent<CanvasGroup>(out _canvasGroup) == false)
-            _canvasGroup = gameObject.AddComponent<CanvasGroup>();
+    private void Awake() {
+        _canvasGroup = GetComponent<CanvasGroup>();
 
         UpdateAlpha();
     }

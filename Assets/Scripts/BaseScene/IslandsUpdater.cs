@@ -9,8 +9,8 @@ public class IslandsUpdater : MonoBehaviour
 
     public bool IsIslandUpdating { get; private set; }
     [HideInInspector] public bool IsIslandsUpdatingAllowed { get; set; } = true;
-
-    public int StepsLeft { get; private set; }
+    
+    [SerializeField] private StepsViewModel stepsViewModel;
 
     [SerializeField] private Camera mainCamera;
 
@@ -19,7 +19,6 @@ public class IslandsUpdater : MonoBehaviour
 
     private void Start() {
         _pathChecker = LevelContext.Instance.PathChecker;
-        StepsLeft = LevelContext.Instance.LevelSettings.Steps;
 
         _playerInput = new PlayerInput<Island>(mainCamera);
         _playerInput.Click += OnClick;
@@ -50,14 +49,13 @@ public class IslandsUpdater : MonoBehaviour
         _pathChecker.CheckPath();
         IslandUpdated?.Invoke();
     }
-    public void ExternalUpdate(float duration, int newStepsLeftCount){
+
+    public void ExternalUpdate(float duration, StepAction stepAction){
         if(IsIslandUpdating)
             throw new System.Exception("The islands are already being updating");
-        
-        if(Mathf.Abs(StepsLeft - newStepsLeftCount) > 1)
-            throw new System.Exception("Incorrect use of ExternalUpdate. | StepsLeft - newStepsLeftCount | must be less than 2");
 
-        StepsLeft = newStepsLeftCount;    
+        if(stepsViewModel)
+            stepsViewModel.StepsLeft.Value += stepAction == StepAction.Add ? 1 : -1;
         
         IsIslandUpdating = true;
         TimeOperations.CreateTimer(duration, null, OnUpdatingFinished);
@@ -66,6 +64,13 @@ public class IslandsUpdater : MonoBehaviour
     private void UpdatingStarted(){
         IsIslandUpdating = true;
         IslandUpdating?.Invoke();
-        StepsLeft--;
+        
+        if(stepsViewModel)
+            stepsViewModel.StepsLeft.Value--;
+    }
+
+    public enum StepAction{
+        Add,
+        Substract
     }
 }

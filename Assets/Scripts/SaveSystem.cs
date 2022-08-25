@@ -40,8 +40,9 @@ public class SaveSystem : MonoBehaviour
         if(levelNumber >= Data.CurrentLevel){
             Data.CurrentLevel++;
 
-            if(bonusReceived)
-                Data.CompletedLevelsWithBonus.Add(levelNumber); 
+            if(bonusReceived && Data.CompletedLevelsWithBonus.Contains(levelNumber) == false){
+                Data.CompletedLevelsWithBonus.Add(levelNumber);
+            }
         }
     }
     

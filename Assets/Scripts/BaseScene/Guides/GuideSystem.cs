@@ -13,6 +13,7 @@ public class GuideSystem : MonoBehaviour
     [SerializeField] private CanvasGroup background;
     [SerializeField] private AnimatedPanel continueButton;
     [field:Space]
+    [SerializeField] private Transform guideViewsParent;
     [field:SerializeField] public GuideView[] GuideViews { get; private set; }
 
     private VideoPlayer _videoPlayer;
@@ -43,6 +44,8 @@ public class GuideSystem : MonoBehaviour
     }
 
     private void StartGuide(GuideView guideView){
+        guideViewsParent.gameObject.SetActive(true);
+
         _currentGuideView.gameObject.SetActive(true);
         _currentGuideView.StartGuide(continueButton, PlayGuideVideo);
         
