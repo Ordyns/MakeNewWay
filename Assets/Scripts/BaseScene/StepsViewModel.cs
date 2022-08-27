@@ -17,8 +17,8 @@ public class StepsViewModel : ViewModel
     private void Awake() {
         InitCommands();
 
-        int currentLevel = ScenesLoader.Instance.LastLoadedLevelNumber;
-        isBonusReceivedEarlier = SaveSystem.Instance.Data.CompletedLevelsWithBonus.Contains(currentLevel);
+        int currentLevel = ProjectContext.Instance.ScenesLoader.LastLoadedLevelNumber;
+        isBonusReceivedEarlier = ProjectContext.Instance.SaveSystem.Data.CompletedLevelsWithBonus.Contains(currentLevel);
 
         LevelSettings levelSettings = LevelContext.Instance.LevelSettings;
         StartStepsCount = StepsLeft.Value = levelSettings.Steps;

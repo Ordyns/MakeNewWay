@@ -32,6 +32,9 @@ public class HintUI : MonoBehaviour
     private HintSystem _hintSystem;
     private BaseUI _gameUI;
 
+    private AdsManager _adsManager;
+    private SaveSystem _saveSystem;
+
     private Camera _mainCamera;
 
     private string _originalContentOfStepsText = string.Empty;
@@ -40,16 +43,18 @@ public class HintUI : MonoBehaviour
         _mainCamera = Camera.main;
 
         _hintSystem = LevelContext.Instance.HintSystem;
+        _adsManager = ProjectContext.Instance.AdsManager;
+        _saveSystem = ProjectContext.Instance.SaveSystem;
         BaseSceneContext.Instance.BaseUI.HintUI = this;
 
         _hintCamera = BaseSceneContext.Instance.HintsRenderer.HintCamera.gameObject;
 
         string stepsTextLocalizationKey = stepsText.GetComponent<LocalizedText>().LocalizationKey;
-        _originalContentOfStepsText = Localization.Instance.GetLocalizedValue(stepsTextLocalizationKey);
+        _originalContentOfStepsText = ProjectContext.Instance.Localization.GetLocalizedValue(stepsTextLocalizationKey);
 
-        ScenesLoader.Instance.GameLevelLoading += (levelNumber) => {
-            if(levelNumber != ScenesLoader.Instance.LastLoadedLevelNumber){
-                SaveSystem.Instance.Data.isAdViewed = false;
+        ProjectContext.Instance.ScenesLoader.GameLevelLoading += (levelNumber) => {
+            if(levelNumber != ProjectContext.Instance.ScenesLoader.LastLoadedLevelNumber){
+                _saveSystem.Data.isAdViewed = false;
             }
         };
 
@@ -58,17 +63,17 @@ public class HintUI : MonoBehaviour
     }
 
     private void InitHintButtons(){
-        AdsManager.CheckInternetConnection((isInternetReachable) => {
-            bool isAdViewed = SaveSystem.Instance.Data.isAdViewed;
+        _adsManager.CheckInternetConnection((isInternetReachable) => {
+            bool isAdViewed = _saveSystem.Data.isAdViewed;
             hintButton.SetActive(isAdViewed);
             viewAdButton.SetActive(isAdViewed == false && isInternetReachable);
         });
     }
 
     public void ViewAd(){
-        if(AdsManager.Instance){
-            string errorMessage = Localization.Instance.GetLocalizedValue(adLoadingErrorMessageLocalizationKey);
-            AdsManager.Instance.ShowRewardedAd(AdViewed, () => OverlayPanels.CreateNewInformationPanel(errorMessage, null));
+        if(_adsManager){
+            string errorMessage = ProjectContext.Instance.Localization.GetLocalizedValue(adLoadingErrorMessageLocalizationKey);
+            _adsManager.ShowRewardedAd(AdViewed, () => OverlayPanels.CreateNewInformationPanel(errorMessage, null));
         }
         else{
             AdViewed();
@@ -76,7 +81,7 @@ public class HintUI : MonoBehaviour
     }
 
     private void AdViewed(){
-        SaveSystem.Instance.Data.isAdViewed = true;
+        _saveSystem.Data.isAdViewed = true;
 
         viewAdButton.SetActive(false);
         hintButton.SetActive(true);

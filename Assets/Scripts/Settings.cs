@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Settings : MonoBehaviour
 {
-    public static Settings Instance { get; private set; }
-
     public Localization Localization { get; private set; }
 
     public bool isMusicEnabled { 
@@ -21,8 +19,6 @@ public class Settings : MonoBehaviour
     private SaveSystem _saveSystem;
 
     private void Awake() {
-        Instance = this;
-
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
 
@@ -30,11 +26,11 @@ public class Settings : MonoBehaviour
     }
 
     private IEnumerator Initialization(){
-        while(SaveSystem.Instance == null)
+        while(ProjectContext.Instance == null)
             yield return null;
 
-        _saveSystem = SaveSystem.Instance;
-        Localization = Localization.Instance;
+        _saveSystem = ProjectContext.Instance.SaveSystem;
+        Localization = ProjectContext.Instance.Localization;
     }
 
     public void ChangeLocalizationToNextLanguage() => Localization.ChangeToNextLanguage();

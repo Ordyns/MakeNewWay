@@ -6,14 +6,10 @@ using UnityEngine;
 
 public class SaveSystem : MonoBehaviour
 {
-    public static SaveSystem Instance;
-
     public DataClass Data = new DataClass();
     private string _path;
 
     private void Awake() {
-        Instance = this;
-
 #if UNITY_ANDROID && !UNITY_EDITOR
         _path = Path.Combine(Application.persistentDataPath, "data.sv");
 #else

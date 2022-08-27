@@ -32,8 +32,8 @@ public class Menu : MonoBehaviour
 
     private void CreateLevelsButtons(){
         _levelsButtons = new List<LevelButton>();
-        int currentUnlockedLevel = SaveSystem.Instance.Data.CurrentLevel;
-        for(int i = 1; i < LevelsContainer.Instance.LevelsCount + 1; i++){
+        int currentUnlockedLevel = ProjectContext.Instance.SaveSystem.Data.CurrentLevel;
+        for(int i = 1; i < ProjectContext.Instance.LevelsContainer.LevelsCount + 1; i++){
             LevelButton levelButton = Instantiate(levelButtonPrefab, levelsPanelContent);
             levelButton.SetLevelNumber(i);
             
@@ -41,8 +41,8 @@ public class Menu : MonoBehaviour
             else if(currentUnlockedLevel == i) levelButton.SetLockedState(false);
             else levelButton.SetLockedState(true);
 
-            levelButton.SetBonusActive(LevelsContainer.Instance.NumbersOfLevelsWithBonus.Contains(i));
-            if(SaveSystem.Instance.Data.CompletedLevelsWithBonus.Contains(i)) levelButton.BonusReceived();
+            levelButton.SetBonusActive(ProjectContext.Instance.LevelsContainer.NumbersOfLevelsWithBonus.Contains(i));
+            if(ProjectContext.Instance.SaveSystem.Data.CompletedLevelsWithBonus.Contains(i)) levelButton.BonusReceived();
 
             _levelsButtons.Add(levelButton);
         }

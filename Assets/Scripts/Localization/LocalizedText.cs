@@ -12,7 +12,7 @@ public class LocalizedText : MonoBehaviour
     private TextMeshProUGUI textMesh;
 
     private void Awake() {
-        localization = Localization.Instance;
+        localization = ProjectContext.Instance.Localization;
         textMesh = GetComponent<TextMeshProUGUI>();
 
         if(localization){

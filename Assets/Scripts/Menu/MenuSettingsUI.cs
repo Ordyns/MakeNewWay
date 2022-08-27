@@ -21,7 +21,7 @@ public class MenuSettingsUI : MonoBehaviour
     private Settings _settings;
 
     private void Start() {
-        _settings = Settings.Instance;
+        _settings = ProjectContext.Instance.Settings;
 
         UpdateAudioButtonIcon(soundsButton, _settings.isSoundsEnabled);
         UpdateAudioButtonIcon(musicButton, _settings.isMusicEnabled);

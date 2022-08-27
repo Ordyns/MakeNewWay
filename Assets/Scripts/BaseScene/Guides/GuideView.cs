@@ -28,7 +28,6 @@ public class GuideView : MonoBehaviour
         foreach(GuideStep step in steps){
             foreach(AnimatedPanel animatedPanel in step.AnimatedPanels){
                 animatedPanel.gameObject.SetActive(true);
-                //animatedPanel.CloseInstantly();
             }
         }
 

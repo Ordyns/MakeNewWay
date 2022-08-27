@@ -11,8 +11,8 @@ public class ReviewRequestPanel : MonoBehaviour
 
     private void Start() {
         
-        int levelNumber = ScenesLoader.Instance.LastLoadedLevelNumber;
-        SaveSystem saveSystem = SaveSystem.Instance;
+        int levelNumber = ProjectContext.Instance.ScenesLoader.LastLoadedLevelNumber;
+        SaveSystem saveSystem = ProjectContext.Instance.SaveSystem;
 
         if(levelNumber >= targetLevelNumber && saveSystem.Data.ReviewRequested == false){
             saveSystem.Data.ReviewRequested = true;

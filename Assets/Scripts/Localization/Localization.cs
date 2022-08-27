@@ -7,8 +7,6 @@ using System.Collections.ObjectModel;
 
 public class Localization : MonoBehaviour
 {
-    public static Localization Instance;
-
     public event System.Action LanguageChanged;
 
     [SerializeField] private string defaultLanguageCode;
@@ -21,8 +19,6 @@ public class Localization : MonoBehaviour
     private LocalizedStrings _currentLocalization;
 
     private void Awake() {
-        Instance = this;
-
         CurrentLanguageCode = GetUserLanguage();
         LoadLocalization(CurrentLanguageCode);
     }

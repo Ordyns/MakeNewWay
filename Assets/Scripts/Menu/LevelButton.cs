@@ -21,7 +21,7 @@ public class LevelButton : MonoBehaviour
     private bool isLevelLocked;
 
     public void LoadLevel(){
-        ScenesLoader.Instance.LoadLevel(_levelNumber);
+        ProjectContext.Instance.ScenesLoader.LoadLevel(_levelNumber);
     }
 
     public void SetLevelNumber(int number){

@@ -19,8 +19,8 @@ public class AudioPlayer : MonoBehaviour
     [Space]
     [SerializeField] private float nextMusicDelay;
 
-    private bool isMusicEnabled => SaveSystem.Instance.Data.isMusicEnabled;
-    private bool isSoundsEnabled => SaveSystem.Instance.Data.isSoundsEnabled;
+    private bool isMusicEnabled => ProjectContext.Instance.SaveSystem.Data.isMusicEnabled;
+    private bool isSoundsEnabled => ProjectContext.Instance.SaveSystem.Data.isSoundsEnabled;
 
     private List<AudioClip> _playlist = new List<AudioClip>();
 

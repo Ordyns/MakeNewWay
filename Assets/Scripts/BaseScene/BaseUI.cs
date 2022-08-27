@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
-public class BaseUI : MonoBehaviour
+public class BaseUI : MonoBehaviour, IPauseHandler
 {
     [HideInInspector] public HintUI HintUI;
 
@@ -26,7 +26,6 @@ public class BaseUI : MonoBehaviour
     [Header("===== Sounds =====")]
     [SerializeField] private AudioClip levelCompletedSound;
 
-    private bool isGamePaused;
     private bool isLevelCompleted;
 
     private GuideSystem _guideSystem;
@@ -35,13 +34,18 @@ public class BaseUI : MonoBehaviour
 
     private Timer _bonusReceivedViewTimer;
 
+    private PauseManager _pauseManager;
+
     private void Start() {
         if(LevelContext.Instance.LevelSettings == null)
             return;
         
-        _levelNumber = ScenesLoader.Instance.LastLoadedLevelNumber;
+        _levelNumber = ProjectContext.Instance.ScenesLoader.LastLoadedLevelNumber;
 
         _guideSystem = BaseSceneContext.Instance.GuideSystem;
+
+        _pauseManager = ProjectContext.Instance.PauseManager;
+        _pauseManager.Subscribe(this);
 
         LevelContext.Instance.PathChecker.PathChecked += OnPathChecked;
 
@@ -75,7 +79,7 @@ public class BaseUI : MonoBehaviour
             if(HintUI.HintOpened){
                 HintUI.ClosePanel();
             }
-            else if(isGamePaused){
+            else if(_pauseManager.IsPaused){
                 UnpauseGame();
             }
             else{
@@ -84,23 +88,23 @@ public class BaseUI : MonoBehaviour
         }
     }
 
-    public void PauseGame() => SetPauseState(true);
-    public void UnpauseGame() => SetPauseState(false);
-
-    private void SetPauseState(bool paused){
-        BaseSceneContext.Instance.IslandsUpdater.IsIslandsUpdatingAllowed = !paused;
-        isGamePaused = paused;
-        ChangeBackgroundVisibility(paused);
-
-        if(paused)
-            pausePanel.OpenPanel();
-        else
-            pausePanel.ClosePanel(deactivateGameObject: true);
+    public void SetPaused(bool isPaused){
+        ChangeBackgroundVisibility(isPaused);
+        
     }
 
-    public void RestartLevel() => ScenesLoader.Instance.RestartLevel();
-    public void LoadMenu() => ScenesLoader.Instance.LoadMenu();
-    public void LoadNextLevel() => ScenesLoader.Instance.NextLevel();
+    public void PauseGame(){
+        pausePanel.OpenPanel();
+        _pauseManager.SetPaused(true);
+    }
+    public void UnpauseGame(){
+        pausePanel.ClosePanel(deactivateGameObject: true);
+        _pauseManager.SetPaused(false);
+    }
+
+    public void RestartLevel() => ProjectContext.Instance.ScenesLoader.RestartLevel();
+    public void LoadMenu() => ProjectContext.Instance.ScenesLoader.LoadMenu();
+    public void LoadNextLevel() => ProjectContext.Instance.ScenesLoader.NextLevel();
 
     public void LevelCompleted(){
         isLevelCompleted = true;
@@ -111,7 +115,7 @@ public class BaseUI : MonoBehaviour
         mainUI.DOFade(0, 0.2f).SetEase(Ease.OutCubic);
         ChangeBackgroundVisibility(true, panelsAnimationDuration);
 
-        PanelAnimator panel = _levelNumber + 1 <= LevelsContainer.Instance.LevelsCount ? levelCompletedPanel : allLevelsCompletedPanel;
+        PanelAnimator panel = _levelNumber + 1 <= ProjectContext.Instance.LevelsContainer.LevelsCount ? levelCompletedPanel : allLevelsCompletedPanel;
         EnablePanelAfterDelay(panel.gameObject, panelsAnimationDuration);
 
         if(bonusReceived){
@@ -119,7 +123,7 @@ public class BaseUI : MonoBehaviour
             _bonusReceivedViewTimer = TimeOperations.CreateTimer(panelsAnimationDuration + 0.5f, null, () => bonusReceivedView.Show(stepsViewModel.StepsForBonus));
         }
 
-        SaveSystem.Instance.LevelCompleted(_levelNumber, bonusReceived);
+        ProjectContext.Instance.SaveSystem.LevelCompleted(_levelNumber, bonusReceived);
         
         AudioPlayer.PlayClip(levelCompletedSound, panelsAnimationDuration);
     }
@@ -145,5 +149,7 @@ public class BaseUI : MonoBehaviour
     private void OnDestroy() {
         if(_bonusReceivedViewTimer != null)
             _bonusReceivedViewTimer.Stop();
+
+        _pauseManager.Unsubscribe(this);
     }
 }

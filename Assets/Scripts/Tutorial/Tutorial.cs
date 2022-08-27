@@ -135,7 +135,7 @@ public class Tutorial : MonoBehaviour
     private void TutorialCompleted(){
         isTutorialCompleted = true;
         islandsUpdater.IsIslandsUpdatingAllowed = false;
-        SaveSystem.Instance.Data.TutorialCompleted = true;
+        ProjectContext.Instance.SaveSystem.Data.TutorialCompleted = true;
         Analytics.TutorialCompleted();
 
         swipeDirectionLine.positionCount = 0;
@@ -164,8 +164,8 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    public void LoadMenu() => ScenesLoader.Instance.LoadMenu();
-    public void LoadFirstLevel() => ScenesLoader.Instance.LoadLevel(1);
+    public void LoadMenu() => ProjectContext.Instance.ScenesLoader.LoadMenu();
+    public void LoadFirstLevel() => ProjectContext.Instance.ScenesLoader.LoadLevel(1);
 
     private Vector2 WorldToScreenPoint(Vector3 position){
         Vector2 adjustedPosition = Camera.main.WorldToScreenPoint(position);

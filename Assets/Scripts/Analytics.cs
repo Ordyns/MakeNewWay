@@ -5,11 +5,7 @@ using UnityEngine;
 
 public class Analytics : MonoBehaviour
 {
-    public static Analytics Instance;
-
     private void Awake() {
-        Instance = this;
-
         /*FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
             var dependencyStatus = task.Result;
             if (dependencyStatus == DependencyStatus.Available)
@@ -19,7 +15,7 @@ public class Analytics : MonoBehaviour
         });*/
     }
 
-    private void Start() => ScenesLoader.Instance.GameLevelLoaded += GameLevelLoaded;
+    private void Start() => ProjectContext.Instance.ScenesLoader.GameLevelLoaded += GameLevelLoaded;
 
     private void GameLevelLoaded(int levelNumber){
         LevelContext.Instance.PathChecker.PathChecked += (pathCorrect) => {

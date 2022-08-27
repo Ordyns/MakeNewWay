@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class ScenesLoader : MonoBehaviour
 {
-    public static ScenesLoader Instance;
-
     public event System.Action<int> GameLevelLoaded;
     public event System.Action<int> GameLevelLoading;
 
@@ -22,11 +20,9 @@ public class ScenesLoader : MonoBehaviour
 
     private Transition _transition;
 
-    private void Awake() => Instance = this;
-
     private void Start() {
-        _adsManager = AdsManager.Instance;
-        _saveSystem = SaveSystem.Instance;    
+        _adsManager = ProjectContext.Instance.AdsManager;
+        _saveSystem = ProjectContext.Instance.SaveSystem;    
 
         GameLevelLoaded += (levelNumber) => CloseTransition(null);
         GameLevelLoaded += (levelNumber) => SceneChanged();
@@ -55,7 +51,7 @@ public class ScenesLoader : MonoBehaviour
     private void LoadTutorial() => LoadScene(tutorialSceneName);
 
     public void NextLevel(){
-        SaveSystem.Instance.SaveAll();
+        ProjectContext.Instance.SaveSystem.SaveAll();
         
         string stringIndex = SceneManager.GetActiveScene().name.Substring(levelSceneName.Length);
         LoadLevel(System.Int32.Parse(stringIndex) + 1);
@@ -64,7 +60,7 @@ public class ScenesLoader : MonoBehaviour
     private void LoadScene(string name){
         SceneChanged();
         AddTransition(() => {
-            SaveSystem.Instance.SaveAll();
+            ProjectContext.Instance.SaveSystem.SaveAll();
             SceneManager.LoadSceneAsync(name).completed += CloseTransition;
         });
     }

@@ -23,12 +23,12 @@ public class GuideSystem : MonoBehaviour
 
     private void Start() {
         _videoPlayer = GetComponent<VideoPlayer>();
-        _saveSystem = SaveSystem.Instance;
+        _saveSystem = ProjectContext.Instance.SaveSystem;
 
         IsGuideShowing = false;
 
         foreach(GuideView guideView in GuideViews){
-            if(guideView.TargetLevelNumber == ScenesLoader.Instance.LastLoadedLevelNumber)
+            if(guideView.TargetLevelNumber == ProjectContext.Instance.ScenesLoader.LastLoadedLevelNumber)
                 _currentGuideView = guideView;
 
             guideView.gameObject.SetActive(false);
@@ -44,6 +44,7 @@ public class GuideSystem : MonoBehaviour
     }
 
     private void StartGuide(GuideView guideView){
+        IsGuideShowing = true;
         guideViewsParent.gameObject.SetActive(true);
 
         _currentGuideView.gameObject.SetActive(true);

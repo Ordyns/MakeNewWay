@@ -7,8 +7,6 @@ using UnityEngine.Networking;
 
 public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadListener
 {
-    public static AdsManager Instance;
-
     [SerializeField] private bool testMode = true;
     [SerializeField] private bool showAds = true;
     [Space]
@@ -25,10 +23,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLis
     private ConfirmationPanel _overlayPanel;
     private Timer _adLoadingTimer;
 
-    private void Awake(){
-        Instance = this;
-        StartCoroutine(Init());
-    }
+    private void Awake() => StartCoroutine(Init());
 
     private IEnumerator Init(){
         _rewardedAd = new Ad(_rewardedAdPlacementID, false);
@@ -66,9 +61,9 @@ public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLis
                 return;
 
             if(ad.isAdLoading){
-                _overlayPanel = OverlayPanels.CreateNewInformationPanel(Localization.Instance.GetLocalizedValue("loading_ad"), null, false);
+                _overlayPanel = OverlayPanels.CreateNewInformationPanel(ProjectContext.Instance.Localization.GetLocalizedValue("loading_ad"), null, false);
                 _adLoadingTimer = TimeOperations.CreateTimer(maxTimeForAdLoadingInSeconds, null, () => {
-                    OverlayPanels.CreateNewInformationPanel(Localization.Instance.GetLocalizedValue("ad_loading_error_message"), null, true);
+                    OverlayPanels.CreateNewInformationPanel(ProjectContext.Instance.Localization.GetLocalizedValue("ad_loading_error_message"), null, true);
                     _overlayPanel.Cancel();
                     ad.OnAdLoaded = null;
                 });
@@ -87,9 +82,9 @@ public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLis
         Advertisement.Show(ad.PlacementID, new ShowOptions(), this);
     }
 
-    public static void CheckInternetConnection(Action<bool> onComplete) => Instance.StartCoroutine(CheckInternetConnectionCoroutine(onComplete));
+    public void CheckInternetConnection(Action<bool> onComplete) => StartCoroutine(CheckInternetConnectionCoroutine(onComplete));
 
-    private static IEnumerator CheckInternetConnectionCoroutine(Action<bool> onComplete){
+    private IEnumerator CheckInternetConnectionCoroutine(Action<bool> onComplete){
         using (var request = UnityWebRequest.Head("http://google.com")){
             request.timeout = 5;
             yield return request.SendWebRequest();
