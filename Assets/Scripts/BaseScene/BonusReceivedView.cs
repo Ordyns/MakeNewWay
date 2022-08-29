@@ -18,9 +18,4 @@ public class BonusReceivedView : MonoBehaviour
         bonusRecievedText.text = string.Format(bonusRecievedText.text, stepsForBonus);
         _animatedPanel.Open();
     }
-
-    /*
-        bonusRecievedPanel.gameObject.SetActive(true);
-        TimeOperations.CreateTimer(panelsAnimationDuration + 0.5f, null, bonusRecievedPanel.Open);
-    */
 }

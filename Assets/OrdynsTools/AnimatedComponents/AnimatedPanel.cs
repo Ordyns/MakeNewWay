@@ -66,7 +66,7 @@ public class AnimatedPanel : MonoBehaviour
             case AwakeAction.Open: Open(); break;
             case AwakeAction.CloseInstantly: CloseInstantly(); break;
             case AwakeAction.OpenInstantly: OpenInstantly(); break;
-            case AwakeAction.AutoOpenAfterDelay: _autoOpenTimer = TimeOperations.CreateTimer(autoOpenDelay, null, () => Open()); break;
+            case AwakeAction.AutoOpenAfterDelay: _autoOpenTimer = Timer.StartNew(this, autoOpenDelay, () => Open()); break;
         }
     }
 

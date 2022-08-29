@@ -1,40 +1,52 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Timer
+public class Timer : IDisposable
 {
-    private float _duration;
-    private System.Action<float> _onTickCallback;
-    private System.Action _onCompleteCallback;
+    public float Duration { get; }
+    public bool IsRunning { get; private set; }
 
-    public bool isActive {get; private set;}
-    private float _remainingTime;
+    public event Action Completed;
 
-    public void Init(float duration, System.Action<float> onTickCallback, System.Action onComplete){
-        _duration = _remainingTime = duration;
-        _onTickCallback = onTickCallback;
-        _onCompleteCallback = onComplete;
-        isActive = true;
+    private MonoBehaviour _targetMonoBehaviour;
+    private Coroutine _timerRoutine;
+
+    public Timer(MonoBehaviour monoBehaviour, float duration){
+        Duration = duration;
+        _targetMonoBehaviour = monoBehaviour;
     }
 
-    public void Tick() {
-        if(isActive){
-            if(_remainingTime > 0){
-                _remainingTime -= Time.deltaTime;
-                if(_remainingTime < 0) _remainingTime = 0;
-                _onTickCallback?.Invoke(_remainingTime);
-            }
-            else{
-                Stop(true);
-            }
+    public void Stop(){
+        IsRunning = false;
+        _targetMonoBehaviour.StopCoroutine(_timerRoutine);
+    } 
+
+    public void Start(){
+        IsRunning = true;
+        _timerRoutine = _targetMonoBehaviour.StartCoroutine(TimerCoroutine());
+    }
+
+    private IEnumerator TimerCoroutine(){
+        yield return new WaitForSecondsRealtime(Duration);
+        IsRunning = false;
+        Completed?.Invoke();
+    }
+
+    public static Timer StartNew(MonoBehaviour monoBehaviour, float duration, System.Action onCompleted){
+        Timer timer = new Timer(monoBehaviour, duration);
+        timer.Completed += onCompleted;
+        timer.Start();
+        return timer;
+    }
+
+    public void Dispose(){
+        if(_timerRoutine != null){
+            _targetMonoBehaviour.StopCoroutine(_timerRoutine);
+            _timerRoutine = null;
         }
-    }
 
-    public void SetPause(bool pause) => isActive = !pause;
-
-    public void Stop(bool invokeOnCompleteCallback = false){
-        isActive = false;
-        if(invokeOnCompleteCallback) _onCompleteCallback?.Invoke();
+        _targetMonoBehaviour = null;
+        Completed = null;
     }
 }

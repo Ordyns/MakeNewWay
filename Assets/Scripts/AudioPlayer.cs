@@ -26,6 +26,8 @@ public class AudioPlayer : MonoBehaviour
 
     private Coroutine _musicRoutine;
 
+    
+
     private void Awake(){
         _instance = this;
     }
@@ -78,6 +80,6 @@ public class AudioPlayer : MonoBehaviour
     }
 
     public static void PlayClip(AudioClip clip, float delay){
-        TimeOperations.CreateTimer(delay, null, () => PlayClip(clip));
+        Timer.StartNew(_instance, delay, () => PlayClip(clip));
     }
 }

@@ -23,8 +23,12 @@ public class PanelAnimator : MonoBehaviour
 
     private Vector3 _headlineOrignalPosition;
     private List<Vector3> _buttonsOrignalPosition = new List<Vector3>();
+    
 
     private void Awake() {
+        _deactivationTimer = new Timer(this, nextElementAnimationDelay * (buttons.Length + 2) / 2);
+        _deactivationTimer.Completed += () => gameObject.SetActive(false);
+
         void PrepareElement(CanvasGroup canvasGroup, Vector3 offset){
             canvasGroup.transform.localPosition += offset;
             canvasGroup.alpha = 0;
@@ -49,7 +53,7 @@ public class PanelAnimator : MonoBehaviour
     public void OpenPanel(){
         gameObject.SetActive(true);
         
-        if(_deactivationTimer != null)
+        if(_deactivationTimer.IsRunning)
             _deactivationTimer.Stop();
 
         AnimateElement(headline, _headlineOrignalPosition, targetAlpha: 1);
@@ -65,7 +69,7 @@ public class PanelAnimator : MonoBehaviour
         AnimateElement(headline, _headlineOrignalPosition + buttonStartOffset, targetAlpha: 0);
 
         if(deactivateGameObject)
-            _deactivationTimer = TimeOperations.CreateTimer(nextElementAnimationDelay * (buttons.Length + 2) / 2, null, () => gameObject.SetActive(false));
+            _deactivationTimer.Start();
     }
 
     private void AnimateElement(CanvasGroup element, Vector2 targetPosition, float targetAlpha, float delay = 0){

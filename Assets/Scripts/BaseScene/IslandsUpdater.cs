@@ -16,6 +16,7 @@ public class IslandsUpdater : MonoBehaviour
 
     private PlayerInput<Island> _playerInput;
     private PathChecker _pathChecker;
+    
 
     private void Start() {
         _pathChecker = LevelContext.Instance.PathChecker;
@@ -61,7 +62,7 @@ public class IslandsUpdater : MonoBehaviour
             stepsViewModel.StepsLeft.Value += stepAction == StepAction.Add ? 1 : -1;
         
         IsIslandUpdating = true;
-        TimeOperations.CreateTimer(duration, null, OnUpdatingFinished);
+        Timer.StartNew(this, duration, OnUpdatingFinished);
     }
 
     private void UpdatingStarted(){

@@ -21,6 +21,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLis
     private Ad _interstitialAd;
 
     private ConfirmationPanel _overlayPanel;
+
     private Timer _adLoadingTimer;
 
     private void Awake() => StartCoroutine(Init());
@@ -62,7 +63,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLis
 
             if(ad.isAdLoading){
                 _overlayPanel = OverlayPanels.CreateNewInformationPanel(ProjectContext.Instance.Localization.GetLocalizedValue("loading_ad"), null, false);
-                _adLoadingTimer = TimeOperations.CreateTimer(maxTimeForAdLoadingInSeconds, null, () => {
+                _adLoadingTimer = Timer.StartNew(this, maxTimeForAdLoadingInSeconds, () => {
                     OverlayPanels.CreateNewInformationPanel(ProjectContext.Instance.Localization.GetLocalizedValue("ad_loading_error_message"), null, true);
                     _overlayPanel.Cancel();
                     ad.OnAdLoaded = null;
@@ -75,7 +76,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLis
         }
 
         if(_adLoadingTimer != null)
-            _adLoadingTimer.Stop();
+            _adLoadingTimer.Dispose();
 
         ad.SetCallbacks(onComplete, onFailure, null);
         ad.isAdReady = false;

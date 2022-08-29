@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using DG.Tweening;
+
 public class BaseUI : MonoBehaviour, IPauseHandler
 {
     [HideInInspector] public HintUI HintUI;
@@ -27,14 +26,13 @@ public class BaseUI : MonoBehaviour, IPauseHandler
     [SerializeField] private AudioClip levelCompletedSound;
 
     private bool isLevelCompleted;
-
-    private GuideSystem _guideSystem;
-    
     private int _levelNumber;
 
-    private Timer _bonusReceivedViewTimer;
-
+    private GuideSystem _guideSystem;
     private PauseManager _pauseManager;
+    
+    
+    private Timer _bonusReceivedViewTimer;
 
     private void Start() {
         if(LevelContext.Instance.LevelSettings == null)
@@ -116,20 +114,17 @@ public class BaseUI : MonoBehaviour, IPauseHandler
         ChangeBackgroundVisibility(true, panelsAnimationDuration);
 
         PanelAnimator panel = _levelNumber + 1 <= ProjectContext.Instance.LevelsContainer.LevelsCount ? levelCompletedPanel : allLevelsCompletedPanel;
-        EnablePanelAfterDelay(panel.gameObject, panelsAnimationDuration);
+        Timer.StartNew(this, panelsAnimationDuration, () => panel.gameObject.SetActive(true));
 
         if(bonusReceived){
             bonusReceivedView.gameObject.SetActive(true);
-            _bonusReceivedViewTimer = TimeOperations.CreateTimer(panelsAnimationDuration + 0.5f, null, () => bonusReceivedView.Show(stepsViewModel.StepsForBonus));
+            _bonusReceivedViewTimer = Timer.StartNew(this, panelsAnimationDuration + 0.5f, () => bonusReceivedView.Show(stepsViewModel.StepsForBonus));
         }
 
         ProjectContext.Instance.SaveSystem.LevelCompleted(_levelNumber, bonusReceived);
         
         AudioPlayer.PlayClip(levelCompletedSound, panelsAnimationDuration);
     }
-
-    private void EnablePanelAfterDelay(GameObject panel, float delay) 
-        => TimeOperations.CreateTimer(delay, null, () => panel.SetActive(true));
 
     public void LevelNotPassed(){
         mainUI.DOFade(0, 0.2f).SetEase(Ease.OutCubic);
@@ -148,7 +143,7 @@ public class BaseUI : MonoBehaviour, IPauseHandler
 
     private void OnDestroy() {
         if(_bonusReceivedViewTimer != null)
-            _bonusReceivedViewTimer.Stop();
+            _bonusReceivedViewTimer.Dispose();
 
         _pauseManager.Unsubscribe(this);
     }

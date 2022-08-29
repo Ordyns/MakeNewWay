@@ -18,6 +18,7 @@ public class GuideView : MonoBehaviour
     private GuideStep _currentGuideStep => steps[_currentGuideStepIndex];
 
     private System.Action<VideoClip> PlayVideoClip;
+    
 
     public void StartGuide(AnimatedPanel continueButton, System.Action<VideoClip> playVideoClipAction){
         _continueButton = continueButton;
@@ -62,7 +63,7 @@ public class GuideView : MonoBehaviour
         if(step.VideoClip)
             PlayVideoClip(step.VideoClip);
 
-        TimeOperations.CreateTimer(_currentGuideStep.StepDuration, null, _continueButton.Open);
+        Timer.StartNew(this, _currentGuideStep.StepDuration, _continueButton.Open);
     }
         
     public void CloseGuide(){

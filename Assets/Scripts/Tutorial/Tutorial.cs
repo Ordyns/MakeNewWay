@@ -40,6 +40,8 @@ public class Tutorial : MonoBehaviour
     private Sequence _handAnimationSequence;
     private Coroutine _handAnimationRoutine;
 
+    
+
     private IEnumerator Start() {
         _mainCamera = Camera.main;
 
@@ -140,7 +142,7 @@ public class Tutorial : MonoBehaviour
 
         swipeDirectionLine.positionCount = 0;
         cameraAnimator.PlayOutAnimation();
-        TimeOperations.CreateTimer(cameraAnimator.Duration, null, () => {
+        Timer.StartNew(this, cameraAnimator.Duration, () => {
             AudioPlayer.PlayClip(tutorialCompletedSound);
             tutorialCompletedPanel.gameObject.SetActive(true);
         });
