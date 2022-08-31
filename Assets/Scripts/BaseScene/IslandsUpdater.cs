@@ -13,11 +13,11 @@ public class IslandsUpdater : MonoBehaviour
     [SerializeField] private StepsViewModel stepsViewModel;
 
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private BaseSoundsPlayer soundsPlayer;
 
     private PlayerInput<Island> _playerInput;
     private PathChecker _pathChecker;
     
-
     private void Start() {
         _pathChecker = LevelContext.Instance.PathChecker;
 
@@ -68,6 +68,8 @@ public class IslandsUpdater : MonoBehaviour
     private void UpdatingStarted(){
         IsIslandUpdating = true;
         IslandUpdating?.Invoke();
+
+        soundsPlayer.PlaySwipeSound();
         
         if(stepsViewModel)
             stepsViewModel.StepsLeft.Value--;

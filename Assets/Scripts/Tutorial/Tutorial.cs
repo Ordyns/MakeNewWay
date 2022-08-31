@@ -28,9 +28,8 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private CameraAnimator cameraAnimator;
     [SerializeField] private CameraConstantWidth cameraConstantWidth;
     [Space]
-    [SerializeField] private AudioClip tutorialCompletedSound;
-    [Space]
     [SerializeField] private IslandsUpdater islandsUpdater;
+    [SerializeField] private BaseSoundsPlayer soundsPlayer;
 
     private bool isTutorialCompleted;
 
@@ -143,7 +142,7 @@ public class Tutorial : MonoBehaviour
         swipeDirectionLine.positionCount = 0;
         cameraAnimator.PlayOutAnimation();
         Timer.StartNew(this, cameraAnimator.Duration, () => {
-            AudioPlayer.PlayClip(tutorialCompletedSound);
+            soundsPlayer.PlayLevelCompletedSound();
             tutorialCompletedPanel.gameObject.SetActive(true);
         });
     }

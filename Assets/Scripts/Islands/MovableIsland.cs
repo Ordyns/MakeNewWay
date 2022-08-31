@@ -29,8 +29,7 @@ public class MovableIsland : Island, ISwipeHandler
 
         Transform targetTransform = Parent ? Parent.transform : transform;
         targetTransform.DOLocalMove(targetTransform.position + moveDirection * 6.5f, AnimationDuration).SetEase(Ease.OutCubic).OnComplete(() => onUpdated?.Invoke());
-
-        AudioPlayer.PlayClip(base.updatingSound);
+        
         return true;
     }
 

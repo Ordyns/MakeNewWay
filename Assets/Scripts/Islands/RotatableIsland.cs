@@ -18,7 +18,6 @@ public class RotatableIsland : Island, IClickHandler
         Quaternion targetRotation = transform.rotation * Quaternion.Euler(0, 90, 0);
         targetTransform.DOLocalRotateQuaternion(targetRotation, AnimationDuration).SetEase(Ease.OutCubic).OnComplete(() => onUpdated?.Invoke());
 
-        AudioPlayer.PlayClip(base.updatingSound);
         return true;
     }
 }

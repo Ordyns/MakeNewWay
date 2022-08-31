@@ -23,7 +23,7 @@ public class BaseUI : MonoBehaviour, IPauseHandler
     [SerializeField] private BonusReceivedView bonusReceivedView;
 
     [Header("===== Sounds =====")]
-    [SerializeField] private AudioClip levelCompletedSound;
+    [SerializeField] private BaseSoundsPlayer soundsPlayer;
 
     private bool isLevelCompleted;
     private int _levelNumber;
@@ -123,7 +123,7 @@ public class BaseUI : MonoBehaviour, IPauseHandler
 
         ProjectContext.Instance.SaveSystem.LevelCompleted(_levelNumber, bonusReceived);
         
-        AudioPlayer.PlayClip(levelCompletedSound, panelsAnimationDuration);
+        soundsPlayer.PlayLevelCompletedSound(panelsAnimationDuration);
     }
 
     public void LevelNotPassed(){

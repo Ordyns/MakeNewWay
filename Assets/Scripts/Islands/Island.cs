@@ -21,7 +21,6 @@ public class Island : MonoBehaviour
 #if UNITY_EDITOR
     public string OutputPropertyName => nameof(outputEnergyFlowDirection);
     public string InputPropertyName => nameof(inputEnergyFlowDirection);
-    public string UpdatingSoundPropertyName => nameof(updatingSound);
 #endif
 
     [Header("Visual")]
@@ -29,8 +28,6 @@ public class Island : MonoBehaviour
     public MeshRenderer cornerRenderer;
 
     private MeshRenderer _currentRenderer;
-
-    [SerializeField] protected AudioClip updatingSound;
 
     private bool isEnergyGoing;
     private Material _rendererMaterial;

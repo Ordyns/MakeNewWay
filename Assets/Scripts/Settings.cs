@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Settings : MonoBehaviour
 {
-    public Localization Localization { get; private set; }
+    [field:SerializeField] public Localization Localization { get; private set; }
+    [field:SerializeField] public MusicPlayer MusicPlayer { get; private set; }
 
     public bool isMusicEnabled { 
         private set => _saveSystem.Data.isMusicEnabled = value;
@@ -30,19 +31,18 @@ public class Settings : MonoBehaviour
             yield return null;
 
         _saveSystem = ProjectContext.Instance.SaveSystem;
-        Localization = ProjectContext.Instance.Localization;
     }
 
     public void ChangeLocalizationToNextLanguage() => Localization.ChangeToNextLanguage();
 
     public void MusicEnabled(){
         isMusicEnabled = true;
-        AudioPlayer.PlayMusic();
+        MusicPlayer.PlayMusic();
     }
 
     public void MusicDisabled(){
         isMusicEnabled = false;
-        AudioPlayer.StopMusic();
+        MusicPlayer.StopMusic();
     }
 
     public void SoundsEnabled() => isSoundsEnabled = true;

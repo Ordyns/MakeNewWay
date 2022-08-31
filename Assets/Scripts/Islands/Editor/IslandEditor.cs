@@ -163,8 +163,6 @@ public class IslandEditor : Editor
 
         DrawLine(1, 15);
 
-        EditorGUILayout.PropertyField(_serializedObject.FindProperty(_island.UpdatingSoundPropertyName), new GUIContent("Updating sound"));
-
         _serializedObject.ApplyModifiedProperties();
     }
 
