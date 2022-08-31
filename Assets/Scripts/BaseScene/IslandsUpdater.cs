@@ -30,7 +30,7 @@ public class IslandsUpdater : MonoBehaviour
         if(IsIslandUpdating || IsIslandsUpdatingAllowed == false)
             return;
 
-        if(ProjectContext.Instance.PauseManager.IsPaused)
+        if(BaseSceneContext.Instance.PauseManager.IsPaused)
             return;
 
         _playerInput.Update();
