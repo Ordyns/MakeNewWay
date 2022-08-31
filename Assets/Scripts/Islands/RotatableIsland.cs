@@ -3,11 +3,11 @@ using UnityEngine;
 using DG.Tweening;
 
 [SelectionBase]
-public class RotatableIsland : Island
+public class RotatableIsland : Island, IClickHandler
 {
     private const float AnimationDuration = 0.275f;
 
-    public override bool OnClick(Action onUpdated){        
+    public bool OnClick(Action onUpdated){        
         if(Parent){
             Direction direction = DirectionExtensions.GetDirectionFromAngle(Parent.transform.eulerAngles.y + 90);
             if(Parent.AllChildIslandsCanBeUpdated(direction) == false)

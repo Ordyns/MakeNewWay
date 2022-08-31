@@ -52,9 +52,6 @@ public class Island : MonoBehaviour
         }
     }
 
-    public virtual bool OnClick(Action onUpdated) => false;
-    public virtual bool OnSwipe(Direction direction, Action onUpdated) => false;
-
     public bool TryGetNextIsland(out Island nextIsland){
         if(TryGetIslandInDirection(GetOutputDirection(), out Island island, true)){
             if(island.IslandType != IslandTypes.Empty){

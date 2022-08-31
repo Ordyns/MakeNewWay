@@ -1513,7 +1513,6 @@ GameObject:
   m_Component:
   - component: {fileID: 768694847}
   - component: {fileID: 768694846}
-  - component: {fileID: 768694845}
   - component: {fileID: 768694843}
   - component: {fileID: 768694844}
   - component: {fileID: 768694848}
@@ -1574,14 +1573,6 @@ MonoBehaviour:
   inAnimationDelay: 0.3
   duration: 0.75
   ease: 13
---- !u!81 &768694845
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 768694842}
-  m_Enabled: 1
 --- !u!20 &768694846
 Camera:
   m_ObjectHideFlags: 0

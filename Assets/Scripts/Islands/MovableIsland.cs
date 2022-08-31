@@ -5,7 +5,7 @@ using DG.Tweening;
 using System;
 
 [SelectionBase]
-public class MovableIsland : Island
+public class MovableIsland : Island, ISwipeHandler
 {
     public MoveDirections IslandMoveDirections;
     [Space]
@@ -19,7 +19,7 @@ public class MovableIsland : Island
 
     private const float AnimationDuration = 0.3f;
 
-    public override bool OnSwipe(Direction direction, Action onUpdated){
+    public bool OnSwipe(Direction direction, Action onUpdated){
         _lastSwipteDirection = direction;
 
         Vector3 moveDirection = ConvertDirectionToVector(direction);

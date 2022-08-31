@@ -37,13 +37,13 @@ public class IslandsUpdater : MonoBehaviour
     }
 
     private void OnClick(Island island){
-        if(island.OnClick(OnUpdatingFinished)){
+        if(island is IClickHandler handler && handler.OnClick(OnUpdatingFinished)){
             UpdatingStarted();
         }
     }
 
     private void OnSwipe(Island island, Direction direction){
-        if(island.OnSwipe(direction, OnUpdatingFinished)){
+        if(island is ISwipeHandler handler && handler.OnSwipe(direction, OnUpdatingFinished)){
             UpdatingStarted();
         }
     }
