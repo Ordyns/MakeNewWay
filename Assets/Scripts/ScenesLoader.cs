@@ -8,6 +8,8 @@ public class ScenesLoader : MonoBehaviour
     public event System.Action<int> GameLevelLoaded;
     public event System.Action<int> GameLevelLoading;
 
+    [SerializeField] private ScenesTransitions scenesTransitions;
+    [Space]
     [SerializeField] private string tutorialSceneName = "Tutorial";
     [SerializeField] private string menuSceneName = "Menu";
     [SerializeField] private string baseSceneName = "Base";
@@ -17,14 +19,12 @@ public class ScenesLoader : MonoBehaviour
 
     private AdsManager _adsManager;
     private SaveSystem _saveSystem;
-
-    private Transition _transition;
-
+    
     private void Start() {
         _adsManager = ProjectContext.Instance.AdsManager;
         _saveSystem = ProjectContext.Instance.SaveSystem;    
 
-        GameLevelLoaded += (levelNumber) => CloseTransition(null);
+        GameLevelLoaded += (levelNumber) => CloseTransition();
         GameLevelLoaded += (levelNumber) => SceneChanged();
         
         if(_saveSystem.Data.TutorialCompleted)
@@ -61,7 +61,7 @@ public class ScenesLoader : MonoBehaviour
         SceneChanged();
         AddTransition(() => {
             ProjectContext.Instance.SaveSystem.SaveAll();
-            SceneManager.LoadSceneAsync(name).completed += CloseTransition;
+            SceneManager.LoadSceneAsync(name).completed += (asyncOperation) => CloseTransition();
         });
     }
 
@@ -74,6 +74,6 @@ public class ScenesLoader : MonoBehaviour
         LoadLevel(LastLoadedLevelNumber);
     }
 
-    private void AddTransition(System.Action onBeginLoad) => _transition = ScenesTransition.CreateTransition(onBeginLoad);
-    private void CloseTransition(AsyncOperation asyncOperation) => _transition.Close();
+    private void AddTransition(System.Action onBeginLoad) => scenesTransitions.CreateNewTransition(onBeginLoad);
+    private void CloseTransition() => scenesTransitions.CloseCurrentTransition();
 }

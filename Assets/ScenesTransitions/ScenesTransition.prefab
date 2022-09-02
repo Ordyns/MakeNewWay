@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6ca30054ed5d23140b00e0b4cb66a658, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5dc0cf86b4d670a48bd0b446c4e3491e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 6528989567924496844}
   - component: {fileID: 6528989567924496847}
   - component: {fileID: 6528989567924496846}
-  - component: {fileID: 2640391551863130340}
+  - component: {fileID: 8613024858339026287}
   m_Layer: 5
   m_Name: ScenesTransition
   m_TagString: Untagged
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &2640391551863130340
+--- !u!114 &8613024858339026287
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,7 +187,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6528989567924496841}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdfb199c975c84e46830aab4c25be957, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f577238f0e1b1a408332458eedd4e01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   partsAnimationDuration: 0.25
@@ -394,7 +394,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6ca30054ed5d23140b00e0b4cb66a658, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5dc0cf86b4d670a48bd0b446c4e3491e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

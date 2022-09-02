@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IslandsUpdater : MonoBehaviour
+public class IslandsUpdater : MonoBehaviour, IPauseHandler
 {
     public event System.Action IslandUpdating;
     public event System.Action IslandUpdated;
@@ -17,9 +17,15 @@ public class IslandsUpdater : MonoBehaviour
 
     private PlayerInput<Island> _playerInput;
     private PathChecker _pathChecker;
+
+    private bool isPaused;
+    private PauseManager _pauseManager;
     
     private void Start() {
         _pathChecker = LevelContext.Instance.PathChecker;
+
+        _pauseManager = BaseSceneContext.Instance.PauseManager;
+        _pauseManager.Subscribe(this);
 
         _playerInput = new PlayerInput<Island>(mainCamera);
         _playerInput.Click += OnClick;
@@ -27,10 +33,7 @@ public class IslandsUpdater : MonoBehaviour
     }
 
     private void Update() {
-        if(IsIslandUpdating || IsIslandsUpdatingAllowed == false)
-            return;
-
-        if(BaseSceneContext.Instance.PauseManager.IsPaused)
+        if(isPaused || IsIslandUpdating || IsIslandsUpdatingAllowed == false)
             return;
 
         _playerInput.Update();
@@ -73,6 +76,10 @@ public class IslandsUpdater : MonoBehaviour
         
         if(stepsViewModel)
             stepsViewModel.StepsLeft.Value--;
+    }
+
+    public void SetPaused(bool isPaused){
+        this.isPaused = isPaused;
     }
 
     public enum StepAction{

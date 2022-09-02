@@ -1347,7 +1347,6 @@ MonoBehaviour:
   islandPivotOffset: {x: 0, y: 1.45, z: 0}
   cameraAnimator: {fileID: 768694844}
   cameraConstantWidth: {fileID: 768694848}
-  tutorialCompletedSound: {fileID: 8300000, guid: a23f0b9b3912db544bc4e174162c7a14, type: 3}
   islandsUpdater: {fileID: 747669447}
   soundsPlayer: {fileID: 1831718153}
 --- !u!4 &679248058
