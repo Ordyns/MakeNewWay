@@ -180,10 +180,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 241908403}
-  - component: {fileID: 241908405}
+  - component: {fileID: 241908408}
   - component: {fileID: 241908406}
   - component: {fileID: 241908404}
   - component: {fileID: 241908407}
+  - component: {fileID: 241908405}
   m_Layer: 5
   m_Name: Levels
   m_TagString: Untagged
@@ -288,6 +289,21 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &241908408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 241908402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7255f3876b083ca4b978937ef32188ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelsPanelContent: {fileID: 1091144749}
+  levelButtonPrefab: {fileID: 8990724385417307689, guid: 778d439a10765dd4ba627a1711852f54, type: 3}
+  nextLevelButtonAnimationDelay: 0.025
 --- !u!1 &258823669
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,10 +1063,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5714039b690b014fb0146f72629a91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelsPanel: {fileID: 241908406}
-  levelsPanelContent: {fileID: 1091144749}
-  levelButtonPrefab: {fileID: 8990724385417307689, guid: 778d439a10765dd4ba627a1711852f54, type: 3}
-  nextLevelButtonAnimationDelay: 0.025
+  levelsView: {fileID: 241908408}
   menuIslands:
   - {fileID: 2072087397}
   - {fileID: 1419497399}

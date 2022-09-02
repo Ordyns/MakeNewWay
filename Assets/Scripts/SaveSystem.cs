@@ -33,13 +33,11 @@ public class SaveSystem : MonoBehaviour
     }
 
     public void LevelCompleted(int levelNumber, bool bonusReceived){
-        if(levelNumber >= Data.CurrentLevel){
+        if(levelNumber >= Data.CurrentLevel)
             Data.CurrentLevel++;
 
-            if(bonusReceived && Data.CompletedLevelsWithBonus.Contains(levelNumber) == false){
-                Data.CompletedLevelsWithBonus.Add(levelNumber);
-            }
-        }
+        if(bonusReceived && Data.CompletedLevelsWithBonus.Contains(levelNumber) == false)
+            Data.CompletedLevelsWithBonus.Add(levelNumber);
     }
     
     [System.Serializable]
