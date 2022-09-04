@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class ReviewRequestPanel : MonoBehaviour
 {
-    [SerializeField] private int targetLevelNumber;
+    [field:SerializeField] public int TargetLevelNumber { get; private set; }
     [Space]
     [SerializeField] private Canvas canvas;
     [SerializeField] private AnimatedPanel animatedPanel;
@@ -11,21 +11,16 @@ public class ReviewRequestPanel : MonoBehaviour
     [SerializeField] private AnimatedButton rateGameButton;
     [SerializeField] private AnimatedButton closeButton;
 
-    private void Start() {
-        int levelNumber = ProjectContext.Instance.ScenesLoader.LastLoadedLevelNumber;
-        SaveSystem saveSystem = ProjectContext.Instance.SaveSystem;
+    public void ShowPanel(){
+        canvas.enabled = true;
+        rateGameButton.OnClick.AddListener(RequestReview);
+        closeButton.OnClick.AddListener(ClosePanel);
+        animatedPanel.Open();
+    }
 
-        if(levelNumber >= targetLevelNumber && saveSystem.Data.ReviewRequested == false){
-            saveSystem.Data.ReviewRequested = true;
-            canvas.enabled = true;
-            rateGameButton.OnClick.AddListener(RequestReview);
-            closeButton.OnClick.AddListener(ClosePanel);
-            animatedPanel.Open();
-        }
-        else{
-            canvas.enabled = false;
-            gameObject.SetActive(false);
-        }
+    public void Disable(){
+        canvas.enabled = false;
+        gameObject.SetActive(false);
     }
 
     private void ClosePanel() => animatedPanel.Close(() => gameObject.SetActive(false));

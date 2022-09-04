@@ -9,7 +9,6 @@ public class ProjectContext : MonoBehaviour
     [field:SerializeField] public AdsManager AdsManager { get; private set; }
     [field:SerializeField] public LevelsContainer LevelsContainer { get; private set; }
     [field:SerializeField] public Localization Localization { get; private set; }
-    [field:SerializeField] public SaveSystem SaveSystem { get; private set; }
     [field:SerializeField] public Settings Settings { get; private set; }
     [field:SerializeField] public ScenesLoader ScenesLoader { get; private set; }
 

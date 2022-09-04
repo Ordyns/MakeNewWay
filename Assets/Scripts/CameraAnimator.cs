@@ -20,13 +20,16 @@ public class CameraAnimator : MonoBehaviour
 
     private Camera _camera;
 
-    private void Start() {
+    private void OnValidate() {
         _camera = GetComponent<Camera>();
+    }
 
-        if(playOnStart){
-            _camera.orthographicSize = OriginalSize + SizeOffset;
-            PlayInAnimation();
-        }
+    private void Start() {
+        if(playOnStart == false)
+            return;
+        
+        _camera.orthographicSize = OriginalSize + SizeOffset;
+        PlayInAnimation();
     }
 
     public void SetOriginalSize(float newSize){

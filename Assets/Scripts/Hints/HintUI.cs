@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+
 public class HintUI : MonoBehaviour
 {
     [HideInInspector] public bool HintOpened;
@@ -30,33 +31,29 @@ public class HintUI : MonoBehaviour
     private GameObject _hintCamera;
 
     private HintSystem _hintSystem;
-    private BaseUI _gameUI;
 
     private AdsManager _adsManager;
-    private SaveSystem _saveSystem;
 
     private Camera _mainCamera;
 
     private string _originalContentOfStepsText = string.Empty;
 
-    private void Start() {
+    private System.Func<bool> isAdViewed;
+    private System.Action onAdViewed;
+
+    public void Init(System.Func<bool> isAdViewedFunc, System.Action onAdViewedAction) {
+        isAdViewed = isAdViewedFunc;
+        onAdViewed = onAdViewedAction;
+
         _mainCamera = Camera.main;
 
         _hintSystem = LevelContext.Instance.HintSystem;
         _adsManager = ProjectContext.Instance.AdsManager;
-        _saveSystem = ProjectContext.Instance.SaveSystem;
-        BaseSceneContext.Instance.BaseUI.HintUI = this;
 
         _hintCamera = BaseSceneContext.Instance.HintsRenderer.HintCamera.gameObject;
 
         string stepsTextLocalizationKey = stepsText.GetComponent<LocalizedText>().LocalizationKey;
         _originalContentOfStepsText = ProjectContext.Instance.Localization.GetLocalizedValue(stepsTextLocalizationKey);
-
-        ProjectContext.Instance.ScenesLoader.GameLevelLoading += (levelNumber) => {
-            if(levelNumber != ProjectContext.Instance.ScenesLoader.LastLoadedLevelNumber){
-                _saveSystem.Data.isAdViewed = false;
-            }
-        };
 
         InitHintButtons();
         UpdateUI();
@@ -64,9 +61,8 @@ public class HintUI : MonoBehaviour
 
     private void InitHintButtons(){
         _adsManager.CheckInternetConnection((isInternetReachable) => {
-            bool isAdViewed = _saveSystem.Data.isAdViewed;
-            hintButton.SetActive(isAdViewed);
-            viewAdButton.SetActive(isAdViewed == false && isInternetReachable);
+            hintButton.SetActive(isAdViewed.Invoke());
+            viewAdButton.SetActive(isAdViewed.Invoke() == false && isInternetReachable);
         });
     }
 
@@ -81,7 +77,7 @@ public class HintUI : MonoBehaviour
     }
 
     private void AdViewed(){
-        _saveSystem.Data.isAdViewed = true;
+        onAdViewed.Invoke();
 
         viewAdButton.SetActive(false);
         hintButton.SetActive(true);

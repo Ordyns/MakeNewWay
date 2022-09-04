@@ -7,10 +7,10 @@ using NaughtyAttributes;
 [RequireComponent(typeof(AudioSource))]
 public abstract class SoundsPlayer : MonoBehaviour
 {
-    [Header("Pitch")]
+    [Header("Main")]
     [SerializeField] [MinMaxSlider(-3, 3)] private Vector2 pitchRange = Vector2.one;
-
-    private bool isSoundsEnabled => ProjectContext.Instance.SaveSystem.Data.isSoundsEnabled;
+    [Space]
+    public bool IsEnabled = true;
 
     private AudioSource _audioSource;
 
@@ -33,7 +33,7 @@ public abstract class SoundsPlayer : MonoBehaviour
     }
 
     protected void PlayClip(AudioClip clip){
-        if(isSoundsEnabled == false)
+        if(IsEnabled == false)
             return;
 
         _audioSource.pitch = Random.Range(pitchRange.x, pitchRange.y);

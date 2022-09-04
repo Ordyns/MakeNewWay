@@ -24,9 +24,14 @@ public class HintSystem : MonoBehaviour
 
     private Coroutine _islandsAnimationRoutine;
 
-    private IEnumerator Start() {
-        while(BaseSceneContext.Instance == null)
-            yield return null;
+    private SaveSystem<Data> _saveSystem;
+    private Data _data = new Data();
+
+    public void Init(HintUI hintUI) {
+        _saveSystem = new SaveSystem<Data>(_data);
+        _data = _saveSystem.LoadData() as Data;
+
+        hintUI.Init(() => _data.IsAdViewed, () => _data.IsAdViewed = true);
 
         _hintsRenderer = BaseSceneContext.Instance.HintsRenderer;
 
@@ -176,6 +181,13 @@ public class HintSystem : MonoBehaviour
         }
 
         public List<IslandState> Islands;
+    }
+
+    private class Data : ISaveable
+    {
+        public bool IsAdViewed;
+        
+        public string FileName => "hints_data";
     }
 }
 

@@ -1,57 +1,36 @@
-﻿using System;
-using System.Text;
-using System.IO;
-using System.Collections.Generic;
+﻿using System.IO;
 using UnityEngine;
 
-public class SaveSystem : MonoBehaviour
+public class SaveSystem<T> where T: ISaveable, new()
 {
-    public DataClass Data = new DataClass();
-    private string _path;
+    private readonly string _fullPath;
+    private readonly string _targetDirectory;
+    private readonly string _fileName;
 
-    private void Awake() {
-#if UNITY_ANDROID && !UNITY_EDITOR
-        _path = Path.Combine(Application.persistentDataPath, "data.sv");
-#else
-        _path = Path.Combine(Application.dataPath, "data.sv");
-#endif
+    public SaveSystem(T data){
+        _fileName = data.FileName + ".json";
 
-        if (File.Exists(_path)) Data = JsonUtility.FromJson<DataClass>(File.ReadAllText(_path));
-        else SaveAll();
+        string editorPath = Path.Combine(Application.dataPath, "Saves/");
+        _targetDirectory = Application.isEditor ? editorPath : Application.persistentDataPath;
+        _fullPath = Path.Combine(_targetDirectory, _fileName);
     }
 
-    public void SaveAll() => File.WriteAllText(_path, JsonUtility.ToJson(Data));
+    public T LoadData(){
+        if (Directory.Exists(_targetDirectory) == false || File.Exists(_fullPath) == false)
+            return new T();
 
-    private void OnApplicationPause(bool pause) {
-#if !UNITY_EDITOR
-        SaveAll();
-#endif
+        return JsonUtility.FromJson<T>(File.ReadAllText(_fullPath)) ?? new T();
     }
 
-    private void OnApplicationQuit() {
-        SaveAll();
+    public bool TryLoadData(out T data){
+        data = LoadData();
+        return data != null;
     }
 
-    public void LevelCompleted(int levelNumber, bool bonusReceived){
-        if(levelNumber >= Data.CurrentLevel)
-            Data.CurrentLevel++;
+    public void SaveData(T data){
+        if(Directory.Exists(_targetDirectory) == false)
+            Directory.CreateDirectory(_targetDirectory);
 
-        if(bonusReceived && Data.CompletedLevelsWithBonus.Contains(levelNumber) == false)
-            Data.CompletedLevelsWithBonus.Add(levelNumber);
-    }
-    
-    [System.Serializable]
-    public class DataClass{
-        public int CurrentLevel = 1;
-        public List<int> CompletedLevelsWithBonus = new List<int>();
-        public List<int> CompletedLevelsWithGuides = new List<int>();
-        [Space]
-        public bool TutorialCompleted;
-        public bool ReviewRequested;
-        [Space]
-        public bool isAdViewed;
-        [Space]
-        public bool isMusicEnabled = true;
-        public bool isSoundsEnabled = true;
+        File.WriteAllText(_fullPath, JsonUtility.ToJson(data));
     }
 }

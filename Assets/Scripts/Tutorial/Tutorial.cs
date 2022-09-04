@@ -7,10 +7,12 @@ using UnityEngine;
 public class Tutorial : MonoBehaviour
 {
     [SerializeField] private Step[] steps;
-    private Step _currentStep{ get{
-        if(_currentStepIndex >= 0 && isTutorialCompleted == false) return steps[_currentStepIndex]; 
-        else return new Step();
-    }}
+    private Step _currentStep{ 
+        get{
+            if(_currentStepIndex >= 0 && isTutorialCompleted == false) return steps[_currentStepIndex]; 
+            else return new Step();
+        }
+    }
     private int _currentStepIndex;
 
     [HorizontalLine]
@@ -28,8 +30,10 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private CameraAnimator cameraAnimator;
     [SerializeField] private CameraConstantWidth cameraConstantWidth;
     [Space]
+    [SerializeField] private StepsViewModel stepsViewModel;
     [SerializeField] private IslandsUpdater islandsUpdater;
     [SerializeField] private BaseSoundsPlayer soundsPlayer;
+    [SerializeField] private PathChecker pathChecker;
 
     private bool isTutorialCompleted;
 
@@ -39,7 +43,13 @@ public class Tutorial : MonoBehaviour
     private Sequence _handAnimationSequence;
     private Coroutine _handAnimationRoutine;
 
-    
+    private SaveSystem<PlayerData> _saveSystem;
+    private PlayerData _data = new PlayerData();
+
+    private void Awake() {
+        _saveSystem = new SaveSystem<PlayerData>(_data);
+        _data = _saveSystem.LoadData();
+    }
 
     private IEnumerator Start() {
         _mainCamera = Camera.main;
@@ -47,6 +57,9 @@ public class Tutorial : MonoBehaviour
         cameraAnimator.SetOriginalSize(cameraConstantWidth.GetConstSize(_mainCamera.orthographicSize));
 
         _currentStepIndex = -1;
+
+        islandsUpdater.Init(stepsViewModel, new PauseManager());
+        islandsUpdater.IslandUpdated += pathChecker.CheckPath;
         islandsUpdater.IsIslandsUpdatingAllowed = false;
 
         moveIslandUI.alpha = 0;
@@ -136,7 +149,10 @@ public class Tutorial : MonoBehaviour
     private void TutorialCompleted(){
         isTutorialCompleted = true;
         islandsUpdater.IsIslandsUpdatingAllowed = false;
-        ProjectContext.Instance.SaveSystem.Data.TutorialCompleted = true;
+
+        _data.TutorialCompleted = true;
+        _saveSystem.SaveData(_data);
+
         Analytics.TutorialCompleted();
 
         swipeDirectionLine.positionCount = 0;

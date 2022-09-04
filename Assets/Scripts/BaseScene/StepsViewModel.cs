@@ -14,11 +14,11 @@ public class StepsViewModel : ViewModel
 
     private bool isBonusReceivedEarlier;
 
-    private void Awake() {
+    public void Init(List<int> completedLevelsWithBonus) {
         InitCommands();
 
         int currentLevel = ProjectContext.Instance.ScenesLoader.LastLoadedLevelNumber;
-        isBonusReceivedEarlier = ProjectContext.Instance.SaveSystem.Data.CompletedLevelsWithBonus.Contains(currentLevel);
+        isBonusReceivedEarlier = completedLevelsWithBonus.Contains(currentLevel);
 
         LevelSettings levelSettings = LevelContext.Instance.LevelSettings;
         StartStepsCount = StepsLeft.Value = levelSettings.Steps;

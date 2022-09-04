@@ -10,12 +10,20 @@ public class Menu : MonoBehaviour
     [SerializeField] private GameObject[] menuIslands;
 
     private ProjectContext _projectContext;
+    private SaveSystem<PlayerData> _saveSystem;
+    private PlayerData _data = new PlayerData();
+
+    private void Awake() {
+        _saveSystem = new SaveSystem<PlayerData>(_data);
+        _data = _saveSystem.LoadData();
+    }
+
     private void Start() {
         ActivateRandomIsland();
 
         _projectContext = ProjectContext.Instance;
-        int currentCompletedLevel = _projectContext.SaveSystem.Data.CurrentLevel;
-        IList<int> completedLevelsWithBouns = _projectContext.SaveSystem.Data.CompletedLevelsWithBonus;
+        int currentCompletedLevel = _data.LastUnlockedLevel;
+        IList<int> completedLevelsWithBouns = _data.CompletedLevelsWithBonus;
         IList<int> numbersOfLevelsWithBonus = _projectContext.LevelsContainer.NumbersOfLevelsWithBonus;
         int levelsCount = _projectContext.LevelsContainer.LevelsCount;
         
@@ -42,5 +50,5 @@ public class Menu : MonoBehaviour
 
     public void CloseLevels(){
         levelsView.Close();
-    } 
+    }
 }

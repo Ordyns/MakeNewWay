@@ -23,8 +23,8 @@ public class MenuSettingsUI : MonoBehaviour
     private void Start() {
         _settings = ProjectContext.Instance.Settings;
 
-        UpdateAudioButtonIcon(soundsButton, _settings.isSoundsEnabled);
-        UpdateAudioButtonIcon(musicButton, _settings.isMusicEnabled);
+        UpdateAudioButtonIcon(soundsButton, _settings.IsSoundsEnabled);
+        UpdateAudioButtonIcon(musicButton, _settings.IsMusicEnabled);
 
         for(int i = 0; i < buttons.Length; i++){
             buttons[i].alpha = 0;
@@ -40,26 +40,17 @@ public class MenuSettingsUI : MonoBehaviour
     }
 
     public void OnSoundsButtonPressed(){
-        bool isSoundsEnabled = !_settings.isSoundsEnabled;
-
-        if(isSoundsEnabled) _settings.SoundsEnabled();
-        else _settings.SoundsDisabled();
-
-        UpdateAudioButtonIcon(soundsButton, isSoundsEnabled);
+        _settings.IsSoundsEnabled = !_settings.IsSoundsEnabled;
+        UpdateAudioButtonIcon(soundsButton, _settings.IsSoundsEnabled);
     }
 
     public void OnMusicButtonPressed(){
-        bool isMusicEnabled = !_settings.isMusicEnabled;
-
-        if(isMusicEnabled) _settings.MusicEnabled();
-        else _settings.MusicDisabled();
-
-        UpdateAudioButtonIcon(musicButton, isMusicEnabled);
+        _settings.IsMusicEnabled = !_settings.IsMusicEnabled;
+        UpdateAudioButtonIcon(musicButton, _settings.IsMusicEnabled);
     }
 
     private void UpdateLanguageText() {
-        var currentLanguage = _settings.Localization.Languages.FirstOrDefault(language => language.LanguageCode == _settings.Localization.CurrentLanguageCode);
-        languageText.text = currentLanguage.DisplayingName;
+        languageText.text = _settings.GetCurrentLanguageCode();
     }
 
     private void UpdateAudioButtonIcon(AudioButton audioButton, bool enabled)

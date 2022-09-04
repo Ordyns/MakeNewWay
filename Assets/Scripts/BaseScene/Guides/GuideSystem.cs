@@ -19,12 +19,20 @@ public class GuideSystem : MonoBehaviour
     private VideoPlayer _videoPlayer;
 
     private GuideView _currentGuideView;
-    private SaveSystem _saveSystem;
+    
+    private SaveSystem<Data> _saveSystem;
+    private Data _data = new Data();
 
-    private void Start() {
+    private void OnValidate() {
         _videoPlayer = GetComponent<VideoPlayer>();
-        _saveSystem = ProjectContext.Instance.SaveSystem;
+    }
 
+    private void Awake() {
+        _saveSystem = new SaveSystem<Data>(_data);
+        _data = _saveSystem.LoadData();
+    }
+
+    public void Init() {
         IsGuideShowing = false;
 
         foreach(GuideView guideView in GuideViews){
@@ -37,7 +45,7 @@ public class GuideSystem : MonoBehaviour
         background.alpha = 0;
         background.gameObject.SetActive(false);
         
-        if(_currentGuideView && _saveSystem.Data.CompletedLevelsWithGuides.Contains(_currentGuideView.TargetLevelNumber) == false)
+        if(_currentGuideView && _data.CompletedGuides.Contains(_currentGuideView.TargetLevelNumber) == false)
             StartGuide(_currentGuideView);
         else
             GuideFinished?.Invoke();
@@ -50,7 +58,7 @@ public class GuideSystem : MonoBehaviour
         _currentGuideView.gameObject.SetActive(true);
         _currentGuideView.StartGuide(continueButton, PlayGuideVideo);
         
-        GuideFinished += () => _saveSystem.Data.CompletedLevelsWithGuides.Add(_currentGuideView.TargetLevelNumber);
+        GuideFinished += () => _data.CompletedGuides.Add(_currentGuideView.TargetLevelNumber);
 
         background.gameObject.SetActive(true);
         background.DOFade(1, 0.25f).SetEase(Ease.InOutSine);
@@ -80,5 +88,16 @@ public class GuideSystem : MonoBehaviour
         _videoPlayer.targetTexture.Release();
         _videoPlayer.clip = videoClip;
         _videoPlayer.Play();
+    }
+
+    private void OnDestroy() {
+        _saveSystem.SaveData(_data);
+    }
+
+    private class Data : ISaveable
+    {
+        public List<int> CompletedGuides = new List<int>();
+        
+        public string FileName => "guides_data";
     }
 }

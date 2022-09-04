@@ -9,7 +9,7 @@ public class MusicPlayer : MonoBehaviour
     [Space]
     [SerializeField] private float nextMusicDelay;
 
-    private bool isMusicEnabled => ProjectContext.Instance.SaveSystem.Data.isMusicEnabled;
+    private bool isMusicEnabled = true;
 
     private List<AudioClip> _playlist = new List<AudioClip>();
 
@@ -38,14 +38,15 @@ public class MusicPlayer : MonoBehaviour
         if(_musicRoutine != null)
             StopMusic();
 
+        isMusicEnabled = true;
         _musicRoutine = StartCoroutine(PlayMusicCoroutine());
     }
 
     public void StopMusic(){
-        if(_musicRoutine != null){
+        if(_musicRoutine != null)
             StopCoroutine(_musicRoutine);
-        }
 
+        isMusicEnabled = false;
         musicSource.Stop();
     }
 }

@@ -1,18 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class PathHandler : MonoBehaviour
 {
+    public event Action LevelCompleted;
+    public event Action LevelNotPassed;
+
     [SerializeField] private BaseUI baseUI;
     [SerializeField] private BaseSoundsPlayer baseSoundsPlayer;
-    [SerializeField] private StepsViewModel stepsViewModel;
 
     private int _levelNumber;
+    private PlayerData _playerData;
 
     private PathChecker _pathChecker;
+    private StepsViewModel _stepsViewModel;
     
-    private void Awake() {
+    public void Init(PlayerData playerData, StepsViewModel stepsViewModel) {
+        _stepsViewModel = stepsViewModel;
+        _playerData = playerData;
+
         _levelNumber = ProjectContext.Instance.ScenesLoader.LastLoadedLevelNumber;
 
         _pathChecker = LevelContext.Instance.PathChecker;
@@ -21,20 +27,27 @@ public class PathHandler : MonoBehaviour
 
     private void OnPathChecked(bool isPathCorrect){
         if(isPathCorrect)
-            LevelCompleted();    
-        else if(stepsViewModel.StepsLeft == 0)
-            LevelNotPassed();
+            OnLevelCompleted();
+        else if(_stepsViewModel.StepsLeft == 0)
+            OnLevelNotPassed();
     }
 
-    private void LevelCompleted(){
-        ProjectContext.Instance.SaveSystem.LevelCompleted(_levelNumber, stepsViewModel.IsBonusReceived());
+    private void OnLevelCompleted(){    
+        _playerData.LastUnlockedLevel = _levelNumber + 1;
+        if(_stepsViewModel.IsBonusReceived() && _playerData.CompletedLevelsWithBonus.Contains(_levelNumber) == false)
+            _playerData.CompletedLevelsWithBonus.Add(_levelNumber);
+    
         baseSoundsPlayer.PlayLevelCompletedSound(BaseUI.PanelsAnimationDuration);
 
         bool isLastLevelCompleted = _levelNumber + 1 > ProjectContext.Instance.LevelsContainer.LevelsCount;
         baseUI.LevelCompleted(isLastLevelCompleted);
+
+        LevelCompleted.Invoke();
     }
 
-    private void LevelNotPassed(){
+    private void OnLevelNotPassed(){
         baseUI.LevelNotPassed();
+
+        LevelNotPassed.Invoke();
     }
 }

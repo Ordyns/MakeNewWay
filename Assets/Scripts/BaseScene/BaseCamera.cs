@@ -7,34 +7,16 @@ public class BaseCamera : MonoBehaviour
 {
     [HideInInspector] public Camera Camera;
 
-    [SerializeField] private GuideSystem guideSystem;
-
     private CameraAnimator _cameraAnimator;
     private CameraConstantWidth _cameraConstantWidth;
 
-    private void Awake() {
+    private void OnValidate(){
         Camera = GetComponent<Camera>();
         _cameraAnimator = GetComponent<CameraAnimator>();
         _cameraConstantWidth = GetComponent<CameraConstantWidth>();
-
-        guideSystem.GuideFinished += () => StartCoroutine(Init());
-        LevelContext.Instance.PathChecker.PathChecked += (isPathCorrect) => {
-            if(isPathCorrect){
-                _cameraAnimator.PlayOutAnimation();
-            }
-        };
     }
 
-    private IEnumerator Init(){
-        yield return SetupCameraComponents();
-
-        _cameraAnimator.PlayInAnimation();
-    }
-
-    private IEnumerator SetupCameraComponents() {
-        while(LevelContext.Instance == null)
-            yield return null;
-
+    public void Init(){
         LevelSettings levelSettings = LevelContext.Instance.LevelSettings;
 
         float cameraOriginalSize = levelSettings.CameraSize;
@@ -44,4 +26,7 @@ public class BaseCamera : MonoBehaviour
         if(levelSettings.CustomCameraPosition)
             Camera.transform.position = levelSettings.CameraPosition;
     }
+
+    public void PlayOutAnimation() => _cameraAnimator.PlayOutAnimation();
+    public void PlayInAnimation() => _cameraAnimator.PlayInAnimation();
 }

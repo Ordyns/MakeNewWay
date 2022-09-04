@@ -3,9 +3,8 @@ using DG.Tweening;
 
 public class BaseUI : MonoBehaviour, IPauseHandler
 {
-    [HideInInspector] public HintUI HintUI;
-
-    [SerializeField] private StepsViewModel stepsViewModel;
+    [Header("===== Hint UI =====")]
+    [field:SerializeField] public HintUI HintUI;
 
     [Header("===== Main UI =====")]
     [SerializeField] private CanvasGroup mainUI;
@@ -28,28 +27,22 @@ public class BaseUI : MonoBehaviour, IPauseHandler
 
     private GuideSystem _guideSystem;
     private PauseManager _pauseManager;
+
+    private StepsViewModel _stepsViewModel;
     
     private Timer _bonusReceivedViewTimer;
 
-    private void Start() {
-        _guideSystem = BaseSceneContext.Instance.GuideSystem;
+    public void Init(StepsViewModel stepsViewModel, GuideSystem guideSystem, PauseManager pauseManager){
+        _stepsViewModel = stepsViewModel;
+        _guideSystem = guideSystem;
+        _pauseManager = pauseManager;
 
-        _pauseManager = BaseSceneContext.Instance.PauseManager;
         _pauseManager.Subscribe(this);
 
-        InitMainUI();
-    }
-
-    private void InitMainUI(){
         mainUI.alpha = 0;
-
-        if(_guideSystem.IsGuideShowing)
-            _guideSystem.GuideFinished += ShowMainUI;
-        else
-            ShowMainUI();
     }
 
-    private void ShowMainUI() 
+    public void ShowMainUI() 
         => mainUI.DOFade(1, 1f).SetEase(Ease.OutCubic).SetEase(Ease.OutCubic).SetDelay(0.5f);
     
     private void Update() {
@@ -91,9 +84,9 @@ public class BaseUI : MonoBehaviour, IPauseHandler
         PanelAnimator panel = isLastLevelCompleted ? allLevelsCompletedPanel : levelCompletedPanel;
         Timer.StartNew(this, PanelsAnimationDuration, () => panel.gameObject.SetActive(true));
 
-        if(stepsViewModel.IsBonusReceived()){
+        if(_stepsViewModel.IsBonusReceived()){
             bonusReceivedView.gameObject.SetActive(true);
-            _bonusReceivedViewTimer = Timer.StartNew(this, PanelsAnimationDuration + 0.5f, () => bonusReceivedView.Show(stepsViewModel.StepsForBonus));
+            _bonusReceivedViewTimer = Timer.StartNew(this, PanelsAnimationDuration + 0.5f, () => bonusReceivedView.Show(_stepsViewModel.StepsForBonus));
         }
     }
 

@@ -8,23 +8,21 @@ public class IslandsUpdater : MonoBehaviour, IPauseHandler
     public event System.Action IslandUpdated;
 
     public bool IsIslandUpdating { get; private set; }
-    [HideInInspector] public bool IsIslandsUpdatingAllowed { get; set; } = true;
+    public bool IsIslandsUpdatingAllowed { get; set; } = true;
     
-    [SerializeField] private StepsViewModel stepsViewModel;
-
     [SerializeField] private Camera mainCamera;
     [SerializeField] private BaseSoundsPlayer soundsPlayer;
 
+    private StepsViewModel _stepsViewModel;
     private PlayerInput<Island> _playerInput;
-    private PathChecker _pathChecker;
 
     private bool isPaused;
     private PauseManager _pauseManager;
     
-    private void Start() {
-        _pathChecker = LevelContext.Instance.PathChecker;
+    public void Init(StepsViewModel stepsViewModel, PauseManager pauseManager) {
+        _stepsViewModel = stepsViewModel;
 
-        _pauseManager = BaseSceneContext.Instance.PauseManager;
+        _pauseManager = pauseManager;
         _pauseManager.Subscribe(this);
 
         _playerInput = new PlayerInput<Island>(mainCamera);
@@ -53,7 +51,6 @@ public class IslandsUpdater : MonoBehaviour, IPauseHandler
 
     private void OnUpdatingFinished(){
         IsIslandUpdating = false;
-        _pathChecker.CheckPath();
         IslandUpdated?.Invoke();
     }
 
@@ -61,8 +58,8 @@ public class IslandsUpdater : MonoBehaviour, IPauseHandler
         if(IsIslandUpdating)
             throw new System.Exception("The islands are already being updating");
 
-        if(stepsViewModel)
-            stepsViewModel.StepsLeft.Value += stepAction == StepAction.Add ? 1 : -1;
+        if(_stepsViewModel)
+            _stepsViewModel.StepsLeft.Value += stepAction == StepAction.Add ? 1 : -1;
         
         IsIslandUpdating = true;
         Timer.StartNew(this, duration, OnUpdatingFinished);
@@ -74,8 +71,8 @@ public class IslandsUpdater : MonoBehaviour, IPauseHandler
 
         soundsPlayer.PlaySwipeSound();
         
-        if(stepsViewModel)
-            stepsViewModel.StepsLeft.Value--;
+        if(_stepsViewModel)
+            _stepsViewModel.StepsLeft.Value--;
     }
 
     public void SetPaused(bool isPaused){
