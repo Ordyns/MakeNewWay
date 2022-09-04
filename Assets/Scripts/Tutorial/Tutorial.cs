@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Tutorial : MonoBehaviour
 {
+    public event System.Action TutorialFinished;
+
     [SerializeField] private Step[] steps;
     private Step _currentStep{ 
         get{
@@ -26,19 +28,11 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private CanvasGroup moveIslandUI;
     [Space]
     [SerializeField] private Vector3 islandPivotOffset = new Vector3(0, 1.45f, 0);
-    [Space]
-    [SerializeField] private CameraAnimator cameraAnimator;
-    [SerializeField] private CameraConstantWidth cameraConstantWidth;
-    [Space]
-    [SerializeField] private StepsViewModel stepsViewModel;
-    [SerializeField] private IslandsUpdater islandsUpdater;
-    [SerializeField] private BaseSoundsPlayer soundsPlayer;
-    [SerializeField] private PathChecker pathChecker;
+
+    private BaseCamera _baseCamera;
+    private IslandsUpdater _islandsUpdater;
 
     private bool isTutorialCompleted;
-
-    private Camera _mainCamera;
-    private Gradient _defaultSwipeDirectionLineColor;
 
     private Sequence _handAnimationSequence;
     private Coroutine _handAnimationRoutine;
@@ -46,36 +40,30 @@ public class Tutorial : MonoBehaviour
     private SaveSystem<PlayerData> _saveSystem;
     private PlayerData _data = new PlayerData();
 
-    private void Awake() {
+    public void Init(IslandsUpdater islandsUpdater, BaseCamera baseCamera){
         _saveSystem = new SaveSystem<PlayerData>(_data);
         _data = _saveSystem.LoadData();
-    }
-
-    private IEnumerator Start() {
-        _mainCamera = Camera.main;
-
-        cameraAnimator.SetOriginalSize(cameraConstantWidth.GetConstSize(_mainCamera.orthographicSize));
-
+        
+        _baseCamera = baseCamera;
+        _islandsUpdater = islandsUpdater;
+        
         _currentStepIndex = -1;
-
-        islandsUpdater.Init(stepsViewModel, new PauseManager());
-        islandsUpdater.IslandUpdated += pathChecker.CheckPath;
-        islandsUpdater.IsIslandsUpdatingAllowed = false;
-
+        
         moveIslandUI.alpha = 0;
         SetBackgroundVisibility(false);
-
+        
         swipeDirectionLine.positionCount = 2;
         swipeDirectionLine.SetPositions(new Vector3[]{ Vector3.zero, Vector3.zero });
+        
+        _islandsUpdater.IslandUpdated += OnIslandUpdated;
+    }
 
-        LevelContext.Instance.PathChecker.PathChecked += PathChecked;
-
-        yield return new WaitForSeconds(cameraAnimator.Duration);
+    public void BeginTutorial(){
         NextStep();
     }
 
     private void Update() {
-        if(isTutorialCompleted || _currentStepIndex < 0 || islandsUpdater.IsIslandUpdating)
+        if(isTutorialCompleted || _currentStepIndex < 0 || _islandsUpdater.IsIslandUpdating)
             return;
 
         if(_currentStep.Type == StepType.Info){
@@ -98,7 +86,7 @@ public class Tutorial : MonoBehaviour
         _currentStepIndex++;
         
         if(_currentStepIndex >= steps.Length){
-            TutorialCompleted();
+            FinishTutorial();
             return;
         }
 
@@ -110,7 +98,7 @@ public class Tutorial : MonoBehaviour
 
             infoPanelTransform.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutCubic);
 
-            islandsUpdater.IsIslandsUpdatingAllowed = false;
+            _islandsUpdater.IsIslandsUpdatingAllowed = false;
         }
         else if(_currentStep.Type == StepType.MoveIsland){
             Step step = _currentStep;
@@ -123,7 +111,7 @@ public class Tutorial : MonoBehaviour
             _handAnimationRoutine = StartCoroutine(HandAnimation());
             SetMoveIslandUIVisibility(true);
 
-            islandsUpdater.IsIslandsUpdatingAllowed = true;
+            _islandsUpdater.IsIslandsUpdatingAllowed = true;
         }
     }
 
@@ -146,24 +134,23 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    private void TutorialCompleted(){
+    private void FinishTutorial(){
         isTutorialCompleted = true;
-        islandsUpdater.IsIslandsUpdatingAllowed = false;
+        _islandsUpdater.IsIslandsUpdatingAllowed = false;
 
         _data.TutorialCompleted = true;
         _saveSystem.SaveData(_data);
 
-        Analytics.TutorialCompleted();
-
         swipeDirectionLine.positionCount = 0;
-        cameraAnimator.PlayOutAnimation();
-        Timer.StartNew(this, cameraAnimator.Duration, () => {
-            soundsPlayer.PlayLevelCompletedSound();
+        _baseCamera.PlayOutAnimation();
+        Timer.StartNew(this, _baseCamera.AnimationDuration, () => {
             tutorialCompletedPanel.gameObject.SetActive(true);
         });
+
+        TutorialFinished?.Invoke();
     }
 
-    private void PathChecked(bool pathCorrect){
+    private void OnIslandUpdated(){
         if(_currentStep.Type == StepType.MoveIsland)
             NextStep();
     }

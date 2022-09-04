@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 292d0ecbe4d467147b5144e8bf76a626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playOnStart: 0
+  playOnStart: 1
 --- !u!114 &191161154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b12f628d2439874a8d22b01f5e0f806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Islands>k__BackingField: []
   <IslandsParent>k__BackingField: {fileID: 191161152}
   <WallsParent>k__BackingField: {fileID: 1280148530}
   islandsAnimator: {fileID: 191161153}

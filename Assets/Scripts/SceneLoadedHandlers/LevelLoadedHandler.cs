@@ -34,12 +34,14 @@ public class LevelLoadedHandler : MonoBehaviour
     private void InitAll(){
         stepsViewModel.Init(new List<int>(_data.CompletedLevelsWithBonus));
         
-        _baseContext.BaseCamera.Init();
+        _baseContext.BaseCamera.Init(_levelContext.LevelSettings);
         _baseContext.BaseUI.Init(stepsViewModel, _baseContext.GuideSystem, _baseContext.PauseManager);
 
         baseSoundsPlayer.IsEnabled = ProjectContext.Instance.Settings.IsSoundsEnabled;
 
         _levelContext.HintSystem.Init(_baseContext.BaseUI.HintUI);
+
+        _levelContext.PathChecker.Init(_levelContext.IslandsContainer.Islands);
         
         InitGuideSystem();
         InitPathHandler();    

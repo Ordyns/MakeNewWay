@@ -14,23 +14,24 @@ public class IslandsAnimator : MonoBehaviour
     private List<Island> _islands = new List<Island>();
     private List<Vector3> _originalSizes = new List<Vector3>();
 
-    private IEnumerator Start() {
-        _islands = LevelContext.Instance.IslandsContainer.Islands;
+    public void Init(List<Island> islands){
+        _islands = islands;
 
-        if(playOnStart)
-            yield return new WaitForSeconds(AnimatonDelay);
-        else
-            yield break;
-
-        Animate();
-    }
-
-    public void Animate(){
         foreach(Island island in _islands){
             _originalSizes.Add(island.transform.localScale);
             island.transform.localScale = Vector3.zero;
         }
+    }
 
+    private IEnumerator Start() {
+        if(playOnStart == false)
+            yield break;
+
+        yield return new WaitForSeconds(AnimatonDelay);
+        Animate();
+    }
+
+    public void Animate(){
         for (int i = 0; i < _islands.Count; i++)
             _islands[i].transform.DOScale(_originalSizes[i], 0.3f).SetEase(Ease.OutCubic).SetDelay(_nextIslandAnimationDelay * i);
     }

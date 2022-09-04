@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class PathChecker : MonoBehaviour
 {
     public delegate void PathCheckedAction(bool pathCorrect);
@@ -8,22 +9,28 @@ public class PathChecker : MonoBehaviour
 
     private Island _startIsland;
     private List<Island> _islands;
-    
-    private void Start() {
-        _islands = LevelContext.Instance.IslandsContainer.Islands;
+
+    public void Init(List<Island> islands){
+        _islands = islands;
         _startIsland = _islands.Find(island => island.IslandType == Island.IslandTypes.Start);
         CheckPath();
     }
+    
+    public void CheckPath(){
+        bool isPathCorrect = IsPathCorrect();
+        PathChecked?.Invoke(isPathCorrect);
+    } 
 
-    public void CheckPath() => PathChecked?.Invoke(isPathCorrect());
-    public void ChechPathWithoutEvent() => isPathCorrect();
+    public void ChechPathWithoutEvent(){
+        IsPathCorrect();
+    }
 
-    private bool isPathCorrect(){
+    private bool IsPathCorrect(){
         Island currentIsland = _startIsland;
         List<Island> passedIslands = new List<Island>();
 
-        bool tryingToCheckPath = true;
-        while(tryingToCheckPath){
+        bool isPathChecked = false;
+        while(isPathChecked == false){
             if(currentIsland.TryGetNextIsland(out Island island)){
                 island.EnergyIsGoing();
                 passedIslands.Add(island);
@@ -41,10 +48,9 @@ public class PathChecker : MonoBehaviour
                         islandsWithoutEnergy[j].EnergyIsNotGoing();
                 }
 
-                tryingToCheckPath = false;
+                isPathChecked = true;
             } 
         }
-        
         return false;
     }
 }

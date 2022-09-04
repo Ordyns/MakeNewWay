@@ -716,6 +716,57 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LocalizationKey: tutorial_0
+--- !u!1 &425412667
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 425412668}
+  - component: {fileID: 425412669}
+  m_Layer: 0
+  m_Name: TutorialLoadedHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &425412668
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425412667}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &425412669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425412667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 259bf6a94f4a1d44ab72b8994cfe312d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorial: {fileID: 679248057}
+  soundsPlayer: {fileID: 1831718153}
+  baseCamera: {fileID: 768694845}
+  levelSettings: {fileID: 542466547}
+  stepsViewModel: {fileID: 1700732148}
+  islandsUpdater: {fileID: 747669447}
+  pathChecker: {fileID: 1409980346}
+  islandsContainer: {fileID: 591941145}
 --- !u!1 &427246640
 GameObject:
   m_ObjectHideFlags: 0
@@ -913,7 +964,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 45, y: 130, z: 90}
---- !u!1 &529978586
+--- !u!1 &542466546
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -921,40 +972,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 529978588}
-  - component: {fileID: 529978587}
+  - component: {fileID: 542466548}
+  - component: {fileID: 542466547}
   m_Layer: 0
-  m_Name: PathChecker
+  m_Name: LevelSettings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &529978587
+--- !u!114 &542466547
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 529978586}
+  m_GameObject: {fileID: 542466546}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62cd03cafd7ed9e4ba4ea215d6e0f4fc, type: 3}
+  m_Script: {fileID: 11500000, guid: 86e9bacf8a73edf4082ee16b48947661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &529978588
+  <Steps>k__BackingField: 0
+  <StepsForBonus>k__BackingField: 0
+  <CameraSize>k__BackingField: 33
+  <CustomCameraPosition>k__BackingField: 0
+  <CameraPosition>k__BackingField: {x: 0, y: 0, z: 0}
+--- !u!4 &542466548
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 529978586}
+  m_GameObject: {fileID: 542466546}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &571738485
 GameObject:
@@ -1049,7 +1105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 292d0ecbe4d467147b5144e8bf76a626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playOnStart: 0
+  playOnStart: 1
 --- !u!114 &591941145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1345,12 +1401,6 @@ MonoBehaviour:
   swipeDirectionLine: {fileID: 725192153629228097}
   moveIslandUI: {fileID: 27513582}
   islandPivotOffset: {x: 0, y: 1.45, z: 0}
-  cameraAnimator: {fileID: 768694844}
-  cameraConstantWidth: {fileID: 768694848}
-  stepsViewModel: {fileID: 1700732148}
-  islandsUpdater: {fileID: 747669447}
-  soundsPlayer: {fileID: 1831718153}
-  pathChecker: {fileID: 529978587}
 --- !u!4 &679248058
 Transform:
   m_ObjectHideFlags: 0
@@ -1363,7 +1413,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &712976277
 GameObject:
@@ -1503,7 +1553,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &768694842
 GameObject:
@@ -1516,6 +1566,7 @@ GameObject:
   - component: {fileID: 768694847}
   - component: {fileID: 768694846}
   - component: {fileID: 768694843}
+  - component: {fileID: 768694845}
   - component: {fileID: 768694844}
   - component: {fileID: 768694848}
   m_Layer: 0
@@ -1575,6 +1626,18 @@ MonoBehaviour:
   inAnimationDelay: 0.3
   duration: 0.75
   ease: 13
+--- !u!114 &768694845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 768694842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad559902b767f724b908d9add86e5058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!20 &768694846
 Camera:
   m_ObjectHideFlags: 0
@@ -1644,57 +1707,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 316056a172f0c6f4f81178b8570e8986, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setSizeOnStart: 1
+  setSizeOnStart: 0
   defaultResolution: {x: 1080, y: 2340}
   widthOrHeight: 0.15
---- !u!1 &784665394
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 784665395}
-  - component: {fileID: 784665397}
-  m_Layer: 0
-  m_Name: LevelSettings
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &784665395
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784665394}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &784665397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784665394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86e9bacf8a73edf4082ee16b48947661, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Steps>k__BackingField: 0
-  <StepsForBonus>k__BackingField: 0
-  <CameraSize>k__BackingField: 33
-  <CustomCameraPosition>k__BackingField: 0
-  <CameraPosition>k__BackingField: {x: 0, y: 0, z: 0}
 --- !u!1 &797519732
 GameObject:
   m_ObjectHideFlags: 0
@@ -2138,7 +2153,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1073543517
 GameObject:
@@ -2538,6 +2553,49 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1357260469}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1409980345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1409980347}
+  - component: {fileID: 1409980346}
+  m_Layer: 0
+  m_Name: PathChecker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1409980346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409980345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cd03cafd7ed9e4ba4ea215d6e0f4fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1409980347
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409980345}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1440667830
 GameObject:
   m_ObjectHideFlags: 0
@@ -2812,7 +2870,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1728756517
 GameObject:
@@ -2937,7 +2995,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1781951674
 GameObject:
@@ -3209,54 +3267,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LocalizationKey: tutorial_2
---- !u!1 &1807954468
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1807954469}
-  - component: {fileID: 1807954470}
-  m_Layer: 0
-  m_Name: LevelContext
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1807954469
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1807954468}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1807954470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1807954468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5098de23537fd4548bd79f0cab3408ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <HintSystem>k__BackingField: {fileID: 0}
-  <PathChecker>k__BackingField: {fileID: 529978587}
-  <StepsRecorder>k__BackingField: {fileID: 0}
-  <LevelSettings>k__BackingField: {fileID: 784665397}
-  <IslandsContainer>k__BackingField: {fileID: 591941145}
 --- !u!1 &1831718151
 GameObject:
   m_ObjectHideFlags: 0
@@ -3400,7 +3410,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1835495968
 GameObject:

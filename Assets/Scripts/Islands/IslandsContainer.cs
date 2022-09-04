@@ -19,14 +19,7 @@ public class IslandsContainer : MonoBehaviour
         _walls = new List<Transform>();
         for(int i = 0; i < WallsParent.childCount; i++)
             _walls.Add(WallsParent.GetChild(i));
-    }
 
-    private void Start(){
-        islandsAnimator.Animate();
-    }   
-
-    public void Set(Transform islandsParent, Transform wallsParent){
-        IslandsParent = islandsParent;
-        WallsParent = wallsParent;
+        islandsAnimator.Init(Islands);
     }
 }

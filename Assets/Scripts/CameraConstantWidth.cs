@@ -13,17 +13,30 @@ public class CameraConstantWidth : MonoBehaviour
     private float _initialSize;
     private float _targetAspect;
 
-    private void Awake(){
+    private bool isInitialized;
+
+    private void OnValidate() {
         _camera = GetComponent<Camera>();
+    }
+
+    private void Awake(){
+        if(isInitialized)
+            return;
+
         _initialSize = _camera.orthographicSize;
-
         _targetAspect = defaultResolution.x / defaultResolution.y;
+        isInitialized = true;
+    }
 
+    private void Start() {
         if(setSizeOnStart)
             _camera.orthographicSize = GetConstSize(_initialSize);
     }
 
     public float GetConstSize(float initialSize){
+        if(isInitialized == false)
+            Awake();
+
         float constantWidthSize = initialSize * (_targetAspect / _camera.aspect);
         return Mathf.Lerp(constantWidthSize, initialSize, widthOrHeight);
     }

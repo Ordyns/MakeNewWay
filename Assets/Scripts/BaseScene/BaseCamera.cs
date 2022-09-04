@@ -5,7 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Camera), typeof(CameraConstantWidth), typeof(CameraAnimator))]
 public class BaseCamera : MonoBehaviour
 {
-    [HideInInspector] public Camera Camera;
+    public Camera Camera { get; private set; }
+    public float AnimationDuration => _cameraAnimator.Duration;
 
     private CameraAnimator _cameraAnimator;
     private CameraConstantWidth _cameraConstantWidth;
@@ -16,11 +17,10 @@ public class BaseCamera : MonoBehaviour
         _cameraConstantWidth = GetComponent<CameraConstantWidth>();
     }
 
-    public void Init(){
-        LevelSettings levelSettings = LevelContext.Instance.LevelSettings;
-
+    public void Init(LevelSettings levelSettings){
         float cameraOriginalSize = levelSettings.CameraSize;
-        Camera.orthographicSize = _cameraConstantWidth.GetConstSize(cameraOriginalSize + _cameraAnimator.SizeOffset);
+        float constantWidthSize = _cameraConstantWidth.GetConstSize(cameraOriginalSize + _cameraAnimator.SizeOffset);;
+        Camera.orthographicSize = constantWidthSize;
         _cameraAnimator.SetOriginalSize(_cameraConstantWidth.GetConstSize(cameraOriginalSize));
 
         if(levelSettings.CustomCameraPosition)
