@@ -94,7 +94,7 @@ public class GuideSystem : MonoBehaviour
         _saveSystem.SaveData(_data);
     }
 
-    private class Data : ISaveable
+    public class Data : ISaveable
     {
         public List<int> CompletedGuides = new List<int>();
         

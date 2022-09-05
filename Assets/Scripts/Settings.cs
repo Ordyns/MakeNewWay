@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 
@@ -29,7 +26,9 @@ public class Settings : MonoBehaviour
     private void Awake() {
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
+    }
 
+    public void Init(){
         _saveSystem = new SaveSystem<Data>(_data);
         _data = _saveSystem.LoadData();
 
@@ -46,8 +45,7 @@ public class Settings : MonoBehaviour
         _saveSystem.SaveData(_data);
     }
 
-    [System.Serializable]
-    private class Data : ISaveable
+    public class Data : ISaveable
     {
         public bool IsSoundsEnabled = true;
         public bool IsMusicEnabled = true;

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 
-[System.Serializable]
 public class PlayerData : ISaveable
 {
     [UnityEngine.SerializeField] private int _lastUnlockedLevel = 1;

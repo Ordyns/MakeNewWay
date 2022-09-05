@@ -183,7 +183,7 @@ public class HintSystem : MonoBehaviour
         public List<IslandState> Islands;
     }
 
-    private class Data : ISaveable
+    public class Data : ISaveable
     {
         public bool IsAdViewed;
         
