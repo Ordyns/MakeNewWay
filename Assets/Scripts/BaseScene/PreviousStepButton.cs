@@ -8,12 +8,12 @@ public class PreviousStepButton : AnimatedButton
     [SerializeField] private StepsViewModel stepsViewModel;
 
     private void Start() {
-        OnClick.AddListener(() => stepsViewModel.MoveToPreviousStepCommand.Execute(new object()));
+        OnClick.AddListener(() => stepsViewModel.MoveToPreviousStepCommand.Execute());
         stepsViewModel.MoveToPreviousStepCommand.CanExecuteChanged += UpdateInteractivity;
         UpdateInteractivity();
     }
 
     private void UpdateInteractivity(){
-        Interactable = stepsViewModel.MoveToPreviousStepCommand.CanExecute(new object());
+        Interactable = stepsViewModel.MoveToPreviousStepCommand.CanExecute();
     }
 }

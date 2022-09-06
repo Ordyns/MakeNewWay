@@ -10,14 +10,18 @@ public class StepsViewModel : ViewModel
     public ObservableProperty<int> StepsLeft { get; private set; } = new ObservableProperty<int>();
     public ObservableProperty<int> StepsForBonus { get; private set; } = new ObservableProperty<int>();
 
-    public DelegateCommand<object> MoveToPreviousStepCommand { get; private set; }
+    public event Action CantUpdateIsland;
+    
+    public DelegateCommand MoveToPreviousStepCommand { get; private set; }
 
     private bool isBonusReceivedEarlier;
 
-    public void Init(List<int> completedLevelsWithBonus) {
+    public void Init(IslandsUpdater islandsUpdater, List<int> completedLevelsWithBonus, int loadedlevelNumber) {
         InitCommands();
 
-        int currentLevel = ProjectContext.Instance.ScenesLoader.LastLoadedLevelNumber;
+        islandsUpdater.CantUpdateIsland += () => CantUpdateIsland?.Invoke();
+
+        int currentLevel = loadedlevelNumber;
         isBonusReceivedEarlier = completedLevelsWithBonus.Contains(currentLevel);
 
         LevelSettings levelSettings = LevelContext.Instance.LevelSettings;
@@ -27,12 +31,12 @@ public class StepsViewModel : ViewModel
 
     private void InitCommands(){
         StepsRecorder stepsRecorder = LevelContext.Instance.StepsRecorder;
-        MoveToPreviousStepCommand = new DelegateCommand<object>(
-            (parameter) => { 
+        MoveToPreviousStepCommand = new DelegateCommand(
+            () => { 
                 stepsRecorder.MoveToPreviousStep();
                 MoveToPreviousStepCommand.InvokeCanExecuteChanged();
             },
-            (parameter) => stepsRecorder.CanMoveToPrevStep()
+            () => stepsRecorder.CanMoveToPrevStep()
         );
 
         stepsRecorder.StepRecorded += MoveToPreviousStepCommand.InvokeCanExecuteChanged;

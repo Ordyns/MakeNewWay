@@ -32,7 +32,7 @@ public class LevelLoadedHandler : MonoBehaviour
     }
 
     private void InitAll(){
-        stepsViewModel.Init(new List<int>(_data.CompletedLevelsWithBonus));
+        stepsViewModel.Init(_baseContext.IslandsUpdater, new List<int>(_data.CompletedLevelsWithBonus), _loadedlevelNumber);
         
         _baseContext.BaseCamera.Init(_levelContext.LevelSettings);
         _baseContext.BaseUI.Init(stepsViewModel, _baseContext.GuideSystem, _baseContext.PauseManager);

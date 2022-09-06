@@ -43,7 +43,7 @@ public class AnimatedButton : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public void OnClickAnimation(){
+    private void OnClickAnimation(){
         Sequence sequence = DOTween.Sequence();
         sequence.SetUpdate(independentOfTimeScale);
         sequence.Append(transform.DOScale(new Vector2(0.9f, 0.9f), AnimationDuration / 2).SetEase(Ease));

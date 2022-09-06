@@ -8,11 +8,13 @@ public class BaseUI : MonoBehaviour, IPauseHandler
 
     [Header("===== Main UI =====")]
     [SerializeField] private CanvasGroup mainUI;
+    [Space]
+    [SerializeField] private StepsView stepsView;
+    [SerializeField] private BindableAnimatedButton previousStepButton;
 
     [Header("===== Panels =====")]
     [SerializeField] private CanvasGroup background;
     [Space]
-    [SerializeField] private PanelAnimator levelNotPassedPanel;
     [SerializeField] private PanelAnimator levelCompletedPanel;
     [SerializeField] private PanelAnimator allLevelsCompletedPanel;
     [Space]
@@ -40,10 +42,14 @@ public class BaseUI : MonoBehaviour, IPauseHandler
         _pauseManager.Subscribe(this);
 
         mainUI.alpha = 0;
+
+        previousStepButton.Bind(stepsViewModel.MoveToPreviousStepCommand);
+        stepsView.Init(stepsViewModel);
     }
 
-    public void ShowMainUI() 
-        => mainUI.DOFade(1, 1f).SetEase(Ease.OutCubic).SetEase(Ease.OutCubic).SetDelay(0.5f);
+    public void ShowMainUI() {
+        mainUI.DOFade(1, 1f).SetEase(Ease.OutCubic).SetEase(Ease.OutCubic).SetDelay(0.5f);
+    }
     
     private void Update() {
         if(isLevelCompleted || _guideSystem.IsGuideShowing)
@@ -66,6 +72,7 @@ public class BaseUI : MonoBehaviour, IPauseHandler
         pausePanel.OpenPanel();
         _pauseManager.SetPaused(true);
     }
+
     public void UnpauseGame(){
         pausePanel.ClosePanel(deactivateGameObject: true);
         _pauseManager.SetPaused(false);
@@ -88,12 +95,6 @@ public class BaseUI : MonoBehaviour, IPauseHandler
             bonusReceivedView.gameObject.SetActive(true);
             _bonusReceivedViewTimer = Timer.StartNew(this, PanelsAnimationDuration + 0.5f, () => bonusReceivedView.Show(_stepsViewModel.StepsForBonus));
         }
-    }
-
-    public void LevelNotPassed(){
-        mainUI.DOFade(0, 0.2f).SetEase(Ease.OutCubic);
-        levelNotPassedPanel.OpenPanel();
-        ChangeBackgroundVisibility(true);
     }
 
     public void ChangeBackgroundVisibility(bool visible, float delay = 0){

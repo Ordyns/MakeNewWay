@@ -4,7 +4,6 @@ using UnityEngine;
 public class PathHandler : MonoBehaviour
 {
     public event Action LevelCompleted;
-    public event Action LevelNotPassed;
 
     [SerializeField] private BaseUI baseUI;
     [SerializeField] private BaseSoundsPlayer baseSoundsPlayer;
@@ -28,8 +27,6 @@ public class PathHandler : MonoBehaviour
     private void OnPathChecked(bool isPathCorrect){
         if(isPathCorrect)
             OnLevelCompleted();
-        else if(_stepsViewModel.StepsLeft == 0)
-            OnLevelNotPassed();
     }
 
     private void OnLevelCompleted(){    
@@ -43,11 +40,5 @@ public class PathHandler : MonoBehaviour
         baseUI.LevelCompleted(isLastLevelCompleted);
 
         LevelCompleted.Invoke();
-    }
-
-    private void OnLevelNotPassed(){
-        baseUI.LevelNotPassed();
-
-        LevelNotPassed.Invoke();
     }
 }

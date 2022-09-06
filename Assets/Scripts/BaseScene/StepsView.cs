@@ -3,37 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using System;
 
 public class StepsView : MonoBehaviour
 {
-    [Header("ViewModel")]
-    [SerializeField] private StepsViewModel stepsViewModel;
-
-    [Header("UI")]
+    [Header("Steps")]
     [SerializeField] private TextMeshProUGUI stepsText;
-    [Space]
+    [SerializeField] private StepsTextAnimator stepsTextAnimator;
+    
+    [Header("Bonus")]
     [SerializeField] private GameObject bonusPanel;
     [SerializeField] private GameObject bonusFilledStar;
     [SerializeField] private TextMeshProUGUI bonusRecievedText;
     [SerializeField] private TextMeshProUGUI stepsForBonusText;
+    
+    private StepsViewModel _stepsViewModel;
 
-    private void Start() {
-        int stepsForBonus = stepsViewModel.StepsForBonus;
+    public void Init(StepsViewModel viewModel){
+        _stepsViewModel = viewModel;
+
+        int stepsForBonus = _stepsViewModel.StepsForBonus;
 
         bonusPanel.SetActive(stepsForBonus > 0);
-        bonusFilledStar.SetActive(stepsViewModel.IsBonusReceived());
+        bonusFilledStar.SetActive(_stepsViewModel.IsBonusReceived());
 
         bonusRecievedText.text = string.Format(bonusRecievedText.text, stepsForBonus);
         stepsForBonusText.text = string.Format(stepsForBonusText.text, stepsForBonus);
 
-        stepsText.text = stepsViewModel.StepsLeft.ToString();
-        stepsViewModel.StepsLeft.Changed += OnStepsCountChanded;
+        stepsText.text = _stepsViewModel.StepsLeft.ToString();
+        _stepsViewModel.StepsLeft.Changed += OnStepsCountChanged;
+
+        _stepsViewModel.CantUpdateIsland += OnCantUpdateIsland;
     }
 
-    private void OnStepsCountChanded(){
-        stepsText.text = stepsViewModel.StepsLeft.ToString();
-        stepsText.transform.DOScale(new Vector2(1.1f, 1.1f), 0.2f).SetEase(Ease.OutCubic).OnComplete(() => {
-            stepsText.transform.DOScale(Vector2.one, 0.15f).SetEase(Ease.OutCubic);
-        });
+    private void OnCantUpdateIsland(){
+        stepsTextAnimator.PlayShakeAnimation();
+    }
+
+    private void OnStepsCountChanged(){
+        stepsText.text = _stepsViewModel.StepsLeft.ToString();
+        stepsTextAnimator.PlayScaleAnimation();
     }
 }
