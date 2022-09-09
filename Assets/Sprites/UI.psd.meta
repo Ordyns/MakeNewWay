@@ -64,10 +64,10 @@ TextureImporter:
     second: UI_Premium
   - first:
       213: -256003546741158619
-    second: UI_ThinArrow
+    second: UI_Arrow
   - first:
       213: 238177201661318622
-    second: UI_MirroredThinArrow
+    second: UI_MirroredArrow
   - first:
       213: 9084407170249120912
     second: UI_Checkmark
@@ -535,8 +535,8 @@ TextureImporter:
       name: UI_Panel
       rect:
         serializedVersion: 2
-        x: 1536
-        y: 256
+        x: 512
+        y: 0
         width: 256
         height: 256
       alignment: 0
@@ -595,13 +595,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_ThinArrow
+      name: UI_Arrow
       rect:
         serializedVersion: 2
-        x: 593
-        y: 134
-        width: 345
-        height: 110
+        x: 1610
+        y: 281
+        width: 362
+        height: 206
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -616,13 +616,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_MirroredThinArrow
+      name: UI_MirroredArrow
       rect:
         serializedVersion: 2
-        x: 593
-        y: 0
-        width: 345
-        height: 110
+        x: 1611
+        y: 25
+        width: 362
+        height: 206
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -708,7 +708,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -729,7 +729,7 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

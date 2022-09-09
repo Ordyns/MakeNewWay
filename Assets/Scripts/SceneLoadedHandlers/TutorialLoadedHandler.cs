@@ -18,6 +18,7 @@ public class TutorialLoadedHandler : MonoBehaviour
 
     private void Start() {
         pathChecker.Init(islandsContainer.Islands);
+        stepsViewModel.InitOnlySteps(levelSettings.Steps);
 
         InitIslandsUpdater();
         InitBaseCamera();

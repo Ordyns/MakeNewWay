@@ -24,7 +24,6 @@ public class PanelAnimator : MonoBehaviour
     private Vector3 _headlineOrignalPosition;
     private List<Vector3> _buttonsOrignalPosition = new List<Vector3>();
     
-
     private void Awake() {
         _deactivationTimer = new Timer(this, nextElementAnimationDelay * (buttons.Length + 2) / 2);
         _deactivationTimer.Completed += () => gameObject.SetActive(false);

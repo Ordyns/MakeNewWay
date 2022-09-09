@@ -16,6 +16,10 @@ public class StepsViewModel : ViewModel
 
     private bool isBonusReceivedEarlier;
 
+    public void InitOnlySteps(int steps){
+        StepsLeft.Value = steps;
+    }
+
     public void Init(IslandsUpdater islandsUpdater, List<int> completedLevelsWithBonus, int loadedlevelNumber) {
         InitCommands();
 
