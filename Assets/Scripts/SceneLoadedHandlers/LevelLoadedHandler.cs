@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class LevelLoadedHandler : MonoBehaviour
 {
-    [SerializeField] private StepsViewModel stepsViewModel;
-    [Space]
     [SerializeField] private PathHandler pathHandler;
     [SerializeField] private BaseSoundsPlayer baseSoundsPlayer;
     [Space]
@@ -13,6 +11,8 @@ public class LevelLoadedHandler : MonoBehaviour
 
     private BaseSceneContext _baseContext;
     private LevelContext _levelContext;
+
+    private StepsViewModel _stepsViewModel;
 
     private PlayerData _data = new PlayerData();
     private SaveSystem<PlayerData> _saveSystem;
@@ -32,10 +32,13 @@ public class LevelLoadedHandler : MonoBehaviour
     }
 
     private void InitAll(){
-        stepsViewModel.Init(_baseContext.IslandsUpdater, new List<int>(_data.CompletedLevelsWithBonus), _loadedlevelNumber);
+        StepsRecorder stepsRecorder = new StepsRecorder(_levelContext.IslandsContainer.Islands);
+
+        bool isBonusReceivedEarlier = _data.CompletedLevelsWithBonus.Contains(_loadedlevelNumber);
+        _stepsViewModel = new StepsViewModel(_levelContext.LevelSettings, _baseContext.IslandsUpdater, stepsRecorder, isBonusReceivedEarlier);
         
         _baseContext.BaseCamera.Init(_levelContext.LevelSettings);
-        _baseContext.BaseUI.Init(stepsViewModel, _baseContext.GuideSystem, _baseContext.PauseManager);
+        _baseContext.BaseUI.Init(_stepsViewModel, _baseContext.GuideSystem, _baseContext.PauseManager);
 
         baseSoundsPlayer.IsEnabled = ProjectContext.Instance.Settings.IsSoundsEnabled;
 
@@ -59,11 +62,11 @@ public class LevelLoadedHandler : MonoBehaviour
     private void InitPathHandler(){
         pathHandler.LevelCompleted += _baseContext.BaseCamera.PlayOutAnimation;
         pathHandler.LevelCompleted += () => _saveSystem.SaveData(_data);
-        pathHandler.Init(_data, stepsViewModel);
+        pathHandler.Init(_data, _stepsViewModel);
     }
 
     private void InitIslandsUpdater(){
-        _baseContext.IslandsUpdater.Init(stepsViewModel, _baseContext.PauseManager);
+        _baseContext.IslandsUpdater.Init(_baseContext.PauseManager);
         _baseContext.IslandsUpdater.IslandUpdated += _levelContext.PathChecker.CheckPath;
     }
 
@@ -75,5 +78,9 @@ public class LevelLoadedHandler : MonoBehaviour
         else{
             reviewRequestPanel.Disable();
         }
+    }
+
+    private void OnDestroy() {
+        _saveSystem.SaveData(_data);
     }
 }

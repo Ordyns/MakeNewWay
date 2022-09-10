@@ -687,7 +687,6 @@ MonoBehaviour:
   soundsPlayer: {fileID: 1831718153}
   baseCamera: {fileID: 768694845}
   levelSettings: {fileID: 542466547}
-  stepsViewModel: {fileID: 1700732148}
   islandsUpdater: {fileID: 747669447}
   pathChecker: {fileID: 1409980346}
   islandsContainer: {fileID: 591941145}
@@ -1427,6 +1426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0124ad2c61236459159a038e88cec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <IsIslandsUpdatingAllowed>k__BackingField: 0
   mainCamera: {fileID: 768694846}
   soundsPlayer: {fileID: 1831718153}
 --- !u!4 &747669448

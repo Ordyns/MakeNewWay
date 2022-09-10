@@ -74,7 +74,7 @@ public class GuideView : MonoBehaviour
     }
 
     [System.Serializable]
-    public struct GuideStep {
+    private struct GuideStep {
         public float StepDuration;
         public bool ClosePreviousSteps;
         [Space]

@@ -7,30 +7,29 @@ public class IslandsUpdater : MonoBehaviour, IPauseHandler
     public event System.Action CantUpdateIsland;
 
     public bool IsIslandUpdating { get; private set; }
-    public bool IsIslandsUpdatingAllowed { get; set; } = true;
+    public bool IsIslandsUpdatingAllowed { get; set; }
     
     [SerializeField] private Camera mainCamera;
     [SerializeField] private BaseSoundsPlayer soundsPlayer;
 
-    private StepsViewModel _stepsViewModel;
     private PlayerInput<Island> _playerInput;
 
     private bool isPaused;
     private PauseManager _pauseManager;
     
-    public void Init(StepsViewModel stepsViewModel, PauseManager pauseManager) {
-        _stepsViewModel = stepsViewModel;
-
+    public void Init(PauseManager pauseManager) {
         _pauseManager = pauseManager;
         _pauseManager.Subscribe(this);
 
         _playerInput = new PlayerInput<Island>(mainCamera);
         _playerInput.Click += OnClick;
         _playerInput.Swipe += OnSwipe;
+
+        IsIslandsUpdatingAllowed = true;
     }
 
     private void Update() {
-        if(isPaused || IsIslandUpdating || IsIslandsUpdatingAllowed == false)
+        if(isPaused || IsIslandUpdating)
             return;
 
         _playerInput.Update();
@@ -59,12 +58,9 @@ public class IslandsUpdater : MonoBehaviour, IPauseHandler
         IslandUpdated?.Invoke();
     }
 
-    public void ExternalUpdate(float duration, StepAction stepAction){
+    public void ExternalUpdateStarted(float duration){
         if(IsIslandUpdating)
             throw new System.Exception("The islands are already being updating");
-
-        if(_stepsViewModel)
-            _stepsViewModel.StepsLeft.Value += (stepAction == StepAction.Add ? 1 : -1);
         
         IsIslandUpdating = true;
         Timer.StartNew(this, duration, OnUpdatingFinished);
@@ -75,13 +71,10 @@ public class IslandsUpdater : MonoBehaviour, IPauseHandler
         IslandUpdating?.Invoke();
 
         soundsPlayer.PlaySwipeSound();
-        
-        if(_stepsViewModel)
-            _stepsViewModel.StepsLeft.Value--;
     }
 
     private bool AreIslandsCanBeUpdated(){
-        if(_stepsViewModel == null || _stepsViewModel.StepsLeft <= 0){
+        if(IsIslandsUpdatingAllowed == false){
             CantUpdateIsland?.Invoke();
             return false;
         }

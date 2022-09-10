@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class StepsViewModel : ViewModel
 {
@@ -16,34 +14,44 @@ public class StepsViewModel : ViewModel
 
     private bool isBonusReceivedEarlier;
 
-    public void InitOnlySteps(int steps){
-        StepsLeft.Value = steps;
-    }
+    private StepsRecorder _stepsRecorder;
+    private IslandsUpdater _islandsUpdater;
 
-    public void Init(IslandsUpdater islandsUpdater, List<int> completedLevelsWithBonus, int loadedlevelNumber) {
+    public StepsViewModel(LevelSettings levelSettings, IslandsUpdater islandsUpdater, StepsRecorder stepsRecorder, bool isBonusReceivedEarlier) {
+        _stepsRecorder = stepsRecorder;
+        _stepsRecorder.MovedToPreviousStep += OnMovedToPreviousStep;
+
         InitCommands();
 
-        islandsUpdater.CantUpdateIsland += () => CantUpdateIsland?.Invoke();
+        _islandsUpdater = islandsUpdater;
+        _islandsUpdater.CantUpdateIsland += () => CantUpdateIsland?.Invoke();
+        _islandsUpdater.IslandUpdating += OnIslandUpdating;
 
-        int currentLevel = loadedlevelNumber;
-        isBonusReceivedEarlier = completedLevelsWithBonus.Contains(currentLevel);
+        this.isBonusReceivedEarlier = isBonusReceivedEarlier;
 
-        LevelSettings levelSettings = LevelContext.Instance.LevelSettings;
         StartStepsCount = StepsLeft.Value = levelSettings.Steps;
         StepsForBonus.Value = levelSettings.StepsForBonus;
     }
 
     private void InitCommands(){
-        StepsRecorder stepsRecorder = LevelContext.Instance.StepsRecorder;
-        MoveToPreviousStepCommand = new DelegateCommand(
-            () => { 
-                stepsRecorder.MoveToPreviousStep();
-                MoveToPreviousStepCommand.InvokeCanExecuteChanged();
-            },
-            () => stepsRecorder.CanMoveToPrevStep()
-        );
+        MoveToPreviousStepCommand = new DelegateCommand(OnMovedToPreviousStep, _stepsRecorder.CanMoveToPrevStep);
+        _stepsRecorder.StepRecorded += MoveToPreviousStepCommand.InvokeCanExecuteChanged;
+    }
 
-        stepsRecorder.StepRecorded += MoveToPreviousStepCommand.InvokeCanExecuteChanged;
+    private void OnIslandUpdating(){
+        _stepsRecorder.RecordStep();
+        StepsLeft.Value--;
+
+        if(StepsLeft == 0)
+            _islandsUpdater.IsIslandsUpdatingAllowed = false;
+    }
+
+    private void OnMovedToPreviousStep(){
+        StepsLeft.Value++;
+        _stepsRecorder.MoveToPreviousStep();
+        _islandsUpdater.IsIslandsUpdatingAllowed = true;
+        _islandsUpdater.ExternalUpdateStarted(StepsRecorder.IslandAnimationDuration);
+        MoveToPreviousStepCommand.InvokeCanExecuteChanged();
     }
 
     public bool IsBonusReceived(){

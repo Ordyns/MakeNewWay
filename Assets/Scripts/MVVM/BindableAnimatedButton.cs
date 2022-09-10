@@ -10,6 +10,7 @@ public class BindableAnimatedButton : AnimatedButton
         _bindedCommand = command;
         OnClick.AddListener(_bindedCommand.Execute);
         command.CanExecuteChanged += () => Interactable = command.CanExecute();
+        Interactable = command.CanExecute();
     }
 
     public void Unbind(){

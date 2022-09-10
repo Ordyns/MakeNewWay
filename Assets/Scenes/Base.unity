@@ -1332,49 +1332,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68657b181dd90a140b98680bcc287543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &394480012
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 394480014}
-  - component: {fileID: 394480013}
-  m_Layer: 0
-  m_Name: StepsViewModel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &394480013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 394480012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38df17b5a3f4bad4f84b0a78199d7e35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &394480014
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 394480012}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 19
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &399861000
 GameObject:
   m_ObjectHideFlags: 0
@@ -1778,7 +1735,6 @@ GameObject:
   m_Component:
   - component: {fileID: 506785732}
   - component: {fileID: 506785735}
-  - component: {fileID: 506785734}
   - component: {fileID: 506785737}
   - component: {fileID: 506785736}
   - component: {fileID: 506785733}
@@ -1820,28 +1776,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &506785734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506785731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6401313bc2602394ba7307e428655d05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactable: 1
-  independentOfTimeScale: 1
-  AnimationDuration: 0.2
-  Ease: 9
-  interactableAnimation: 1
-  nonInteractableAlpha: 0.35
-  OnClick:
-    m_PersistentCalls:
-      m_Calls: []
-  stepsViewModel: {fileID: 394480013}
 --- !u!222 &506785735
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2409,66 +2343,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1 &607712033
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 607712034}
-  m_Layer: 0
-  m_Name: 
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &607712034
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 607712033}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 17
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &723771633
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 723771634}
-  m_Layer: 0
-  m_Name: ===== ViewModels =====
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &723771634
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 723771633}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 18
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &730287948
 GameObject:
   m_ObjectHideFlags: 0
@@ -5928,7 +5802,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73e8890b00fe55449bb0d74cef86ff29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stepsViewModel: {fileID: 394480013}
   pathHandler: {fileID: 1589079367}
   baseSoundsPlayer: {fileID: 1884384932}
   reviewRequestPanel: {fileID: 369980161}

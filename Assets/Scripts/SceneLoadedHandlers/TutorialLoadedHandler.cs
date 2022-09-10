@@ -10,15 +10,18 @@ public class TutorialLoadedHandler : MonoBehaviour
     [SerializeField] private BaseCamera baseCamera;
     [SerializeField] private LevelSettings levelSettings;
     [Space]
-    [SerializeField] private StepsViewModel stepsViewModel;
     [SerializeField] private IslandsUpdater islandsUpdater;
     [Space]
     [SerializeField] private PathChecker pathChecker;
     [SerializeField] private IslandsContainer islandsContainer;
 
+    private StepsViewModel _stepsViewModel;
+
     private void Start() {
         pathChecker.Init(islandsContainer.Islands);
-        stepsViewModel.InitOnlySteps(levelSettings.Steps);
+
+        StepsRecorder stepsRecorder = new StepsRecorder(new List<Island>());
+        _stepsViewModel = new StepsViewModel(levelSettings, islandsUpdater, stepsRecorder, false);
 
         InitIslandsUpdater();
         InitBaseCamera();
@@ -28,7 +31,7 @@ public class TutorialLoadedHandler : MonoBehaviour
     private void InitIslandsUpdater(){
         islandsUpdater.IsIslandsUpdatingAllowed = false;
         islandsUpdater.IslandUpdated += pathChecker.CheckPath;
-        islandsUpdater.Init(stepsViewModel, new PauseManager());
+        islandsUpdater.Init(new PauseManager());
     }
 
     private void InitBaseCamera(){

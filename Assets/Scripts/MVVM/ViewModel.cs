@@ -1,4 +1,4 @@
-public abstract class ViewModel : UnityEngine.MonoBehaviour
+public abstract class ViewModel
 {
     public class ObservableProperty<T> : IObservableProperty<T>
     {
