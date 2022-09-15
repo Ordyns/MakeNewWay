@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 24347617}
   - component: {fileID: 24347616}
   - component: {fileID: 24347615}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (10)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -425,7 +425,7 @@ GameObject:
   - component: {fileID: 181978886}
   - component: {fileID: 181978885}
   - component: {fileID: 181978884}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (11)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1108,7 +1108,7 @@ GameObject:
   - component: {fileID: 867310710}
   - component: {fileID: 867310709}
   - component: {fileID: 867310708}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (13)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1351,7 +1351,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1280148530}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1392,7 +1392,7 @@ GameObject:
   - component: {fileID: 1324272014}
   - component: {fileID: 1324272013}
   - component: {fileID: 1324272012}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (8)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1492,7 +1492,7 @@ GameObject:
   - component: {fileID: 1479277297}
   - component: {fileID: 1479277296}
   - component: {fileID: 1479277295}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (9)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1587,7 +1587,7 @@ GameObject:
   - component: {fileID: 1516079197}
   - component: {fileID: 1516079196}
   - component: {fileID: 1516079195}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (15)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1682,7 +1682,7 @@ GameObject:
   - component: {fileID: 1669742184}
   - component: {fileID: 1669742183}
   - component: {fileID: 1669742182}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (14)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1850,7 +1850,7 @@ GameObject:
   - component: {fileID: 1734278883}
   - component: {fileID: 1734278882}
   - component: {fileID: 1734278881}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (12)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1966,6 +1966,7 @@ MonoBehaviour:
   <PathChecker>k__BackingField: {fileID: 858058163}
   <LevelSettings>k__BackingField: {fileID: 784665397}
   <IslandsContainer>k__BackingField: {fileID: 1781819501}
+  <IslandsAnimator>k__BackingField: {fileID: 1781819500}
 --- !u!4 &1759829063
 Transform:
   m_ObjectHideFlags: 0
@@ -2029,7 +2030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 292d0ecbe4d467147b5144e8bf76a626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playOnStart: 1
+  playOnStart: 0
 --- !u!114 &1781819501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2045,7 +2046,6 @@ MonoBehaviour:
   <Islands>k__BackingField: []
   <IslandsParent>k__BackingField: {fileID: 1781819499}
   <WallsParent>k__BackingField: {fileID: 1280148530}
-  islandsAnimator: {fileID: 1781819500}
 --- !u!4 &2093306342 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2621631438135120643, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}

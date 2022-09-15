@@ -20,7 +20,7 @@ public class TutorialLoadedHandler : MonoBehaviour
     private void Start() {
         pathChecker.Init(islandsContainer.Islands);
 
-        StepsRecorder stepsRecorder = new StepsRecorder(new List<Island>());
+        StepsRecorder stepsRecorder = new LevelStepsRecorder(new List<Island>());
         _stepsViewModel = new StepsViewModel(levelSettings, islandsUpdater, stepsRecorder, false);
 
         InitIslandsUpdater();

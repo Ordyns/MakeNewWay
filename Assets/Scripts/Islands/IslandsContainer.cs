@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,8 +7,6 @@ public class IslandsContainer : MonoBehaviour
 
     [field:SerializeField] public Transform IslandsParent { get; private set; }
     [field:SerializeField] public Transform WallsParent { get; private set; }
-    [Space]
-    [SerializeField] private IslandsAnimator islandsAnimator;
 
     private List<Transform> _walls;
 
@@ -19,7 +16,25 @@ public class IslandsContainer : MonoBehaviour
         _walls = new List<Transform>();
         for(int i = 0; i < WallsParent.childCount; i++)
             _walls.Add(WallsParent.GetChild(i));
+    }
 
-        islandsAnimator.Init(Islands);
+    public static List<Transform> GetIslandsTransforms(List<Island> islands){
+        HashSet<ComplexIsland> parents = new HashSet<ComplexIsland>();
+        List<Transform> islandsTransforms = new List<Transform>();
+
+        foreach (Island island in islands){
+            if(island.gameObject.activeSelf == false)
+                continue;
+
+            if(island.Parent != null && parents.Contains(island.Parent) == false){
+                parents.Add(island.Parent);
+                islandsTransforms.Add(island.Parent.transform);
+            }
+            else if(island.Parent == null){
+                islandsTransforms.Add(island.transform);
+            }
+        }
+
+        return islandsTransforms;
     }
 }

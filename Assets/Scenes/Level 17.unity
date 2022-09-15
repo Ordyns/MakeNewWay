@@ -322,7 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 292d0ecbe4d467147b5144e8bf76a626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playOnStart: 1
+  playOnStart: 0
 --- !u!114 &157155425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,7 +338,6 @@ MonoBehaviour:
   <Islands>k__BackingField: []
   <IslandsParent>k__BackingField: {fileID: 157155426}
   <WallsParent>k__BackingField: {fileID: 1280148530}
-  islandsAnimator: {fileID: 157155424}
 --- !u!4 &157155426
 Transform:
   m_ObjectHideFlags: 0
@@ -374,7 +373,7 @@ GameObject:
   - component: {fileID: 174338724}
   - component: {fileID: 174338723}
   - component: {fileID: 174338722}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (21)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -558,7 +557,7 @@ GameObject:
   - component: {fileID: 209425251}
   - component: {fileID: 209425250}
   - component: {fileID: 209425249}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (16)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -794,6 +793,7 @@ MonoBehaviour:
   <PathChecker>k__BackingField: {fileID: 282127472}
   <LevelSettings>k__BackingField: {fileID: 784665397}
   <IslandsContainer>k__BackingField: {fileID: 157155425}
+  <IslandsAnimator>k__BackingField: {fileID: 157155424}
 --- !u!4 &299342728
 Transform:
   m_ObjectHideFlags: 0
@@ -820,7 +820,7 @@ GameObject:
   - component: {fileID: 413622739}
   - component: {fileID: 413622738}
   - component: {fileID: 413622737}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (20)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1018,7 +1018,7 @@ GameObject:
   - component: {fileID: 640073031}
   - component: {fileID: 640073030}
   - component: {fileID: 640073029}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (9)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1628,7 +1628,7 @@ GameObject:
   - component: {fileID: 1100071543}
   - component: {fileID: 1100071542}
   - component: {fileID: 1100071541}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (11)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1802,7 +1802,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1280148530}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1848,7 +1848,7 @@ GameObject:
   - component: {fileID: 1305065251}
   - component: {fileID: 1305065250}
   - component: {fileID: 1305065249}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (13)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1943,7 +1943,7 @@ GameObject:
   - component: {fileID: 1324272014}
   - component: {fileID: 1324272013}
   - component: {fileID: 1324272012}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (8)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -2111,7 +2111,7 @@ GameObject:
   - component: {fileID: 1426737924}
   - component: {fileID: 1426737923}
   - component: {fileID: 1426737922}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (10)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -2246,7 +2246,7 @@ GameObject:
   - component: {fileID: 1618096075}
   - component: {fileID: 1618096074}
   - component: {fileID: 1618096073}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (12)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -2341,7 +2341,7 @@ GameObject:
   - component: {fileID: 1626782797}
   - component: {fileID: 1626782796}
   - component: {fileID: 1626782795}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (7)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -2526,7 +2526,7 @@ GameObject:
   - component: {fileID: 1927629493}
   - component: {fileID: 1927629492}
   - component: {fileID: 1927629491}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (22)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -2621,7 +2621,7 @@ GameObject:
   - component: {fileID: 2037870784}
   - component: {fileID: 2037870783}
   - component: {fileID: 2037870782}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (18)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -2716,7 +2716,7 @@ GameObject:
   - component: {fileID: 2111311382}
   - component: {fileID: 2111311381}
   - component: {fileID: 2111311380}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (19)
   m_TagString: Wall
   m_Icon: {fileID: 0}

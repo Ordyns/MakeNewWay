@@ -1,20 +1,18 @@
 using UnityEngine;
 
-public class HintsRenderer : MonoBehaviour
+public class HintRenderer : MonoBehaviour
 {    
     [field:SerializeField] public Camera HintCamera { get; private set; }
     [field:SerializeField] public LineRenderer HintLineRenderer { get; private set; }
     [field:SerializeField] public Transform HintIslandsParent { get; private set; }
     [Space]
-    [SerializeField] private Mesh wallMesh;
+    [SerializeField] private string layer;
 
-    private void Start() {
-        LevelSettings levelSettings = LevelContext.Instance.LevelSettings;
+    public static LayerMask HintLayer { get; private set; }
 
-        Transform wallsParent = Instantiate(LevelContext.Instance.IslandsContainer.WallsParent, transform);
-        foreach(Transform wall in wallsParent)
-            wall.GetComponent<MeshFilter>().mesh = wallMesh;
-
+    public void Init(LevelSettings levelSettings) {
+        HintLayer = LayerMask.NameToLayer(layer);
+        
         HintCamera.orthographicSize = levelSettings.CameraSize;
         if(levelSettings.CustomCameraPosition) HintCamera.transform.localPosition = levelSettings.CameraPosition;
 

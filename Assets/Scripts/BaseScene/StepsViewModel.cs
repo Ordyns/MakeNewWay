@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 public class StepsViewModel : ViewModel
 {
@@ -19,7 +18,6 @@ public class StepsViewModel : ViewModel
 
     public StepsViewModel(LevelSettings levelSettings, IslandsUpdater islandsUpdater, StepsRecorder stepsRecorder, bool isBonusReceivedEarlier) {
         _stepsRecorder = stepsRecorder;
-        _stepsRecorder.MovedToPreviousStep += OnMovedToPreviousStep;
 
         InitCommands();
 

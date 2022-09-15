@@ -50,8 +50,6 @@ public class HintUI : MonoBehaviour
         _hintSystem = LevelContext.Instance.HintSystem;
         _adsManager = ProjectContext.Instance.AdsManager;
 
-        _hintCamera = BaseSceneContext.Instance.HintsRenderer.HintCamera.gameObject;
-
         string stepsTextLocalizationKey = stepsText.GetComponent<LocalizedText>().LocalizationKey;
         _originalContentOfStepsText = ProjectContext.Instance.Localization.GetLocalizedValue(stepsTextLocalizationKey);
 
@@ -114,7 +112,6 @@ public class HintUI : MonoBehaviour
     public void OpenPanel(){
         HintOpened = true;
         _mainCamera.gameObject.SetActive(false);
-        _hintCamera.SetActive(true);
 
         hintPanel.gameObject.SetActive(true);
         hintPanel.localScale = Vector3.zero;
@@ -132,7 +129,6 @@ public class HintUI : MonoBehaviour
     public void ClosePanel(){
         HintOpened = false;
         _mainCamera.gameObject.SetActive(true);
-        _hintCamera.SetActive(false);
 
         hintPanel.DOScale(Vector3.zero, duration).SetEase(ease);
         hintPanel.DORotate(startRotation, duration).SetEase(ease);

@@ -32,7 +32,7 @@ public class LevelLoadedHandler : MonoBehaviour
     }
 
     private void InitAll(){
-        StepsRecorder stepsRecorder = new StepsRecorder(_levelContext.IslandsContainer.Islands);
+        StepsRecorder stepsRecorder = new LevelStepsRecorder(_levelContext.IslandsContainer.Islands);
 
         bool isBonusReceivedEarlier = _data.CompletedLevelsWithBonus.Contains(_loadedlevelNumber);
         _stepsViewModel = new StepsViewModel(_levelContext.LevelSettings, _baseContext.IslandsUpdater, stepsRecorder, isBonusReceivedEarlier);
@@ -42,7 +42,7 @@ public class LevelLoadedHandler : MonoBehaviour
 
         baseSoundsPlayer.IsEnabled = ProjectContext.Instance.Settings.IsSoundsEnabled;
 
-        _levelContext.HintSystem.Init(_baseContext.BaseUI.HintUI);
+        InitHint();
 
         _levelContext.PathChecker.Init(_levelContext.IslandsContainer.Islands);
         
@@ -50,7 +50,16 @@ public class LevelLoadedHandler : MonoBehaviour
         InitPathHandler();    
         InitIslandsUpdater();
 
+        _levelContext.IslandsAnimator.Init(_levelContext.IslandsContainer.Islands);
+        _levelContext.IslandsAnimator.Animate();
+
         InitReviewRequestPanel();
+    }
+
+    private void InitHint(){
+        HintIslandFactory factory = new HintIslandFactory(_baseContext.HintRenderer);
+        _baseContext.HintRenderer.Init(_levelContext.LevelSettings);
+        _levelContext.HintSystem.Init(_baseContext.HintRenderer, factory, _baseContext.BaseUI.HintUI);
     }
 
     private void InitGuideSystem(){

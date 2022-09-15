@@ -537,7 +537,7 @@ MonoBehaviour:
   <GuideSystem>k__BackingField: {fileID: 554133083}
   <IslandsUpdater>k__BackingField: {fileID: 120029666}
   <BaseCamera>k__BackingField: {fileID: 768694849}
-  <HintsRenderer>k__BackingField: {fileID: 431657646}
+  <HintRenderer>k__BackingField: {fileID: 431657646}
   <BaseUI>k__BackingField: {fileID: 1573575427}
 --- !u!4 &212729881
 Transform:
@@ -1410,7 +1410,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8b53701d7b8d5e459aac501c20256fc, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e5273dea06eaea49b56538327236522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &485190815
@@ -2609,7 +2609,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 119
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -12565,7 +12565,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5677778822210440184, guid: 07558415e8225cd498d516ea178888bd, type: 3}
       propertyPath: m_Name
-      value: HintsRenderer
+      value: HintRenderer
       objectReference: {fileID: 0}
     - target: {fileID: 5677778822210440187, guid: 07558415e8225cd498d516ea178888bd, type: 3}
       propertyPath: m_RootOrder
@@ -12573,15 +12573,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5677778822210440187, guid: 07558415e8225cd498d516ea178888bd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 40.827248
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5677778822210440187, guid: 07558415e8225cd498d516ea178888bd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -66.22157
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5677778822210440187, guid: 07558415e8225cd498d516ea178888bd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 41.301674
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5677778822210440187, guid: 07558415e8225cd498d516ea178888bd, type: 3}
       propertyPath: m_LocalRotation.w

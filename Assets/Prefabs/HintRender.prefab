@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5677778822210440187}
   - component: {fileID: 5137442021995047541}
-  m_Layer: 0
-  m_Name: HintsRender
+  m_Layer: 10
+  m_Name: HintRender
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,13 +43,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5677778822210440184}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8b53701d7b8d5e459aac501c20256fc, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e5273dea06eaea49b56538327236522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <HintCamera>k__BackingField: {fileID: 5677778822562228463}
   <HintLineRenderer>k__BackingField: {fileID: 5677778823045620136}
   <HintIslandsParent>k__BackingField: {fileID: 5677778822732180583}
   wallMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  layer: Hint
 --- !u!1 &5677778822562228459
 GameObject:
   m_ObjectHideFlags: 0
@@ -62,7 +63,7 @@ GameObject:
   - component: {fileID: 5677778822562228463}
   - component: {fileID: 5677778822562228461}
   - component: {fileID: 5677778822562228458}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hint Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +115,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1088
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: ad50a884f2e989742a45d084f2134ca7, type: 2}
   m_TargetDisplay: 0
@@ -182,8 +183,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5677778822732180583}
-  - component: {fileID: 5677778822732180585}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hint Islands
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,19 +204,6 @@ Transform:
   m_Father: {fileID: 5677778822210440187}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5677778822732180585
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5677778822732180580}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 292d0ecbe4d467147b5144e8bf76a626, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playOnStart: 0
 --- !u!1 &5677778823045620134
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +214,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5677778823045620137}
   - component: {fileID: 5677778823045620136}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
