@@ -1,139 +1,77 @@
 using UnityEngine;
-using TMPro;
 using DG.Tweening;
 
 public class HintUI : MonoBehaviour
 {
-    [HideInInspector] public bool HintOpened;
+    public bool HintOpened { get; private set; }
 
-    [Header("Main UI")]
+    [Header("Background")]
     [SerializeField] private CanvasGroup background;
-    [Space]
-    [SerializeField] private GameObject viewAdButton;
-    [SerializeField] private GameObject hintButton;
-    [Space]
-    [SerializeField] private string adLoadingErrorMessageLocalizationKey = "ad_loading_error_message";
+    
+    [Header("Buttons")]
+    [SerializeField] private AnimatedButton viewAdButton;
+    [SerializeField] private AnimatedButton hintButton;
+    [SerializeField] private AnimatedButton closeButton;
     
     [Header("Hint Panel")]
-    [SerializeField] private Transform hintPanel;
-    [SerializeField] private TextMeshProUGUI stepsText;
-    [SerializeField] private CanvasGroup overlay;
-    [Space]
-    [SerializeField] private AnimatedButton previousStepButton;
-    [SerializeField] private AnimatedButton nextStepButton;
+    [SerializeField] private HintView hintView;
 
-    [Header("Animation")]
-    [SerializeField] private float duration;
-    [SerializeField] private Ease ease = Ease.OutCubic;
-    [Space]
-    [SerializeField] private Vector3 startRotation;
+    private HintViewModel _hintViewModel;
 
-    private GameObject _hintCamera;
+    private System.Func<string, string> _getLocalizedValueFunc;
 
-    private HintSystem _hintSystem;
+    public void Init(HintViewModel hintViewModel, System.Func<string, string> getLocalizedValueFunc) {
+        _hintViewModel = hintViewModel;
 
-    private AdsManager _adsManager;
-
-    private Camera _mainCamera;
-
-    private string _originalContentOfStepsText = string.Empty;
-
-    private System.Func<bool> isAdViewed;
-    private System.Action onAdViewed;
-
-    public void Init(System.Func<bool> isAdViewedFunc, System.Action onAdViewedAction) {
-        isAdViewed = isAdViewedFunc;
-        onAdViewed = onAdViewedAction;
-
-        _mainCamera = Camera.main;
-
-        _hintSystem = LevelContext.Instance.HintSystem;
-        _adsManager = ProjectContext.Instance.AdsManager;
-
-        string stepsTextLocalizationKey = stepsText.GetComponent<LocalizedText>().LocalizationKey;
-        _originalContentOfStepsText = ProjectContext.Instance.Localization.GetLocalizedValue(stepsTextLocalizationKey);
+        _getLocalizedValueFunc = getLocalizedValueFunc;
+        hintView.Init(hintViewModel, getLocalizedValueFunc);
 
         InitHintButtons();
-        UpdateUI();
     }
 
-    private void InitHintButtons(){
-        _adsManager.CheckInternetConnection((isInternetReachable) => {
-            hintButton.SetActive(isAdViewed.Invoke());
-            viewAdButton.SetActive(isAdViewed.Invoke() == false && isInternetReachable);
-        });
+    private async void InitHintButtons(){
+        viewAdButton.OnClick.AddListener(ViewAd);
+        hintButton.OnClick.AddListener(OpenPanel);
+        closeButton.OnClick.AddListener(ClosePanel);
+
+        hintButton.gameObject.SetActive(_hintViewModel.IsAdViewed);
+        viewAdButton.gameObject.SetActive(false);
+
+        if(_hintViewModel.IsAdViewed == false){
+            bool isInternetReachable = await _hintViewModel.IsInternetReachable();
+            viewAdButton.gameObject.SetActive(isInternetReachable);
+        }
     }
 
     public void ViewAd(){
-        if(_adsManager){
-            string errorMessage = ProjectContext.Instance.Localization.GetLocalizedValue(adLoadingErrorMessageLocalizationKey);
-            _adsManager.ShowRewardedAd(AdViewed, () => OverlayPanels.CreateNewInformationPanel(errorMessage, null));
-        }
-        else{
-            AdViewed();
-        }
+        _hintViewModel.ViewAd(AdViewed);                
     }
 
     private void AdViewed(){
-        onAdViewed.Invoke();
+        _hintViewModel.IsAdViewed = true;
 
-        viewAdButton.SetActive(false);
-        hintButton.SetActive(true);
+        viewAdButton.gameObject.SetActive(false);
+        hintButton.gameObject.SetActive(true);
 
         OpenPanel();
     }
 
-    private void UpdateUI(){
-        previousStepButton.Interactable = _hintSystem.CurrentStepIndex > 1;
-        nextStepButton.Interactable = _hintSystem.CurrentStepIndex < _hintSystem.StepsCount;
-        stepsText.text = string.Format(_originalContentOfStepsText, _hintSystem.CurrentStepIndex, _hintSystem.StepsCount);
-    }
-
-    public void NextStep(){
-        if(_hintSystem.CurrentStepIndex < _hintSystem.StepsCount){
-            AnimateOverlay(_hintSystem.NextStep);
-        }
-    }
-    
-    public void PreviousStep(){
-        if(_hintSystem.CurrentStepIndex > 1){
-            AnimateOverlay(_hintSystem.PreviousStep);
-        }
-    }
-
-    private void AnimateOverlay(System.Action onFadeInFinished){
-        overlay.DOFade(1, 0.1f).SetEase(Ease.InOutSine).OnComplete(() => {
-            onFadeInFinished?.Invoke();
-            UpdateUI();
-            overlay.DOFade(0, 0.2f).SetEase(Ease.InOutSine);
-        });
-    }
-
     public void OpenPanel(){
         HintOpened = true;
-        _mainCamera.gameObject.SetActive(false);
 
-        hintPanel.gameObject.SetActive(true);
-        hintPanel.localScale = Vector3.zero;
-        hintPanel.localEulerAngles = startRotation;
+        hintView.Show();
 
-        hintPanel.DOScale(Vector3.one, duration).SetEase(ease);
-        hintPanel.DORotate(Vector3.zero, duration).SetEase(ease);
-
-        _hintSystem.OnHintPanelOpened();
+        _hintViewModel.ActivateHintCommand.Execute();
 
         ChangeBackgroundVisibility(true);
-        UpdateUI();
     }
 
     public void ClosePanel(){
         HintOpened = false;
-        _mainCamera.gameObject.SetActive(true);
 
-        hintPanel.DOScale(Vector3.zero, duration).SetEase(ease);
-        hintPanel.DORotate(startRotation, duration).SetEase(ease);
+        hintView.Hide();
 
-        _hintSystem.OnHintPanelClosed();
+        _hintViewModel.DeactivateHintCommand.Execute();
 
         ChangeBackgroundVisibility(false);
     }

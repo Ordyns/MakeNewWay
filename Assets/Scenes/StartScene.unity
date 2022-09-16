@@ -1094,10 +1094,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a3ff5fe83eb184a97b0dd6bd4a7331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testMode: 0
+  testMode: 1
   showAds: 1
   MaxAutomaticallyAttempsToReloadAd: 5
   maxTimeForAdLoadingInSeconds: 15
+  adLoadingMessageLocalizationKey: loading_ad
+  adLoadingErrorMessageLocalizationKey: ad_loading_error_message
 --- !u!4 &1751914504
 Transform:
   m_ObjectHideFlags: 0

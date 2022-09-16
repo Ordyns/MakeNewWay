@@ -13,6 +13,8 @@ public class ProjectLoadedHandler : MonoBehaviour
     }
 
     private void Start() {
+        context.AdsManager.Init(context.Localization.GetLocalizedValue);
+
         LoadNextScene();
     }
 

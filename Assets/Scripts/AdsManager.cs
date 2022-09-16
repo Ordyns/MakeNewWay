@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Advertisements;
-using UnityEngine.Networking;
 
 public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadListener
 {
@@ -12,24 +12,35 @@ public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLis
     [Space]
     [SerializeField] private int MaxAutomaticallyAttempsToReloadAd = 5;
     [SerializeField] private int maxTimeForAdLoadingInSeconds = 15;
+    [Space]
+    [SerializeField] private string adLoadingMessageLocalizationKey = "loading_ad";
+    [SerializeField] private string adLoadingErrorMessageLocalizationKey = "ad_loading_error_message";
 
-    private readonly string _gameID = "0";
-    private readonly string _rewardedAdPlacementID = "Rewarded_Android";
-    private readonly string _interstitialAdPlacementID = "Interstitial_Android";
+    private const string _gameID = "";
+    private const string _rewardedAdPlacementID = "Rewarded_Android";
+    private const string _interstitialAdPlacementID = "Interstitial_Android";
 
     private Ad _rewardedAd;
     private Ad _interstitialAd;
 
     private ConfirmationPanel _overlayPanel;
 
+    private string _adLoadingMessage;
+    private string _adLoadingErrorMessage;
+
     private Timer _adLoadingTimer;
 
-    private void Awake() => StartCoroutine(Init());
-
-    private IEnumerator Init(){
+    public void Init(Func<string, string> getLocalizedValueFunc){
         _rewardedAd = new Ad(_rewardedAdPlacementID, false);
         _interstitialAd = new Ad(_interstitialAdPlacementID, true);
+        
+        _adLoadingMessage = getLocalizedValueFunc.Invoke(adLoadingMessageLocalizationKey);
+        _adLoadingErrorMessage = getLocalizedValueFunc.Invoke(adLoadingErrorMessageLocalizationKey);
 
+        StartCoroutine(InitAds());
+    }
+
+    private IEnumerator InitAds(){
         Advertisement.Initialize(_gameID, testMode);
         while (Advertisement.isInitialized == false)
             yield return null;
@@ -58,13 +69,13 @@ public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLis
             return;
 
         if(ad.isAdReady == false){
-            if(ad.SkipAdIfItIsNotNotReady)
+            if(ad.SkipAdIfItIsNotReady)
                 return;
 
             if(ad.isAdLoading){
-                _overlayPanel = OverlayPanels.CreateNewInformationPanel(ProjectContext.Instance.Localization.GetLocalizedValue("loading_ad"), null, false);
+                _overlayPanel = OverlayPanels.CreateNewInformationPanel(_adLoadingMessage, null, false);
                 _adLoadingTimer = Timer.StartNew(this, maxTimeForAdLoadingInSeconds, () => {
-                    OverlayPanels.CreateNewInformationPanel(ProjectContext.Instance.Localization.GetLocalizedValue("ad_loading_error_message"), null, true);
+                    OverlayPanels.CreateNewInformationPanel(_adLoadingErrorMessage, null, true);
                     _overlayPanel.Cancel();
                     ad.OnAdLoaded = null;
                 });
@@ -83,14 +94,10 @@ public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLis
         Advertisement.Show(ad.PlacementID, new ShowOptions(), this);
     }
 
-    public void CheckInternetConnection(Action<bool> onComplete) => StartCoroutine(CheckInternetConnectionCoroutine(onComplete));
-
-    private IEnumerator CheckInternetConnectionCoroutine(Action<bool> onComplete){
-        using (var request = UnityWebRequest.Head("http://google.com")){
-            request.timeout = 5;
-            yield return request.SendWebRequest();
-
-            onComplete?.Invoke(request.result == UnityWebRequest.Result.Success);
+    public static async Task<bool> IsInternetReachable(){
+        using (var client = new HttpClient()){
+            var result = await client.GetAsync("http://google.com");
+            return result.IsSuccessStatusCode;
         }
     }
 
@@ -118,8 +125,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLis
         ad.AdLoaded();
     }
 
-    public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message)
-    {
+    public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message){
         if(_overlayPanel) _overlayPanel.Cancel();
 
         GetAdByPlacementID(placementId, out Ad ad);
@@ -144,14 +150,15 @@ public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLis
     public void OnUnityAdsShowClick(string placementId) => print("OnUnityAdsShowClick");
 
     [Serializable]
-    public class Ad{
+    public class Ad
+    {
         public Ad(string placementID, bool skipAdIfItIsNotReady){
             PlacementID = placementID;
-            SkipAdIfItIsNotNotReady = skipAdIfItIsNotReady;
+            SkipAdIfItIsNotReady = skipAdIfItIsNotReady;
         }
 
         public string PlacementID;
-        public bool SkipAdIfItIsNotNotReady;
+        public bool SkipAdIfItIsNotReady;
 
         public Action OnAdComplete;
         public Action OnAdFailure;

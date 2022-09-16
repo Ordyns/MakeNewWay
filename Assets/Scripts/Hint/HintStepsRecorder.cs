@@ -9,7 +9,7 @@ public class HintStepsRecorder : StepsRecorder
 
     public HintStepsRecorder(List<Island> islands) : base(islands) {}
 
-    public HintStepsRecorder(List<Transform> islandsTransforms, int stepsCount) : base(islandsTransforms) {
+    public HintStepsRecorder(List<Transform> islandsTransforms, int stepsCount, float animationDuration) : base(islandsTransforms, animationDuration) {
         _islandsStates = new List<IslandsState>(stepsCount);
     }
 

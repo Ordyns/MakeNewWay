@@ -48,7 +48,7 @@ public class StepsViewModel : ViewModel
         StepsLeft.Value++;
         _stepsRecorder.MoveToPreviousStep();
         _islandsUpdater.IsIslandsUpdatingAllowed = true;
-        _islandsUpdater.ExternalUpdateStarted(StepsRecorder.IslandAnimationDuration);
+        _islandsUpdater.ExternalUpdateStarted(_stepsRecorder.IslandAnimationDuration);
         MoveToPreviousStepCommand.InvokeCanExecuteChanged();
     }
 

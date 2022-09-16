@@ -3,16 +3,16 @@ using DG.Tweening;
 
 public class BaseUI : MonoBehaviour, IPauseHandler
 {
-    [Header("===== Hint UI =====")]
-    [field:SerializeField] public HintUI HintUI;
+    [field:Header("> Hint UI")]
+    [field:SerializeField] public HintUI HintUI { get; private set; }
 
-    [Header("===== Main UI =====")]
+    [Header("> Main UI")]
     [SerializeField] private CanvasGroup mainUI;
     [Space]
     [SerializeField] private StepsView stepsView;
     [SerializeField] private BindableAnimatedButton previousStepButton;
 
-    [Header("===== Panels =====")]
+    [Header("> Panels")]
     [SerializeField] private CanvasGroup background;
     [Space]
     [SerializeField] private PanelAnimator levelCompletedPanel;
@@ -22,7 +22,7 @@ public class BaseUI : MonoBehaviour, IPauseHandler
 
     public const float PanelsAnimationDuration = 1f;
 
-    [Header("===== Bonus =====")]
+    [Header("> Bonus")]
     [SerializeField] private BonusReceivedView bonusReceivedView;
 
     private bool isLevelCompleted;

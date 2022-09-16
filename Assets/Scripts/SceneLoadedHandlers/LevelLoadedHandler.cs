@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class LevelLoadedHandler : MonoBehaviour
@@ -57,9 +56,13 @@ public class LevelLoadedHandler : MonoBehaviour
     }
 
     private void InitHint(){
+        HintViewModel hintViewModel = new HintViewModel(_levelContext.HintSystem, ProjectContext.Instance.AdsManager);
+        Func<string, string> getLocalizedValue = ProjectContext.Instance.Localization.GetLocalizedValue;
+        _baseContext.BaseUI.HintUI.Init(hintViewModel, getLocalizedValue);
+
         HintIslandFactory factory = new HintIslandFactory(_baseContext.HintRenderer);
         _baseContext.HintRenderer.Init(_levelContext.LevelSettings);
-        _levelContext.HintSystem.Init(_baseContext.HintRenderer, factory, _baseContext.BaseUI.HintUI);
+        _levelContext.HintSystem.Init(_baseContext.HintRenderer, factory);
     }
 
     private void InitGuideSystem(){

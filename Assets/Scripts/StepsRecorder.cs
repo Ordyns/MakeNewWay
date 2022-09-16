@@ -7,13 +7,15 @@ public abstract class StepsRecorder
 
     protected List<Transform> IslandsTransforms = new List<Transform>();
 
-    public const float IslandAnimationDuration = 0.1f;
+    public readonly float IslandAnimationDuration;
 
-    protected StepsRecorder(List<Island> islands){
+    protected StepsRecorder(List<Island> islands, float islandAnimationDuration = 0.1f){
+        IslandAnimationDuration = islandAnimationDuration;
         IslandsTransforms = IslandsContainer.GetIslandsTransforms(islands);
     }
 
-    protected StepsRecorder(List<Transform> islandsTransforms){
+    protected StepsRecorder(List<Transform> islandsTransforms, float islandAnimationDuration = 0.1f){
+        IslandAnimationDuration = islandAnimationDuration;
         IslandsTransforms = islandsTransforms;
     }
 

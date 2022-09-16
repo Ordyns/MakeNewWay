@@ -6,10 +6,8 @@ using DG.Tweening;
 
 public class HintSystem : MonoBehaviour
 {
-    public int CurrentStepIndex => _currentStepIndex + 1;
+    public int CurrentStepIndex { get; private set; }
     public int StepsCount => steps.Count;
-
-    private int _currentStepIndex;
 
     [SerializeField] private List<Step> steps;
 
@@ -20,21 +18,13 @@ public class HintSystem : MonoBehaviour
 
     private HintStepsRecorder _stepsRecorder;
 
-    private SaveSystem<Data> _saveSystem;
-    private Data _data = new Data();
-
     private Sequence _islandsAnimationSequence;
 
-    public void Init(HintRenderer hintsRenderer, HintIslandFactory factory, HintUI hintUI) {
-        _saveSystem = new SaveSystem<Data>(_data);
-        _data = _saveSystem.LoadData() as Data;
-
+    public void Init(HintRenderer hintsRenderer, HintIslandFactory factory) {
         _hintsRenderer = hintsRenderer;
         _hintsRenderer.gameObject.SetActive(false);
 
-        hintUI.Init(() => _data.IsAdViewed, () => _data.IsAdViewed = true);
-
-        _currentStepIndex = -1;
+        CurrentStepIndex = -1;
         
         CreateHintIslands(factory);
     }
@@ -53,17 +43,17 @@ public class HintSystem : MonoBehaviour
             }
         }
 
-        _stepsRecorder = new HintStepsRecorder(hintIslands, steps.Count);
+        _stepsRecorder = new HintStepsRecorder(hintIslands, steps.Count, 0f);
     }
 
     public void NextStep(){
-        if(_currentStepIndex < steps.Count - 1){
-            _currentStepIndex++;
+        if(CanMoveToNextStep()){
+            CurrentStepIndex++;
 
             _islandsAnimationSequence?.Kill();
 
-            if(_currentStepIndex > 0){
-                Step prevStep = steps[_currentStepIndex - 1];
+            if(CurrentStepIndex > 0){
+                Step prevStep = steps[CurrentStepIndex - 1];
                 if(prevStep.Rotatable)
                     prevStep.IslandTransform.eulerAngles = prevStep.IslandTargetCoordinates;
                 else
@@ -71,27 +61,30 @@ public class HintSystem : MonoBehaviour
             }
 
             _stepsRecorder.RecordStep();
-            UpdateLineRenderer(steps[_currentStepIndex]);
+            UpdateLineRenderer(steps[CurrentStepIndex]);
             AnimateIsland();
         }
     }
 
     public void PreviousStep(){
-        if(_currentStepIndex > 0){
-            _currentStepIndex--;
+        if(CanMoveToPreviousStep()){
+            CurrentStepIndex--;
 
             _islandsAnimationSequence?.Kill();
             
             _stepsRecorder.MoveToPreviousStep();
-            Timer.StartNew(this, StepsRecorder.IslandAnimationDuration, () => {
-                UpdateLineRenderer(steps[_currentStepIndex]);
+            Timer.StartNew(this, _stepsRecorder.IslandAnimationDuration, () => {
+                UpdateLineRenderer(steps[CurrentStepIndex]);
                 AnimateIsland();
             });
         }
     }
 
+    public bool CanMoveToNextStep() => CurrentStepIndex < steps.Count - 1;
+    public bool CanMoveToPreviousStep() => CurrentStepIndex > 0;
+
     private void AnimateIsland(){
-        Step step = steps[_currentStepIndex];
+        Step step = steps[CurrentStepIndex];
         Vector3 targetValue = step.IslandTargetCoordinates;
 
         _islandsAnimationSequence = DOTween.Sequence().SetLoops(-1);
@@ -108,27 +101,19 @@ public class HintSystem : MonoBehaviour
         _hintsRenderer.HintLineRenderer.SetPositions(new Vector3[] { step.IslandTransform.localPosition, step.IslandTargetCoordinates });
     }
 
-    public void OnHintPanelOpened(){
-        if(_currentStepIndex == -1)
+    public void ActivateHint(){
+        if(CurrentStepIndex == -1)
             NextStep();
             
-        _hintsRenderer.gameObject.SetActive(true);
-        _hintsRenderer.HintCamera.gameObject.SetActive(true);
+        _hintsRenderer.Activate();
     }
-    public void OnHintPanelClosed(){
-        _hintsRenderer.gameObject.SetActive(false);
-        _hintsRenderer.HintCamera.gameObject.SetActive(false);
-    }
-
-    public class Data : ISaveable
-    {
-        public bool IsAdViewed;
-        
-        public string FileName => "hints_data";
+    public void DeactivateHint(){
+        _hintsRenderer.Deactivate();
     }
 
     [Serializable]
-    public struct Step{
+    public struct Step
+    {
         public Transform IslandTransform;
         [Space]
         public bool Rotatable;
