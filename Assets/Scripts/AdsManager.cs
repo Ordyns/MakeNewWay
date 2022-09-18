@@ -16,6 +16,8 @@ public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLis
     [SerializeField] private string adLoadingMessageLocalizationKey = "loading_ad";
     [SerializeField] private string adLoadingErrorMessageLocalizationKey = "ad_loading_error_message";
 
+    private Func<string, string> _getLocalizedValueFunc;
+
     private const string _gameID = "";
     private const string _rewardedAdPlacementID = "Rewarded_Android";
     private const string _interstitialAdPlacementID = "Interstitial_Android";
@@ -30,17 +32,24 @@ public class AdsManager : MonoBehaviour, IUnityAdsShowListener, IUnityAdsLoadLis
 
     private Timer _adLoadingTimer;
 
-    public void Init(Func<string, string> getLocalizedValueFunc){
+    [Zenject.Inject]
+    private void Init(Func<string, string> getLocalizedValueFunc){
         _rewardedAd = new Ad(_rewardedAdPlacementID, false);
         _interstitialAd = new Ad(_interstitialAdPlacementID, true);
-        
-        _adLoadingMessage = getLocalizedValueFunc.Invoke(adLoadingMessageLocalizationKey);
-        _adLoadingErrorMessage = getLocalizedValueFunc.Invoke(adLoadingErrorMessageLocalizationKey);
+        _getLocalizedValueFunc = getLocalizedValueFunc;
+    }
+
+    private void Start() {
+        _adLoadingMessage = _getLocalizedValueFunc.Invoke(adLoadingMessageLocalizationKey);
+        _adLoadingErrorMessage = _getLocalizedValueFunc.Invoke(adLoadingErrorMessageLocalizationKey);
 
         StartCoroutine(InitAds());
     }
 
     private IEnumerator InitAds(){
+        if(string.IsNullOrEmpty(_gameID))
+            yield break;
+
         Advertisement.Initialize(_gameID, testMode);
         while (Advertisement.isInitialized == false)
             yield return null;

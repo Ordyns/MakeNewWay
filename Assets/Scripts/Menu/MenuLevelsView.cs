@@ -18,17 +18,17 @@ public class MenuLevelsView : MonoBehaviour
         _animatedPanel = GetComponent<AnimatedPanel>();
     }
 
-    public void Init(int levelsCount, int currentCompletedLevel, IList<int> completedLevelsWithBonus, IList<int> numbersOfLevelsWithBonus){
+    public void Init(System.Action<int> loadLevel, LevelsInfoProvider levelsInfoProvider, int currentCompletedLevel, IList<int> completedLevelsWithBonus){
         _levelsButtons = new List<LevelButton>();
 
-        for(int i = 1; i < levelsCount + 1; i++){
+        for(int i = 1; i < levelsInfoProvider.LevelsCount + 1; i++){
             LevelButton levelButton = Instantiate(levelButtonPrefab, levelsPanelContent);
-            levelButton.SetLevelNumber(i);
+            levelButton.Init(loadLevel, i);
             
             if(i < currentCompletedLevel) levelButton.LevelCompleted();
             else levelButton.SetLockedState(i > currentCompletedLevel);
 
-            levelButton.SetBonusActive(numbersOfLevelsWithBonus.Contains(i));
+            levelButton.SetBonusActive(levelsInfoProvider.NumbersOfLevelsWithBonus.Contains(i));
             if(completedLevelsWithBonus.Contains(i)) levelButton.BonusReceived();
 
             _levelsButtons.Add(levelButton);

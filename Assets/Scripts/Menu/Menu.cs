@@ -9,26 +9,35 @@ public class Menu : MonoBehaviour
     [Header("===== Environment =====")]
     [SerializeField] private GameObject[] menuIslands;
 
-    private ProjectContext _projectContext;
     private SaveSystem<PlayerData> _saveSystem;
     private PlayerData _data = new PlayerData();
 
-    private void Awake() {
-        _saveSystem = new SaveSystem<PlayerData>(_data);
-        _data = _saveSystem.LoadData();
+    private LevelsInfoProvider _levelsInfoProvider;
+    private System.Action<int>  _loadLevel;
+
+    [Zenject.Inject]
+    private void Init(System.Action<int> loadLevel, LevelsInfoProvider levelsInfoProvider){
+        _levelsInfoProvider = levelsInfoProvider;
+        _loadLevel = loadLevel;
     }
 
     private void Start() {
-        ActivateRandomIsland();
+        _saveSystem = new SaveSystem<PlayerData>(_data);
+        _data = _saveSystem.LoadData();
 
-        _projectContext = ProjectContext.Instance;
+        InitLevelsView();
+
+        ActivateRandomIsland();
+    }
+
+    private void InitLevelsView(){
         int currentCompletedLevel = _data.LastUnlockedLevel;
         IList<int> completedLevelsWithBouns = _data.CompletedLevelsWithBonus;
-        IList<int> numbersOfLevelsWithBonus = _projectContext.LevelsContainer.NumbersOfLevelsWithBonus;
-        int levelsCount = _projectContext.LevelsContainer.LevelsCount;
+        IList<int> numbersOfLevelsWithBonus = _levelsInfoProvider.NumbersOfLevelsWithBonus;
+        int levelsCount = _levelsInfoProvider.LevelsCount;
         
         levelsView.gameObject.SetActive(true);
-        levelsView.Init(levelsCount, currentCompletedLevel, completedLevelsWithBouns, numbersOfLevelsWithBonus);
+        levelsView.Init(_loadLevel, _levelsInfoProvider, currentCompletedLevel, completedLevelsWithBouns);
     }
 
     private void ActivateRandomIsland(){

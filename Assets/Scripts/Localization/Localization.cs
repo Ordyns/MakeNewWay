@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
 using NaughtyAttributes;
 using System.Collections.ObjectModel;
 
@@ -18,9 +16,18 @@ public class Localization : MonoBehaviour
 
     private LocalizedStrings _currentLocalization;
 
-    private void Awake() {
+    private LinkedList<LocalizedText> _localizedTexts;
+
+    [Zenject.Inject]
+    private void Init(){
+        _localizedTexts = new LinkedList<LocalizedText>();
+
         CurrentLanguageCode = GetUserLanguage();
         LoadLocalization(CurrentLanguageCode);
+    }
+
+    private void Start() {
+        UpdateTexts();
     }
 
     private void LoadLocalization(string languageCode){
@@ -30,9 +37,21 @@ public class Localization : MonoBehaviour
 
     public void ChangeLanguage(string languageCode){
         LoadLocalization(languageCode);
-        LanguageChanged?.Invoke();
         CurrentLanguageCode = languageCode;
+        LanguageChanged?.Invoke();
+
         PlayerPrefs.SetString("Language", languageCode);
+
+        UpdateTexts();
+    }
+
+    private void UpdateTexts(){
+        foreach (LocalizedText text in _localizedTexts){
+            if(text == null)
+                _localizedTexts.Remove(text);
+
+            text.UpdateText(GetLocalizedValue(text.LocalizationKey));
+        }
     }
 
     public string ChangeToNextLanguage(){
@@ -58,6 +77,11 @@ public class Localization : MonoBehaviour
             Debug.LogError("LocalizationErorr: Key not founded! \n key = " + key);
             return null;
         }
+    }
+
+    public void AddLocalizedText(LocalizedText localizedText){
+        _localizedTexts.AddLast(localizedText);
+        localizedText.UpdateText(GetLocalizedValue(localizedText.LocalizationKey));
     }
 
     private string GetUserLanguage(){

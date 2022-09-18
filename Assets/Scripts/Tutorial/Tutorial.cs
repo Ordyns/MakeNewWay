@@ -83,6 +83,6 @@ public class Tutorial : MonoBehaviour
     private void OnIslandUpdating() => _currentIslandUpdateHandler?.OnIslandUpdating();
     private void OnIslandUpdated() => _currentIslandUpdateHandler?.OnIslandUpdated();
 
-    public void LoadMenu() => ProjectContext.Instance.ScenesLoader.LoadMenu();
-    public void LoadFirstLevel() => ProjectContext.Instance.ScenesLoader.LoadLevel(1);
+    public void LoadMenu() => LegacyProjectContext.Instance.ScenesLoader.LoadMenu();
+    public void LoadFirstLevel() => LegacyProjectContext.Instance.ScenesLoader.LoadLevel(1);
 }

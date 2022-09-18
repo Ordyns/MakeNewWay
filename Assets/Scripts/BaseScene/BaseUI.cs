@@ -78,9 +78,9 @@ public class BaseUI : MonoBehaviour, IPauseHandler
         _pauseManager.SetPaused(false);
     }
 
-    public void RestartLevel() => ProjectContext.Instance.ScenesLoader.RestartLevel();
-    public void LoadMenu() => ProjectContext.Instance.ScenesLoader.LoadMenu();
-    public void LoadNextLevel() => ProjectContext.Instance.ScenesLoader.NextLevel();
+    public void RestartLevel() => LegacyProjectContext.Instance.ScenesLoader.RestartLevel();
+    public void LoadMenu() => LegacyProjectContext.Instance.ScenesLoader.LoadMenu();
+    public void LoadNextLevel() => LegacyProjectContext.Instance.ScenesLoader.NextLevel();
 
     public void LevelCompleted(bool isLastLevelCompleted = false){
         isLevelCompleted = true;

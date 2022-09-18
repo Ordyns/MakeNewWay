@@ -20,11 +20,11 @@ public class LevelButton : MonoBehaviour
     private Timer _animationTimer;
     private bool isLevelLocked;
 
-    public void LoadLevel(){
-        ProjectContext.Instance.ScenesLoader.LoadLevel(_levelNumber);
-    }
+    private System.Action<int> _loadLevel;
 
-    public void SetLevelNumber(int number){
+    public void Init(System.Action<int> loadLevel, int number){
+        _loadLevel = loadLevel;
+
         _levelNumber = number;
         levelNumberText.text = number.ToString();
     }
@@ -32,6 +32,7 @@ public class LevelButton : MonoBehaviour
     public void SetBonusActive(bool active) => bonusPanel.SetActive(active);
     public void BonusReceived() => bonusReceivedPanel.SetActive(true);
 
+    public void LoadLevel() => _loadLevel.Invoke(_levelNumber);
 
     private Sequence _graphicsAnimationSequence;
     private const float GraphicsAnimationDuration = 0.2f;

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -55,7 +54,7 @@ public class Transition : MonoBehaviour
         string[] loadingStates = new string[] {"Loading.", "Loading..", "Loading..."};
 
         while(isLoading){
-            for(int i = 0; i < 4; i++){
+            for(int i = 0; i < loadingStates.Length; i++){
                 mainText.text = loadingStates[i];
                 yield return new WaitForSecondsRealtime(0.3f);
             }

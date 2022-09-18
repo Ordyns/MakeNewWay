@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,14 +6,19 @@ public class ScenesLoader : MonoBehaviour
     public event System.Action<int> GameLevelLoaded;
     public event System.Action<int> GameLevelLoading;
 
-    [SerializeField] private ScenesTransitions scenesTransitions;
-    [Space]
+    public int LastLoadedLevelNumber { get; private set; }
+
     [SerializeField] private string tutorialSceneName = "Tutorial";
     [SerializeField] private string menuSceneName = "Menu";
     [SerializeField] private string baseSceneName = "Base";
     [SerializeField] private string levelSceneName = "Level";
 
-    public int LastLoadedLevelNumber { get; private set; }
+    private ScenesTransitions _scenesTransitions;
+
+    [Zenject.Inject]
+    private void Init(ScenesTransitions scenesTransitions){
+        _scenesTransitions = scenesTransitions;
+    }
 
     public void LoadLevel(int number){
         if(number == 0) number = 1;
@@ -34,8 +37,7 @@ public class ScenesLoader : MonoBehaviour
     public void LoadTutorial() => LoadScene(tutorialSceneName);
 
     public void NextLevel(){
-        string stringIndex = SceneManager.GetActiveScene().name.Substring(levelSceneName.Length);
-        LoadLevel(System.Int32.Parse(stringIndex) + 1);
+        LoadLevel(LastLoadedLevelNumber + 1);
     }
 
     private void LoadScene(string name){
@@ -54,6 +56,6 @@ public class ScenesLoader : MonoBehaviour
         CloseTransition();
     }
 
-    private void AddTransition(System.Action onBeginLoad) => scenesTransitions.CreateNewTransition(onBeginLoad);
-    private void CloseTransition() => scenesTransitions.CloseCurrentTransition();
+    private void AddTransition(System.Action onBeginLoad) => _scenesTransitions.CreateNewTransition(onBeginLoad);
+    private void CloseTransition() => _scenesTransitions.CloseCurrentTransition();
 }

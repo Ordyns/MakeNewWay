@@ -3,9 +3,9 @@ using UnityEngine;
 //using Firebase.Analytics;
 //using Firebase.Extensions;
 
-public class Analytics : MonoBehaviour
+public static class Analytics
 {
-    private void Awake() {
+    public static void Init() {
         /*FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
             var dependencyStatus = task.Result;
             if (dependencyStatus == DependencyStatus.Available)
@@ -13,16 +13,6 @@ public class Analytics : MonoBehaviour
             else
                 Debug.LogError("Could not resolve all Firebase dependencies: " + dependencyStatus);
         });*/
-    }
-
-    private void Start() => ProjectContext.Instance.ScenesLoader.GameLevelLoaded += GameLevelLoaded;
-
-    private void GameLevelLoaded(int levelNumber){
-        LevelContext.Instance.PathChecker.PathChecked += (pathCorrect) => {
-            if(pathCorrect){
-                LevelCompleted(levelNumber);
-            }
-        };
     }
     
     /*public static void TutorialCompleted() => FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventTutorialComplete);

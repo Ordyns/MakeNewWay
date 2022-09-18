@@ -1,18 +1,18 @@
 using System.Linq;
 using UnityEngine;
 
-public class Settings : MonoBehaviour
+public class Settings
 {
-    [SerializeField] private Localization localization;
-    [SerializeField] private MusicPlayer musicPlayer;
+    private Localization _localization;
+    private MusicPlayer _musicPlayer;
 
     public bool IsMusicEnabled { 
         get => _data.IsMusicEnabled; 
         set{
             _data.IsMusicEnabled = value;
 
-            if(value) musicPlayer.PlayMusic();
-            else musicPlayer.StopMusic();
+            if(value) _musicPlayer.PlayMusic();
+            else _musicPlayer.StopMusic();
         } 
     }
     public bool IsSoundsEnabled { 
@@ -23,12 +23,13 @@ public class Settings : MonoBehaviour
     private Data _data = new Data();
     private SaveSystem<Data> _saveSystem;
 
-    private void Awake() {
+    public Settings(Localization localization, MusicPlayer musicPlayer){
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
-    }
 
-    public void Init(){
+        _localization = localization;
+        _musicPlayer = musicPlayer;
+
         _saveSystem = new SaveSystem<Data>(_data);
         _data = _saveSystem.LoadData();
 
@@ -36,14 +37,15 @@ public class Settings : MonoBehaviour
             musicPlayer.StopMusic();
     }
 
-    public void ChangeLocalizationToNextLanguage() => localization.ChangeToNextLanguage();
-    public string GetCurrentLanguageCode(){
-        return localization.Languages.FirstOrDefault(language => language.LanguageCode == localization.CurrentLanguageCode).DisplayingName;
-    }
+    public void ChangeLocalizationToNextLanguage() => _localization.ChangeToNextLanguage();
 
-    private void OnApplicationQuit() {
-        _saveSystem.SaveData(_data);
-    }
+    public string GetDisplayingNameOfCurrentLanguage() 
+        => _localization.Languages.FirstOrDefault(language => language.LanguageCode == _localization.CurrentLanguageCode).DisplayingName;
+    
+    // TODO
+    // private void OnApplicationQuit() { 
+        // _saveSystem.SaveData(_data);
+    // }
 
     public class Data : ISaveable
     {

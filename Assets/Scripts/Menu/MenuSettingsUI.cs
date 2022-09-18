@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
-using System.Linq;
 
 public class MenuSettingsUI : MonoBehaviour
 {
@@ -20,9 +19,12 @@ public class MenuSettingsUI : MonoBehaviour
 
     private Settings _settings;
 
-    private void Start() {
-        _settings = ProjectContext.Instance.Settings;
+    [Zenject.Inject]
+    private void Init(Settings settings){
+        _settings = settings;
+    }
 
+    private void Start() {
         UpdateAudioButtonIcon(soundsButton, _settings.IsSoundsEnabled);
         UpdateAudioButtonIcon(musicButton, _settings.IsMusicEnabled);
 
@@ -50,7 +52,7 @@ public class MenuSettingsUI : MonoBehaviour
     }
 
     private void UpdateLanguageText() {
-        languageText.text = _settings.GetCurrentLanguageCode();
+        languageText.text = _settings.GetDisplayingNameOfCurrentLanguage();
     }
 
     private void UpdateAudioButtonIcon(AudioButton audioButton, bool enabled)

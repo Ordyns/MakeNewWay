@@ -36,7 +36,7 @@ public class GuideSystem : MonoBehaviour
         IsGuideShowing = false;
 
         foreach(GuideView guideView in GuideViews){
-            if(guideView.TargetLevelNumber == ProjectContext.Instance.ScenesLoader.LastLoadedLevelNumber)
+            if(guideView.TargetLevelNumber == LegacyProjectContext.Instance.ScenesLoader.LastLoadedLevelNumber)
                 _currentGuideView = guideView;
 
             guideView.gameObject.SetActive(false);

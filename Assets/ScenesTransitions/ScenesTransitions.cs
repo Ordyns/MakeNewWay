@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using DG.Tweening;
 
 public class ScenesTransitions : MonoBehaviour
 {
@@ -19,15 +15,6 @@ public class ScenesTransitions : MonoBehaviour
         transitionPanel.StartInAnimation();
 
         transitionPanel.InAnimationFinished = onInAnimationFinished;
-
-        // if(transitionPanel != null){
-            // CloseCurrentTransition();
-        // }
-
-        // Transition transition = Instantiate(transitionPanelPrefab);
-        // transition.ChangeColor(transitionsColor);
-
-        // transitionPanel = transition;
     }
 
     public void CloseCurrentTransition() => transitionPanel.Close();

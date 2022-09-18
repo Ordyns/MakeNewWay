@@ -18,7 +18,7 @@ public class PathHandler : MonoBehaviour
         _stepsViewModel = stepsViewModel;
         _playerData = playerData;
 
-        _levelNumber = ProjectContext.Instance.ScenesLoader.LastLoadedLevelNumber;
+        _levelNumber = LegacyProjectContext.Instance.ScenesLoader.LastLoadedLevelNumber;
 
         _pathChecker = LevelContext.Instance.PathChecker;
         _pathChecker.PathChecked += OnPathChecked;
@@ -36,7 +36,7 @@ public class PathHandler : MonoBehaviour
     
         baseSoundsPlayer.PlayLevelCompletedSound(BaseUI.PanelsAnimationDuration);
 
-        bool isLastLevelCompleted = _levelNumber + 1 > ProjectContext.Instance.LevelsContainer.LevelsCount;
+        bool isLastLevelCompleted = _levelNumber + 1 > LegacyProjectContext.Instance.LevelsContainer.LevelsCount;
         baseUI.LevelCompleted(isLastLevelCompleted);
 
         LevelCompleted.Invoke();

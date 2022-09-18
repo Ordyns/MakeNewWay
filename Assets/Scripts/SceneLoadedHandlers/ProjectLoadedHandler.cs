@@ -1,20 +1,18 @@
-using UnityEngine;
-
-public class ProjectLoadedHandler : MonoBehaviour
+public class ProjectLoadedHandler
 {
-    [SerializeField] private ProjectContext context;
+    private ScenesLoader _scenesLoader;
 
-    private void Awake() {
+    public ProjectLoadedHandler(ScenesLoader scenesLoader){
         SavesAdapter savesAdapter = new SavesAdapter();
         if(savesAdapter.IsLegacyDataExists())
             savesAdapter.Adapt();
 
-        context.Settings.Init();
+        _scenesLoader = scenesLoader;
     }
 
-    private void Start() {
-        context.AdsManager.Init(context.Localization.GetLocalizedValue);
-
+    public void Start() {
+        Analytics.Init();
+        
         LoadNextScene();
     }
 
@@ -24,8 +22,8 @@ public class ProjectLoadedHandler : MonoBehaviour
         data = saveSystem.LoadData();
 
         if(data != null && data.TutorialCompleted)
-            context.ScenesLoader.LoadMenu();
+            _scenesLoader.LoadMenu();
         else
-            context.ScenesLoader.LoadTutorial();
+            _scenesLoader.LoadTutorial();
     }
 }

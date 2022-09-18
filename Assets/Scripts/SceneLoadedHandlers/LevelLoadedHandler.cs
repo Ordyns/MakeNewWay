@@ -25,7 +25,7 @@ public class LevelLoadedHandler : MonoBehaviour
         _baseContext = BaseSceneContext.Instance;
         _levelContext = LevelContext.Instance;
 
-        _loadedlevelNumber = ProjectContext.Instance.ScenesLoader.LastLoadedLevelNumber;
+        _loadedlevelNumber = LegacyProjectContext.Instance.ScenesLoader.LastLoadedLevelNumber;
 
         InitAll();
     }
@@ -39,7 +39,7 @@ public class LevelLoadedHandler : MonoBehaviour
         _baseContext.BaseCamera.Init(_levelContext.LevelSettings);
         _baseContext.BaseUI.Init(_stepsViewModel, _baseContext.GuideSystem, _baseContext.PauseManager);
 
-        baseSoundsPlayer.IsEnabled = ProjectContext.Instance.Settings.IsSoundsEnabled;
+        baseSoundsPlayer.IsEnabled = LegacyProjectContext.Instance.Settings.IsSoundsEnabled;
 
         InitHint();
 
@@ -56,8 +56,8 @@ public class LevelLoadedHandler : MonoBehaviour
     }
 
     private void InitHint(){
-        HintViewModel hintViewModel = new HintViewModel(_levelContext.HintSystem, ProjectContext.Instance.AdsManager);
-        Func<string, string> getLocalizedValue = ProjectContext.Instance.Localization.GetLocalizedValue;
+        HintViewModel hintViewModel = new HintViewModel(_levelContext.HintSystem, LegacyProjectContext.Instance.AdsManager);
+        Func<string, string> getLocalizedValue = LegacyProjectContext.Instance.Localization.GetLocalizedValue;
         _baseContext.BaseUI.HintUI.Init(hintViewModel, getLocalizedValue);
 
         HintIslandFactory factory = new HintIslandFactory(_baseContext.HintRenderer);
