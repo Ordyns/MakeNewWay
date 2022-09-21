@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System;
@@ -15,13 +13,9 @@ public class MovableIsland : Island, ISwipeHandler
     public string MovableIndicatorPropertyName => nameof(movableIndicator);
     #endif
 
-    private Direction _lastSwipteDirection;
-
     private const float AnimationDuration = 0.3f;
 
     public bool OnSwipe(Direction direction, Action onUpdated){
-        _lastSwipteDirection = direction;
-
         Vector3 moveDirection = ConvertDirectionToVector(direction);
 
         if((Parent && Parent.AllChildIslandsCanBeUpdated(direction) == false) || CanMoveInDirection(direction) == false)

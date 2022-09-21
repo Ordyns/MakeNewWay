@@ -1,6 +1,3 @@
-using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 
@@ -9,13 +6,31 @@ public abstract class SoundsPlayer : MonoBehaviour
 {
     [Header("Main")]
     [SerializeField] [MinMaxSlider(-3, 3)] private Vector2 pitchRange = Vector2.one;
-    [Space]
-    public bool IsEnabled = true;
+    
+    public bool IsSoundsEnabled{
+        get => isEnabled;
+        set{
+            isEnabled = value;
+            UpdateVolume();
+        }
+    }
+
+    private bool isEnabled;
+
+    private const float _defaultVolume = 1f;
 
     private AudioSource _audioSource;
 
+    private Zenject.SignalBus _signalBus;
+
     private void OnValidate() {
         _audioSource = GetComponent<AudioSource>();
+    }
+
+    [Zenject.Inject]
+    private void Init(Zenject.SignalBus signalBus){
+        _signalBus = signalBus;
+        _signalBus.Fire(new ObjectCreatedSignal<SoundsPlayer>(this));
     }
 
     protected void PlayRandomClip(AudioClip[] clips, float delay = 0){
@@ -33,10 +48,18 @@ public abstract class SoundsPlayer : MonoBehaviour
     }
 
     protected void PlayClip(AudioClip clip){
-        if(IsEnabled == false)
+        if(IsSoundsEnabled == false)
             return;
 
         _audioSource.pitch = Random.Range(pitchRange.x, pitchRange.y);
         _audioSource.PlayOneShot(clip);
+    }
+
+    private void UpdateVolume(){
+        _audioSource.volume = isEnabled ? _defaultVolume : 0;
+    }
+
+    private void OnDestroy() {
+        _signalBus.Fire(new ObjectDestroyedSignal<SoundsPlayer>(this));
     }
 }

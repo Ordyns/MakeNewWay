@@ -20,9 +20,12 @@ public class HintSystem : MonoBehaviour
 
     private Sequence _islandsAnimationSequence;
 
-    public void Init(HintRenderer hintsRenderer, HintIslandFactory factory) {
+    [Zenject.Inject]
+    private void Init(LevelHintSteps hintSteps, HintRenderer hintsRenderer, HintIslandFactory factory) {
+        steps = hintSteps.GetSteps();
+
         _hintsRenderer = hintsRenderer;
-        _hintsRenderer.gameObject.SetActive(false);
+        _hintsRenderer.Deactivate();
 
         CurrentStepIndex = -1;
         
@@ -30,12 +33,12 @@ public class HintSystem : MonoBehaviour
     }
 
     private void CreateHintIslands(HintIslandFactory factory){
-        List<Transform> islandsTransforms = IslandsContainer.GetIslandsTransforms(LevelContext.Instance.IslandsContainer.Islands);
-        List<Transform> hintIslands = factory.GetHintIslands(islandsTransforms);
+        List<Transform> hintIslands = factory.GetHintIslands();
+        List<Transform> orignalIslands = factory.GetOriginalIslands();
 
         for (int j = 0; j < hintIslands.Count; j++){
             for(int i = 0; i < steps.Count; i++){
-                if(steps[i].IslandTransform == islandsTransforms[j]){
+                if(steps[i].IslandTransform == orignalIslands[j]){
                     Step step = steps[i];
                     step.IslandTransform = hintIslands[j];
                     steps[i] = step;
@@ -97,8 +100,7 @@ public class HintSystem : MonoBehaviour
     }
 
     private void UpdateLineRenderer(Step step){
-        _hintsRenderer.HintLineRenderer.gameObject.SetActive(step.Rotatable == false);
-        _hintsRenderer.HintLineRenderer.SetPositions(new Vector3[] { step.IslandTransform.localPosition, step.IslandTargetCoordinates });
+        _hintsRenderer.UpdateLineRenderer(step.Rotatable == false, step.IslandTransform.localPosition, step.IslandTargetCoordinates);
     }
 
     public void ActivateHint(){

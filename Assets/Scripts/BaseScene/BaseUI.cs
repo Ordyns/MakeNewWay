@@ -33,8 +33,11 @@ public class BaseUI : MonoBehaviour, IPauseHandler
     private StepsViewModel _stepsViewModel;
     
     private Timer _bonusReceivedViewTimer;
+    private Zenject.SignalBus _signalBus;
 
-    public void Init(StepsViewModel stepsViewModel, GuideSystem guideSystem, PauseManager pauseManager){
+    [Zenject.Inject]
+    private void Init(Zenject.SignalBus signalBus, StepsViewModel stepsViewModel, GuideSystem guideSystem, PauseManager pauseManager){
+        _signalBus = signalBus;
         _stepsViewModel = stepsViewModel;
         _guideSystem = guideSystem;
         _pauseManager = pauseManager;
@@ -44,9 +47,9 @@ public class BaseUI : MonoBehaviour, IPauseHandler
         mainUI.alpha = 0;
 
         previousStepButton.Bind(stepsViewModel.MoveToPreviousStepCommand);
-        stepsView.Init(stepsViewModel);
+        stepsView.Init(signalBus, stepsViewModel);
     }
-
+    
     public void ShowMainUI() {
         mainUI.DOFade(1, 1f).SetEase(Ease.OutCubic).SetEase(Ease.OutCubic).SetDelay(0.5f);
     }
@@ -78,9 +81,9 @@ public class BaseUI : MonoBehaviour, IPauseHandler
         _pauseManager.SetPaused(false);
     }
 
-    public void RestartLevel() => LegacyProjectContext.Instance.ScenesLoader.RestartLevel();
-    public void LoadMenu() => LegacyProjectContext.Instance.ScenesLoader.LoadMenu();
-    public void LoadNextLevel() => LegacyProjectContext.Instance.ScenesLoader.NextLevel();
+    public void RestartLevel() => _signalBus.Fire<ReloadLevelSignal>();
+    public void LoadMenu() => _signalBus.Fire<LoadMenuSignal>();
+    public void LoadNextLevel() => _signalBus.Fire<LoadNextLevelSignal>();
 
     public void LevelCompleted(bool isLastLevelCompleted = false){
         isLevelCompleted = true;

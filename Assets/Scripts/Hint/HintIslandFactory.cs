@@ -5,18 +5,29 @@ public class HintIslandFactory
 {
     private HintRenderer _hintRenderer;
 
-    public HintIslandFactory(HintRenderer hintRenderer){
+    private List<Transform> _hintIslands;
+    private List<Transform> _originalIslands;
+    private IslandsProvider _islandsProvider;
+
+    public HintIslandFactory(HintRenderer hintRenderer, IslandsProvider islandsProvider){
         _hintRenderer = hintRenderer;
+        _islandsProvider = islandsProvider;
     }
 
-    public List<Transform> GetHintIslands(List<Transform> originalIslands){
-        List<Transform> hintIslands = new List<Transform>();
+    public List<Transform> GetHintIslands(){
+        if(_hintIslands != null)
+            return _hintIslands;
 
-        foreach (Transform island in originalIslands)
-            hintIslands.Add(GetIsland(island));
+        _hintIslands = new List<Transform>();
+        _originalIslands = IslandsProvider.GetIslandsTransforms(_islandsProvider.Islands);
 
-        return hintIslands;
+        foreach (Transform island in _originalIslands)
+            _hintIslands.Add(GetIsland(island));
+
+        return _hintIslands;
     }
+
+    public List<Transform> GetOriginalIslands() => new List<Transform>(_originalIslands);
 
     public Transform GetIsland(Transform originalIsland){
         Transform hintIsland = MonoBehaviour.Instantiate(originalIsland.gameObject, _hintRenderer.HintIslandsParent).transform;

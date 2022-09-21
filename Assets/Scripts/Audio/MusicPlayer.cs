@@ -39,7 +39,9 @@ public class MusicPlayer : MonoBehaviour
             StopMusic();
 
         isMusicEnabled = true;
-        _musicRoutine = StartCoroutine(PlayMusicCoroutine());
+
+        if(gameObject.activeInHierarchy)
+            _musicRoutine = StartCoroutine(PlayMusicCoroutine());
     }
 
     public void StopMusic(){

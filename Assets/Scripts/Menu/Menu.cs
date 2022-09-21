@@ -14,15 +14,16 @@ public class Menu : MonoBehaviour
 
     private LevelsInfoProvider _levelsInfoProvider;
     private System.Action<int>  _loadLevel;
+    private Zenject.SignalBus _signalBus;
 
     [Zenject.Inject]
-    private void Init(System.Action<int> loadLevel, LevelsInfoProvider levelsInfoProvider){
+    private void Init(Zenject.SignalBus signalBus, LevelsInfoProvider levelsInfoProvider){
         _levelsInfoProvider = levelsInfoProvider;
-        _loadLevel = loadLevel;
+        _signalBus = signalBus;
     }
 
     private void Start() {
-        _saveSystem = new SaveSystem<PlayerData>(_data);
+        _saveSystem = new SaveSystem<PlayerData>();
         _data = _saveSystem.LoadData();
 
         InitLevelsView();
@@ -37,7 +38,7 @@ public class Menu : MonoBehaviour
         int levelsCount = _levelsInfoProvider.LevelsCount;
         
         levelsView.gameObject.SetActive(true);
-        levelsView.Init(_loadLevel, _levelsInfoProvider, currentCompletedLevel, completedLevelsWithBouns);
+        levelsView.Init(_signalBus, _levelsInfoProvider, currentCompletedLevel, completedLevelsWithBouns);
     }
 
     private void ActivateRandomIsland(){

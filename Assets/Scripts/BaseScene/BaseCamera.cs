@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera), typeof(CameraConstantWidth), typeof(CameraAnimator))]
@@ -17,7 +15,8 @@ public class BaseCamera : MonoBehaviour
         _cameraConstantWidth = GetComponent<CameraConstantWidth>();
     }
 
-    public void Init(LevelSettings levelSettings){
+    [Zenject.Inject]
+    private void Init(LevelSettings levelSettings){
         float cameraOriginalSize = levelSettings.CameraSize;
         float constantWidthSize = _cameraConstantWidth.GetConstSize(cameraOriginalSize + _cameraAnimator.SizeOffset);;
         Camera.orthographicSize = constantWidthSize;

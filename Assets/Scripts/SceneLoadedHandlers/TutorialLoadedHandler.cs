@@ -13,41 +13,41 @@ public class TutorialLoadedHandler : MonoBehaviour
     [SerializeField] private IslandsUpdater islandsUpdater;
     [Space]
     [SerializeField] private PathChecker pathChecker;
-    [SerializeField] private IslandsContainer islandsContainer;
+    [SerializeField] private IslandsProvider islandsContainer;
 
     private StepsViewModel _stepsViewModel;
 
-    private void Start() {
-        pathChecker.Init(islandsContainer.Islands);
+    // private void Start() {
+    //     pathChecker.Init(islandsContainer.Islands);
 
-        StepsRecorder stepsRecorder = new LevelStepsRecorder(new List<Island>());
-        _stepsViewModel = new StepsViewModel(levelSettings, islandsUpdater, stepsRecorder, false);
+    //     StepsRecorder stepsRecorder = new LevelStepsRecorder(new List<Island>());
+    //     _stepsViewModel = new StepsViewModel(levelSettings, islandsUpdater, stepsRecorder, false);
 
-        InitIslandsUpdater();
-        InitBaseCamera();
-        InitTutorial();
-    }
+    //     InitIslandsUpdater();
+    //     InitBaseCamera();
+    //     InitTutorial();
+    // }
 
-    private void InitIslandsUpdater(){
-        islandsUpdater.IsIslandsUpdatingAllowed = false;
-        islandsUpdater.IslandUpdated += pathChecker.CheckPath;
-        islandsUpdater.Init(new PauseManager());
-    }
+    // private void InitIslandsUpdater(){
+    //     islandsUpdater.IsIslandsUpdatingAllowed = false;
+    //     islandsUpdater.IslandUpdated += pathChecker.CheckPath;
+    //     islandsUpdater.Init(new PauseManager());
+    // }
 
-    private void InitBaseCamera(){
-        baseCamera.Init(levelSettings);
-        baseCamera.PlayInAnimation();
-    }
+    // private void InitBaseCamera(){
+    //     baseCamera.Init(levelSettings);
+    //     baseCamera.PlayInAnimation();
+    // }
 
-    private void InitTutorial(){
-        tutorial.TutorialFinished += OnTutorialFinished;
-        tutorial.Init(islandsUpdater, baseCamera);
-        Timer.StartNew(this, baseCamera.AnimationDuration, tutorial.BeginTutorial);
-    }
+    // private void InitTutorial(){
+    //     tutorial.TutorialFinished += OnTutorialFinished;
+    //     tutorial.Init(islandsUpdater, baseCamera);
+    //     Timer.StartNew(this, baseCamera.AnimationDuration, tutorial.BeginTutorial);
+    // }
 
-    private void OnTutorialFinished(){
-        Analytics.TutorialCompleted();
-        baseCamera.PlayOutAnimation();
-        Timer.StartNew(this, baseCamera.AnimationDuration, () => soundsPlayer.PlayLevelCompletedSound());
-    }
+    // private void OnTutorialFinished(){
+    //     Analytics.TutorialCompleted();
+    //     baseCamera.PlayOutAnimation();
+    //     Timer.StartNew(this, baseCamera.AnimationDuration, () => soundsPlayer.PlayLevelCompletedSound());
+    // }
 }

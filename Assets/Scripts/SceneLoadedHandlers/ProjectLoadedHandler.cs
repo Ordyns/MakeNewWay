@@ -18,7 +18,7 @@ public class ProjectLoadedHandler
 
     private void LoadNextScene(){
         PlayerData data = new PlayerData();
-        SaveSystem<PlayerData> saveSystem = new SaveSystem<PlayerData>(data);
+        SaveSystem<PlayerData> saveSystem = new SaveSystem<PlayerData>();
         data = saveSystem.LoadData();
 
         if(data != null && data.TutorialCompleted)

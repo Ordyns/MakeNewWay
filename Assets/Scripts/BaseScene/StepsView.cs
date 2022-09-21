@@ -15,7 +15,7 @@ public class StepsView : MonoBehaviour
     
     private StepsViewModel _stepsViewModel;
 
-    public void Init(StepsViewModel viewModel){
+    public void Init(Zenject.SignalBus signalBus, StepsViewModel viewModel){
         _stepsViewModel = viewModel;
 
         int stepsForBonus = _stepsViewModel.StepsForBonus;
@@ -28,8 +28,8 @@ public class StepsView : MonoBehaviour
 
         stepsText.text = _stepsViewModel.StepsLeft.ToString();
         _stepsViewModel.StepsLeft.Changed += OnStepsCountChanged;
-
-        _stepsViewModel.CantUpdateIsland += OnCantUpdateIsland;
+        
+        signalBus.Subscribe<CantUpdateIslandSignal>(OnCantUpdateIsland);
     }
 
     private void OnCantUpdateIsland(){

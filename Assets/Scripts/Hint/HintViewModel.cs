@@ -23,7 +23,7 @@ public class HintViewModel : ViewModel
     private Data _data = new Data();
 
     public HintViewModel(HintSystem hintSystem, AdsManager adsManager){
-        _saveSystem = new SaveSystem<Data>(_data);
+        _saveSystem = new SaveSystem<Data>();
         _data = _saveSystem.LoadData() as Data;
 
         _hintSystem = hintSystem;
@@ -58,10 +58,10 @@ public class HintViewModel : ViewModel
     }
 
     public void ViewAd(System.Action onComplete){
-        if(_adsManager)
-            _adsManager.ShowRewardedAd(onComplete, null);
-        else
+        if(UnityEngine.Application.isEditor)
             onComplete?.Invoke();
+        else
+            _adsManager.ShowRewardedAd(onComplete, null);
     }
 
     public async System.Threading.Tasks.Task<bool> IsInternetReachable() => await AdsManager.IsInternetReachable();

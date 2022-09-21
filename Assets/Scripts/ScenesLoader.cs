@@ -36,7 +36,7 @@ public class ScenesLoader : MonoBehaviour
     
     public void LoadTutorial() => LoadScene(tutorialSceneName);
 
-    public void NextLevel(){
+    public void LoadNextLevel(){
         LoadLevel(LastLoadedLevelNumber + 1);
     }
 

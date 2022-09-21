@@ -560,7 +560,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c43c4da3f5709b94d898927f2e226f2f, type: 3}
   - {fileID: 8300000, guid: 8c01154c8b1b39c4f9e1a977e3890fe7, type: 3}
   - {fileID: 8300000, guid: 4a3bdbb58bd2d0248ac4ae4252915c76, type: 3}
-  nextMusicDelay: 45
+  nextMusicDelay: 0
 --- !u!82 &4963833802733613898
 AudioSource:
   m_ObjectHideFlags: 0

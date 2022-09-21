@@ -19,11 +19,20 @@ public class Localization : MonoBehaviour
     private LinkedList<LocalizedText> _localizedTexts;
 
     [Zenject.Inject]
-    private void Init(){
+    private void Init(Zenject.SignalBus signalBus){
         _localizedTexts = new LinkedList<LocalizedText>();
+        InitSignals(signalBus);
 
         CurrentLanguageCode = GetUserLanguage();
         LoadLocalization(CurrentLanguageCode);
+    }
+
+    private void InitSignals(Zenject.SignalBus signalBus){
+        signalBus.DeclareSignal<ObjectCreatedSignal<LocalizedText>>();
+        signalBus.Subscribe<ObjectCreatedSignal<LocalizedText>>(AddLocalizedText);
+
+        signalBus.DeclareSignal<ObjectDestroyedSignal<LocalizedText>>();
+        signalBus.Subscribe<ObjectDestroyedSignal<LocalizedText>>(RemoveLocalizedText);
     }
 
     private void Start() {
@@ -46,11 +55,14 @@ public class Localization : MonoBehaviour
     }
 
     private void UpdateTexts(){
-        foreach (LocalizedText text in _localizedTexts){
-            if(text == null)
-                _localizedTexts.Remove(text);
+        var current = _localizedTexts.First;
+        while(current != null){
+            if(current == null)
+                _localizedTexts.Remove(current);
 
-            text.UpdateText(GetLocalizedValue(text.LocalizationKey));
+            current.Value.UpdateText(GetLocalizedValue(current.Value.LocalizationKey));
+
+            current = current.Next;
         }
     }
 
@@ -74,14 +86,19 @@ public class Localization : MonoBehaviour
             return _currentLocalization.LocalizationList.Find(l => l.Key == key).Value;
         }
         catch{
-            Debug.LogError("LocalizationErorr: Key not founded! \n key = " + key);
+            Debug.LogError("LocalizationErorr: Key not founded! \n key: " + key);
             return null;
         }
     }
 
-    public void AddLocalizedText(LocalizedText localizedText){
-        _localizedTexts.AddLast(localizedText);
+    private void AddLocalizedText(ObjectCreatedSignal<LocalizedText> signal){
+        LocalizedText localizedText = signal.Object;
         localizedText.UpdateText(GetLocalizedValue(localizedText.LocalizationKey));
+        _localizedTexts.AddLast(localizedText);
+    }
+
+    private void RemoveLocalizedText(ObjectDestroyedSignal<LocalizedText> signal){
+        _localizedTexts.Remove(signal.Object);
     }
 
     private string GetUserLanguage(){

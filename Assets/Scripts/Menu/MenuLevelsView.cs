@@ -18,12 +18,12 @@ public class MenuLevelsView : MonoBehaviour
         _animatedPanel = GetComponent<AnimatedPanel>();
     }
 
-    public void Init(System.Action<int> loadLevel, LevelsInfoProvider levelsInfoProvider, int currentCompletedLevel, IList<int> completedLevelsWithBonus){
+    public void Init(in Zenject.SignalBus signalBus, LevelsInfoProvider levelsInfoProvider, int currentCompletedLevel, IList<int> completedLevelsWithBonus){
         _levelsButtons = new List<LevelButton>();
 
         for(int i = 1; i < levelsInfoProvider.LevelsCount + 1; i++){
             LevelButton levelButton = Instantiate(levelButtonPrefab, levelsPanelContent);
-            levelButton.Init(loadLevel, i);
+            levelButton.Init(signalBus, i);
             
             if(i < currentCompletedLevel) levelButton.LevelCompleted();
             else levelButton.SetLockedState(i > currentCompletedLevel);

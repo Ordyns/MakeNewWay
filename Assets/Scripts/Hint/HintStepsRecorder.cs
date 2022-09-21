@@ -7,7 +7,7 @@ public class HintStepsRecorder : StepsRecorder
     [SerializeField] private List<IslandsState> _islandsStates;
     private int _currentStepIndex = -1;
 
-    public HintStepsRecorder(List<Island> islands) : base(islands) {}
+    public HintStepsRecorder(IslandsProvider islandsProvider) : base(islandsProvider) {}
 
     public HintStepsRecorder(List<Transform> islandsTransforms, int stepsCount, float animationDuration) : base(islandsTransforms, animationDuration) {
         _islandsStates = new List<IslandsState>(stepsCount);

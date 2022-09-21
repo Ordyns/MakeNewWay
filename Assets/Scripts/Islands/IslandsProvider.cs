@@ -1,21 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IslandsContainer : MonoBehaviour
+public class IslandsProvider : MonoBehaviour
 {
-    [field:SerializeField] public List<Island> Islands { get; private set; }
+    public List<Island> Islands { 
+        get{
+            if(_islands == null)
+                _islands = GetIslands();
+            
+            return _islands;
+        }
+    }
+
+    private List<Island> _islands;
 
     [field:SerializeField] public Transform IslandsParent { get; private set; }
-    [field:SerializeField] public Transform WallsParent { get; private set; }
 
-    private List<Transform> _walls;
-
-    private void Awake(){
-        Islands = IslandsParent.GetAllChildrenWithComponent<Island>(false);
-
-        _walls = new List<Transform>();
-        for(int i = 0; i < WallsParent.childCount; i++)
-            _walls.Add(WallsParent.GetChild(i));
+    private List<Island> GetIslands(){
+        return IslandsParent.GetAllChildrenWithComponent<Island>(false);
     }
 
     public static List<Transform> GetIslandsTransforms(List<Island> islands){

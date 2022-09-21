@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class IslandsUpdater : MonoBehaviour, IPauseHandler
+public class IslandsUpdater : MonoBehaviour
 {
     public event System.Action IslandUpdating;
     public event System.Action IslandUpdated;
@@ -14,12 +14,13 @@ public class IslandsUpdater : MonoBehaviour, IPauseHandler
 
     private PlayerInput<Island> _playerInput;
 
-    private bool isPaused;
     private PauseManager _pauseManager;
+
+    private Zenject.SignalBus _signalBus;
     
-    public void Init(PauseManager pauseManager) {
+    [Zenject.Inject]
+    private void Init(PauseManager pauseManager) {
         _pauseManager = pauseManager;
-        _pauseManager.Subscribe(this);
 
         _playerInput = new PlayerInput<Island>(mainCamera);
         _playerInput.Click += OnClick;
@@ -28,8 +29,13 @@ public class IslandsUpdater : MonoBehaviour, IPauseHandler
         IsIslandsUpdatingAllowed = true;
     }
 
+    [Zenject.Inject]
+    private void InitSignals(Zenject.SignalBus signalBus){
+        _signalBus = signalBus;
+    }
+
     private void Update() {
-        if(isPaused || IsIslandUpdating)
+        if(_pauseManager.IsPaused || IsIslandUpdating)
             return;
 
         _playerInput.Update();
@@ -56,6 +62,8 @@ public class IslandsUpdater : MonoBehaviour, IPauseHandler
     private void OnUpdatingFinished(){
         IsIslandUpdating = false;
         IslandUpdated?.Invoke();
+
+        _signalBus.Fire<IslandUpdatedSignal>();
     }
 
     public void ExternalUpdateStarted(float duration){
@@ -69,6 +77,7 @@ public class IslandsUpdater : MonoBehaviour, IPauseHandler
     private void UpdatingStarted(){
         IsIslandUpdating = true;
         IslandUpdating?.Invoke();
+        _signalBus.Fire<IslandUpdatingSignal>();
 
         soundsPlayer.PlaySwipeSound();
     }
@@ -76,18 +85,10 @@ public class IslandsUpdater : MonoBehaviour, IPauseHandler
     private bool AreIslandsCanBeUpdated(){
         if(IsIslandsUpdatingAllowed == false){
             CantUpdateIsland?.Invoke();
+            _signalBus.Fire<CantUpdateIslandSignal>();
             return false;
         }
 
         return true;
-    }
-
-    public void SetPaused(bool isPaused){
-        this.isPaused = isPaused;
-    }
-
-    public enum StepAction{
-        Add,
-        Substract
     }
 }

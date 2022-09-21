@@ -1,15 +1,22 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
-using NaughtyAttributes;
 using static DirectionExtensions;
 
 [SelectionBase] [Serializable]
 public class Island : MonoBehaviour
 {
-    public ComplexIsland Parent;
+    private ComplexIsland _parent;
+    public ComplexIsland Parent { 
+        get => _parent;
+        set{
+            if(_parent != null){
+                Debug.LogError("Can't set parent because it's already defined");
+                return;
+            }
+
+            _parent = value;
+        }
+    }
 
     [SerializeField] public IslandTypes IslandType;
     [Space]
@@ -33,20 +40,21 @@ public class Island : MonoBehaviour
     private Material _rendererMaterial;
     private Color _defaultEmissionColor;
 
-    private void Awake() {
-        _currentRenderer = defaultRenderer;
-        if(IslandType == IslandTypes.Corner) _currentRenderer = cornerRenderer;
+    private void Awake(){
+        InitRenderer();
+
+        if (IslandType == IslandTypes.Start)
+            EnergyIsGoing();
+        else
+            EnergyIsNotGoing();
+    }
+
+    private void InitRenderer(){
+        _currentRenderer = IslandType == IslandTypes.Corner ? cornerRenderer : defaultRenderer;
+
         _rendererMaterial = _currentRenderer.material;
 
         _defaultEmissionColor = _rendererMaterial.GetColor("_EmissionColor");
-
-        if(IslandType == IslandTypes.Start){
-            isEnergyGoing = true;
-            EnergyIsGoing();
-        }
-        else{
-            EnergyIsNotGoing();
-        }
     }
 
     public bool TryGetNextIsland(out Island nextIsland){
@@ -109,10 +117,12 @@ public class Island : MonoBehaviour
     public void EnergyIsNotGoing() => SetEnergyGoingState(false);
 
     private void SetEnergyGoingState(bool isGoing){
-        if(IslandType == IslandTypes.Empty)
+        if (IslandType == IslandTypes.Empty)
             return;
 
-        if(_rendererMaterial == null) Awake();
+        if (_rendererMaterial == null)
+            InitRenderer();
+
         isEnergyGoing = isGoing;
         _rendererMaterial.SetColor("_EmissionColor", isGoing ? _defaultEmissionColor : Color.black);
     }
@@ -154,7 +164,8 @@ public class Island : MonoBehaviour
     }
 #endif
 
-    public enum IslandTypes{
+    public enum IslandTypes
+    {
         Default,
         Corner,
         Start,

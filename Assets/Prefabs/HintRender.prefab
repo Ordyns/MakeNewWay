@@ -46,10 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e5273dea06eaea49b56538327236522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <HintCamera>k__BackingField: {fileID: 5677778822562228463}
-  <HintLineRenderer>k__BackingField: {fileID: 5677778823045620136}
   <HintIslandsParent>k__BackingField: {fileID: 5677778822732180583}
-  wallMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  hintCamera: {fileID: 5677778822562228463}
+  hintLineRenderer: {fileID: 5677778823045620136}
   layer: Hint
 --- !u!1 &5677778822562228459
 GameObject:

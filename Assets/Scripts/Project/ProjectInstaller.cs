@@ -12,13 +12,52 @@ public class ProjectInstaller : MonoInstaller
     [SerializeField] public ScenesTransitions scenesTransitions;
 
     public override void InstallBindings(){       
-        Container.BindInstances(musicPlayer, levelsInfoProvider, scenesLoader);
-        Container.BindInstances(localization, (Func<string, string>) localization.GetLocalizedValue);
+        DeclareSignals();
 
+        BindSettings();
+        BindScenesLoader();
+        BindLocalization();
+        BindAudio();
+        
+        Container.BindInstances(adsManager, levelsInfoProvider);
+
+        Container.Bind<ProjectInitializer>().AsSingle().NonLazy();
+    }
+
+    private void DeclareSignals(){
+        SignalBusInstaller.Install(Container);
+        
+        Container.DeclareSignal<OnQuitSignal>();
+    }
+
+    private void BindSettings(){
+        Container.BindInterfacesAndSelfTo<Settings>().AsSingle();
+        
+        Container.DeclareSignal<Settings.IsMusicEnabledChangedSignal>();
+        Container.DeclareSignal<Settings.IsSoundsEnabledChangedSignal>();
+    }
+
+    private void BindScenesLoader(){
+        Container.BindInstance(scenesLoader).AsSingle();
         Container.Bind<ScenesTransitions>().FromInstance(scenesTransitions).WhenInjectedInto<ScenesLoader>();
 
-        Container.Bind<Settings>().FromNew().AsSingle().NonLazy();
+        Container.DeclareSignal<LoadMenuSignal>();
+        Container.DeclareSignal<LoadNextLevelSignal>();
+        Container.DeclareSignal<ReloadLevelSignal>();
+        Container.DeclareSignal<LoadLevelSignal>();
+    }
 
-        Container.BindInstance(adsManager).NonLazy();
+    private void BindLocalization(){
+        Container.BindInstance(localization).AsSingle();
+        Container.BindInstance((Func<string, string>) localization.GetLocalizedValue).AsSingle();
+    }
+
+    private void BindAudio(){
+        Container.BindInstance(musicPlayer).AsSingle();
+        Container.BindInterfacesAndSelfTo<AudioManager>().AsSingle().NonLazy();
+    }
+
+    private void OnApplicationQuit() {
+        Container.Resolve<SignalBus>().Fire<OnQuitSignal>();
     }
 }

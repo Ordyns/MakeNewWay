@@ -20,7 +20,8 @@ public class HintUI : MonoBehaviour
 
     private System.Func<string, string> _getLocalizedValueFunc;
 
-    public void Init(HintViewModel hintViewModel, System.Func<string, string> getLocalizedValueFunc) {
+    [Zenject.Inject]
+    private void Init(HintViewModel hintViewModel, System.Func<string, string> getLocalizedValueFunc) {
         _hintViewModel = hintViewModel;
 
         _getLocalizedValueFunc = getLocalizedValueFunc;
@@ -39,7 +40,7 @@ public class HintUI : MonoBehaviour
 
         if(_hintViewModel.IsAdViewed == false){
             bool isInternetReachable = await _hintViewModel.IsInternetReachable();
-            viewAdButton.gameObject.SetActive(isInternetReachable);
+            viewAdButton?.gameObject.SetActive(isInternetReachable);
         }
     }
 

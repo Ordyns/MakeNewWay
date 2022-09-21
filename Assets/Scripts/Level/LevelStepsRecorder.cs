@@ -6,7 +6,7 @@ public class LevelStepsRecorder : StepsRecorder
 {
     private Stack<IslandsState> _islandsStates = new Stack<IslandsState>();
 
-    public LevelStepsRecorder(List<Island> islands) : base(islands) {}
+    public LevelStepsRecorder(IslandsProvider islandsProvider) : base(islandsProvider) { }
     public LevelStepsRecorder(List<Transform> islandsTransforms) : base(islandsTransforms) {}
 
     public override void RecordStep(){

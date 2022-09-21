@@ -1,51 +1,56 @@
 using System.Linq;
 using UnityEngine;
 
-public class Settings
+public class Settings : Zenject.IInitializable
 {
     private Localization _localization;
-    private MusicPlayer _musicPlayer;
 
     public bool IsMusicEnabled { 
         get => _data.IsMusicEnabled; 
         set{
             _data.IsMusicEnabled = value;
-
-            if(value) _musicPlayer.PlayMusic();
-            else _musicPlayer.StopMusic();
+            _signalBus.Fire(new IsMusicEnabledChangedSignal() { IsEnabled = value });
         } 
     }
     public bool IsSoundsEnabled { 
         get => _data.IsSoundsEnabled;
-        set => _data.IsSoundsEnabled = value;
+        set{
+            _data.IsSoundsEnabled = value;
+            _signalBus.Fire(new IsSoundsEnabledChangedSignal() { IsEnabled = value });
+        } 
     }
 
-    private Data _data = new Data();
+    private Zenject.SignalBus _signalBus;
+
+    private Data _data;
     private SaveSystem<Data> _saveSystem;
 
-    public Settings(Localization localization, MusicPlayer musicPlayer){
+    public Settings(Zenject.SignalBus signalBus, Localization localization){
+        _signalBus = signalBus;
+        _localization = localization;
+
+        signalBus.Subscribe<OnQuitSignal>(OnQuit);
+    }
+
+    void Zenject.IInitializable.Initialize(){
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
 
-        _localization = localization;
-        _musicPlayer = musicPlayer;
-
-        _saveSystem = new SaveSystem<Data>(_data);
+        _saveSystem = new SaveSystem<Data>();
         _data = _saveSystem.LoadData();
 
-        if(_data.IsMusicEnabled == false)
-            musicPlayer.StopMusic();
+        IsMusicEnabled = _data.IsMusicEnabled;
+        IsSoundsEnabled = _data.IsSoundsEnabled;
     }
 
     public void ChangeLocalizationToNextLanguage() => _localization.ChangeToNextLanguage();
 
     public string GetDisplayingNameOfCurrentLanguage() 
         => _localization.Languages.FirstOrDefault(language => language.LanguageCode == _localization.CurrentLanguageCode).DisplayingName;
-    
-    // TODO
-    // private void OnApplicationQuit() { 
-        // _saveSystem.SaveData(_data);
-    // }
+
+    public void OnQuit(){
+        _saveSystem.SaveData(_data);
+    }
 
     public class Data : ISaveable
     {
@@ -53,5 +58,15 @@ public class Settings
         public bool IsMusicEnabled = true;
 
         public string FileName => "settings";
+    }
+
+    public struct IsSoundsEnabledChangedSignal 
+    { 
+        public bool IsEnabled;
+    }
+
+    public struct IsMusicEnabledChangedSignal 
+    { 
+        public bool IsEnabled;
     }
 }

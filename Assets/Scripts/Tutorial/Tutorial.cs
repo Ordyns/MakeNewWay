@@ -19,7 +19,7 @@ public class Tutorial : MonoBehaviour
     private IIslandUpdateHandler _currentIslandUpdateHandler;
 
     public void Init(IslandsUpdater islandsUpdater, BaseCamera baseCamera){
-        _saveSystem = new SaveSystem<PlayerData>(_data);
+        _saveSystem = new SaveSystem<PlayerData>();
         _data = _saveSystem.LoadData();
         
         _currentStepIndex = -1;

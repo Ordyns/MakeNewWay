@@ -2,13 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Video;
-using System;
 
 [RequireComponent(typeof(VideoPlayer))]
 public class GuideSystem : MonoBehaviour
 {
     public bool IsGuideShowing { get; private set; }
-    public event System.Action GuideFinished;
     
     [SerializeField] private CanvasGroup background;
     [SerializeField] private AnimatedPanel continueButton;
@@ -19,6 +17,10 @@ public class GuideSystem : MonoBehaviour
     private VideoPlayer _videoPlayer;
 
     private GuideView _currentGuideView;
+
+    private Zenject.SignalBus _signalBus;
+
+    private int _currentLevelNumber;
     
     private SaveSystem<Data> _saveSystem;
     private Data _data = new Data();
@@ -27,16 +29,15 @@ public class GuideSystem : MonoBehaviour
         _videoPlayer = GetComponent<VideoPlayer>();
     }
 
-    private void Awake() {
-        _saveSystem = new SaveSystem<Data>(_data);
-        _data = _saveSystem.LoadData();
+    [Zenject.Inject]
+    private void Init(Zenject.SignalBus signalBus, int currentLevelNumber) {
+        _signalBus = signalBus;
+        _currentLevelNumber = currentLevelNumber;
     }
 
-    public void Init() {
-        IsGuideShowing = false;
-
+    private void Start() {
         foreach(GuideView guideView in GuideViews){
-            if(guideView.TargetLevelNumber == LegacyProjectContext.Instance.ScenesLoader.LastLoadedLevelNumber)
+            if(guideView.TargetLevelNumber == _currentLevelNumber)
                 _currentGuideView = guideView;
 
             guideView.gameObject.SetActive(false);
@@ -44,11 +45,18 @@ public class GuideSystem : MonoBehaviour
 
         background.alpha = 0;
         background.gameObject.SetActive(false);
+
+        LoadData();
         
         if(_currentGuideView && _data.CompletedGuides.Contains(_currentGuideView.TargetLevelNumber) == false)
             StartGuide(_currentGuideView);
         else
-            GuideFinished?.Invoke();
+            FinishGuide();
+    }
+
+    private void LoadData(){
+        _saveSystem = new SaveSystem<Data>();
+        _data = _saveSystem.LoadData();
     }
 
     private void StartGuide(GuideView guideView){
@@ -57,8 +65,6 @@ public class GuideSystem : MonoBehaviour
 
         _currentGuideView.gameObject.SetActive(true);
         _currentGuideView.StartGuide(continueButton, PlayGuideVideo);
-        
-        GuideFinished += () => _data.CompletedGuides.Add(_currentGuideView.TargetLevelNumber);
 
         background.gameObject.SetActive(true);
         background.DOFade(1, 0.25f).SetEase(Ease.InOutSine);
@@ -78,7 +84,10 @@ public class GuideSystem : MonoBehaviour
         background.DOFade(0, 0.2f).SetEase(Ease.InOutSine);
 
         IsGuideShowing = false;
-        GuideFinished?.Invoke();
+        if(_data.CompletedGuides.Contains(_currentGuideView.TargetLevelNumber) == false)
+            _data.CompletedGuides.Add(_currentGuideView.TargetLevelNumber);
+
+        _signalBus.AbstractFire<GuideCompletedSignal>();
     }
 
     public void PlayGuideVideo(VideoClip videoClip){
@@ -100,4 +109,6 @@ public class GuideSystem : MonoBehaviour
         
         public string FileName => "guides_data";
     }
+
+    public struct GuideCompletedSignal : ILevelStarterSignal { }
 }

@@ -9,9 +9,9 @@ public abstract class StepsRecorder
 
     public readonly float IslandAnimationDuration;
 
-    protected StepsRecorder(List<Island> islands, float islandAnimationDuration = 0.1f){
+    protected StepsRecorder(IslandsProvider islandsProvider, float islandAnimationDuration = 0.1f){
         IslandAnimationDuration = islandAnimationDuration;
-        IslandsTransforms = IslandsContainer.GetIslandsTransforms(islands);
+        IslandsTransforms = IslandsProvider.GetIslandsTransforms(islandsProvider.Islands);
     }
 
     protected StepsRecorder(List<Transform> islandsTransforms, float islandAnimationDuration = 0.1f){

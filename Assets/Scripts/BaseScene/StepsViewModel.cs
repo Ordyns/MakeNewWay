@@ -6,8 +6,6 @@ public class StepsViewModel : ViewModel
 
     public ObservableProperty<int> StepsLeft { get; private set; } = new ObservableProperty<int>();
     public ObservableProperty<int> StepsForBonus { get; private set; } = new ObservableProperty<int>();
-
-    public event Action CantUpdateIsland;
     
     public DelegateCommand MoveToPreviousStepCommand { get; private set; }
 
@@ -22,13 +20,16 @@ public class StepsViewModel : ViewModel
         InitCommands();
 
         _islandsUpdater = islandsUpdater;
-        _islandsUpdater.CantUpdateIsland += () => CantUpdateIsland?.Invoke();
-        _islandsUpdater.IslandUpdating += OnIslandUpdating;
 
         this.isBonusReceivedEarlier = isBonusReceivedEarlier;
 
         StartStepsCount = StepsLeft.Value = levelSettings.Steps;
         StepsForBonus.Value = levelSettings.StepsForBonus;
+    }
+
+    [Zenject.Inject]
+    private void InitSignals(Zenject.SignalBus signalBus){
+        signalBus.Subscribe<IslandUpdatingSignal>(OnIslandUpdating);
     }
 
     private void InitCommands(){
