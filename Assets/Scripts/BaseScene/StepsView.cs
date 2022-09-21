@@ -18,8 +18,11 @@ public class StepsView : MonoBehaviour
     public void Init(Zenject.SignalBus signalBus, StepsViewModel viewModel){
         _stepsViewModel = viewModel;
 
-        int stepsForBonus = _stepsViewModel.StepsForBonus;
+        signalBus.Subscribe<CantUpdateIslandSignal>(OnCantUpdateIsland);
+    }
 
+    private void Start() {
+        int stepsForBonus = _stepsViewModel.StepsForBonus;
         bonusPanel.SetActive(stepsForBonus > 0);
         bonusFilledStar.SetActive(_stepsViewModel.IsBonusReceived());
 
@@ -28,8 +31,6 @@ public class StepsView : MonoBehaviour
 
         stepsText.text = _stepsViewModel.StepsLeft.ToString();
         _stepsViewModel.StepsLeft.Changed += OnStepsCountChanged;
-        
-        signalBus.Subscribe<CantUpdateIslandSignal>(OnCantUpdateIsland);
     }
 
     private void OnCantUpdateIsland(){

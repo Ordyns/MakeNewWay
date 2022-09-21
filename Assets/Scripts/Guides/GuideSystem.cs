@@ -79,13 +79,15 @@ public class GuideSystem : MonoBehaviour
     }
 
     private void FinishGuide(){
-        _currentGuideView.CloseGuide();
-        continueButton.Close();
-        background.DOFade(0, 0.2f).SetEase(Ease.InOutSine);
-
-        IsGuideShowing = false;
-        if(_data.CompletedGuides.Contains(_currentGuideView.TargetLevelNumber) == false)
-            _data.CompletedGuides.Add(_currentGuideView.TargetLevelNumber);
+        if(_currentGuideView != null){
+            _currentGuideView.CloseGuide();
+            continueButton.Close();
+            background.DOFade(0, 0.2f).SetEase(Ease.InOutSine);
+    
+            IsGuideShowing = false;
+            if(_data.CompletedGuides.Contains(_currentGuideView.TargetLevelNumber) == false)
+                _data.CompletedGuides.Add(_currentGuideView.TargetLevelNumber);
+        }
 
         _signalBus.AbstractFire<GuideCompletedSignal>();
     }

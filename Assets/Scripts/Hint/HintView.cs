@@ -32,7 +32,7 @@ public class HintView : MonoBehaviour
         string stepsTextLocalizationKey = stepsText.GetComponent<LocalizedText>().LocalizationKey;
         _originalContentOfStepsText = getLocalizedValueFunc(stepsTextLocalizationKey);
 
-        hintViewModel.StepChanged += UpdateStepsText;
+        _hintViewModel.StepChanged += UpdateStepsText;
         UpdateStepsText();
     }
 
@@ -45,7 +45,8 @@ public class HintView : MonoBehaviour
     }
 
     public void UpdateStepsText(){
-        stepsText.text = string.Format(_originalContentOfStepsText, _hintViewModel.CurrentStep, _hintViewModel.StepsCount);
+        int currentStep = _hintViewModel.CurrentStep == 0 ? 1 : _hintViewModel.CurrentStep;
+        stepsText.text = string.Format(_originalContentOfStepsText, currentStep, _hintViewModel.StepsCount);
     }
 
     private void AnimateOverlay(System.Action onFadeInFinished){

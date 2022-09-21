@@ -9,23 +9,19 @@ public class Menu : MonoBehaviour
     [Header("===== Environment =====")]
     [SerializeField] private GameObject[] menuIslands;
 
-    private SaveSystem<PlayerData> _saveSystem;
-    private PlayerData _data = new PlayerData();
+    private PlayerData _data;
 
     private LevelsInfoProvider _levelsInfoProvider;
-    private System.Action<int>  _loadLevel;
     private Zenject.SignalBus _signalBus;
 
     [Zenject.Inject]
-    private void Init(Zenject.SignalBus signalBus, LevelsInfoProvider levelsInfoProvider){
+    private void Init(Zenject.SignalBus signalBus, PlayerData playerData, LevelsInfoProvider levelsInfoProvider){
         _levelsInfoProvider = levelsInfoProvider;
+        _data = playerData;
         _signalBus = signalBus;
     }
 
     private void Start() {
-        _saveSystem = new SaveSystem<PlayerData>();
-        _data = _saveSystem.LoadData();
-
         InitLevelsView();
 
         ActivateRandomIsland();

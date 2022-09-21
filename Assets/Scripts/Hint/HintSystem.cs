@@ -7,22 +7,20 @@ using DG.Tweening;
 public class HintSystem : MonoBehaviour
 {
     public int CurrentStepIndex { get; private set; }
-    public int StepsCount => steps.Count;
+    public int StepsCount => _steps.Count;
 
-    [SerializeField] private List<Step> steps;
-
-    private const float IslandAnimationDuration = 0.3f;
-    private const Ease IslandAnimationEase = Ease.OutCubic;
+    private List<Step> _steps;
+    private HintStepsRecorder _stepsRecorder;
 
     private HintRenderer _hintsRenderer;
 
-    private HintStepsRecorder _stepsRecorder;
-
     private Sequence _islandsAnimationSequence;
+    private const float IslandAnimationDuration = 0.3f;
+    private const Ease IslandAnimationEase = Ease.OutCubic;
 
     [Zenject.Inject]
     private void Init(LevelHintSteps hintSteps, HintRenderer hintsRenderer, HintIslandFactory factory) {
-        steps = hintSteps.GetSteps();
+        _steps = hintSteps.GetSteps();
 
         _hintsRenderer = hintsRenderer;
         _hintsRenderer.Deactivate();
@@ -37,16 +35,16 @@ public class HintSystem : MonoBehaviour
         List<Transform> orignalIslands = factory.GetOriginalIslands();
 
         for (int j = 0; j < hintIslands.Count; j++){
-            for(int i = 0; i < steps.Count; i++){
-                if(steps[i].IslandTransform == orignalIslands[j]){
-                    Step step = steps[i];
+            for(int i = 0; i < _steps.Count; i++){
+                if(_steps[i].IslandTransform == orignalIslands[j]){
+                    Step step = _steps[i];
                     step.IslandTransform = hintIslands[j];
-                    steps[i] = step;
+                    _steps[i] = step;
                 }
             }
         }
 
-        _stepsRecorder = new HintStepsRecorder(hintIslands, steps.Count, 0f);
+        _stepsRecorder = new HintStepsRecorder(hintIslands, _steps.Count, 0f);
     }
 
     public void NextStep(){
@@ -56,7 +54,7 @@ public class HintSystem : MonoBehaviour
             _islandsAnimationSequence?.Kill();
 
             if(CurrentStepIndex > 0){
-                Step prevStep = steps[CurrentStepIndex - 1];
+                Step prevStep = _steps[CurrentStepIndex - 1];
                 if(prevStep.Rotatable)
                     prevStep.IslandTransform.eulerAngles = prevStep.IslandTargetCoordinates;
                 else
@@ -64,7 +62,7 @@ public class HintSystem : MonoBehaviour
             }
 
             _stepsRecorder.RecordStep();
-            UpdateLineRenderer(steps[CurrentStepIndex]);
+            UpdateLineRenderer(_steps[CurrentStepIndex]);
             AnimateIsland();
         }
     }
@@ -77,17 +75,17 @@ public class HintSystem : MonoBehaviour
             
             _stepsRecorder.MoveToPreviousStep();
             Timer.StartNew(this, _stepsRecorder.IslandAnimationDuration, () => {
-                UpdateLineRenderer(steps[CurrentStepIndex]);
+                UpdateLineRenderer(_steps[CurrentStepIndex]);
                 AnimateIsland();
             });
         }
     }
 
-    public bool CanMoveToNextStep() => CurrentStepIndex < steps.Count - 1;
+    public bool CanMoveToNextStep() => CurrentStepIndex < _steps.Count - 1;
     public bool CanMoveToPreviousStep() => CurrentStepIndex > 0;
 
     private void AnimateIsland(){
-        Step step = steps[CurrentStepIndex];
+        Step step = _steps[CurrentStepIndex];
         Vector3 targetValue = step.IslandTargetCoordinates;
 
         _islandsAnimationSequence = DOTween.Sequence().SetLoops(-1);

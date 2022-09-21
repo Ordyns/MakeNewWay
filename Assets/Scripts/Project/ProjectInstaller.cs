@@ -11,6 +11,9 @@ public class ProjectInstaller : MonoInstaller
     [SerializeField] public MusicPlayer musicPlayer;
     [SerializeField] public ScenesTransitions scenesTransitions;
 
+    private SaveSystem<PlayerData> _saveSystem;
+    private PlayerData _data;
+
     public override void InstallBindings(){       
         DeclareSignals();
 
@@ -18,6 +21,8 @@ public class ProjectInstaller : MonoInstaller
         BindScenesLoader();
         BindLocalization();
         BindAudio();
+
+        BindPlayerData();
         
         Container.BindInstances(adsManager, levelsInfoProvider);
 
@@ -57,7 +62,15 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<AudioManager>().AsSingle().NonLazy();
     }
 
+    private void BindPlayerData(){
+        _saveSystem = new SaveSystem<PlayerData>();
+        _data = _saveSystem.LoadData();
+        Container.BindInstance(_data).AsCached().NonLazy();
+    }
+
     private void OnApplicationQuit() {
+        _saveSystem.SaveData(_data);
+
         Container.Resolve<SignalBus>().Fire<OnQuitSignal>();
     }
 }
