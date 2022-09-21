@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class IslandsUpdater : MonoBehaviour
+public class IslandsUpdater : Zenject.ITickable
 {
     public event System.Action IslandUpdating;
     public event System.Action IslandUpdated;
@@ -9,18 +9,20 @@ public class IslandsUpdater : MonoBehaviour
     public bool IsIslandUpdating { get; private set; }
     public bool IsIslandsUpdatingAllowed { get; set; }
     
-    [SerializeField] private Camera mainCamera;
-    [SerializeField] private BaseSoundsPlayer soundsPlayer;
-
     private PlayerInput<Island> _playerInput;
 
     private PauseManager _pauseManager;
+    private BaseSoundsPlayer _soundsPlayer;
 
     private Zenject.SignalBus _signalBus;
+
+    private MonoBehaviour _levelMonoBehaviour;
     
     [Zenject.Inject]
-    private void Init(PauseManager pauseManager) {
+    private IslandsUpdater(MonoBehaviour levelMonoBehaviour, PauseManager pauseManager, Camera mainCamera, BaseSoundsPlayer soundsPlayer) {
+        _levelMonoBehaviour = levelMonoBehaviour;
         _pauseManager = pauseManager;
+        _soundsPlayer = soundsPlayer;
 
         _playerInput = new PlayerInput<Island>(mainCamera);
         _playerInput.Click += OnClick;
@@ -34,7 +36,7 @@ public class IslandsUpdater : MonoBehaviour
         _signalBus = signalBus;
     }
 
-    private void Update() {
+    public void Tick() {
         if(_pauseManager.IsPaused || IsIslandUpdating)
             return;
 
@@ -71,7 +73,7 @@ public class IslandsUpdater : MonoBehaviour
             throw new System.Exception("The islands are already being updating");
         
         IsIslandUpdating = true;
-        Timer.StartNew(this, duration, OnUpdatingFinished);
+        Timer.StartNew(_levelMonoBehaviour, duration, OnUpdatingFinished);
     }
 
     private void UpdatingStarted(){
@@ -79,7 +81,7 @@ public class IslandsUpdater : MonoBehaviour
         IslandUpdating?.Invoke();
         _signalBus.Fire<IslandUpdatingSignal>();
 
-        soundsPlayer.PlaySwipeSound();
+        _soundsPlayer.PlaySwipeSound();
     }
 
     private bool AreIslandsCanBeUpdated(){

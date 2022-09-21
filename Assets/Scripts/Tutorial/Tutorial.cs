@@ -13,22 +13,23 @@ public class Tutorial : MonoBehaviour
     private BaseCamera _baseCamera;
     private IslandsUpdater _islandsUpdater;
 
-    private SaveSystem<PlayerData> _saveSystem;
     private PlayerData _data = new PlayerData();
 
     private IIslandUpdateHandler _currentIslandUpdateHandler;
 
-    public void Init(IslandsUpdater islandsUpdater, BaseCamera baseCamera){
-        _saveSystem = new SaveSystem<PlayerData>();
-        _data = _saveSystem.LoadData();
-        
-        _currentStepIndex = -1;
-        
-        _baseCamera = baseCamera;
+    [Zenject.Inject]
+    private void Init(Zenject.SignalBus signalBus, PlayerData playerData, IslandsUpdater islandsUpdater, BaseCamera baseCamera){
+        _data = playerData;
         
         _islandsUpdater = islandsUpdater;
-        _islandsUpdater.IslandUpdating += OnIslandUpdating;
-        _islandsUpdater.IslandUpdated += OnIslandUpdated;
+        _islandsUpdater.IsIslandsUpdatingAllowed = false;
+        
+        _baseCamera = baseCamera;
+
+        signalBus.Subscribe<IslandUpdatedSignal>(OnIslandUpdated);
+        signalBus.Subscribe<IslandUpdatingSignal>(OnIslandUpdating);
+
+        _currentStepIndex = -1;
     }
 
     public void BeginTutorial(){
@@ -72,7 +73,6 @@ public class Tutorial : MonoBehaviour
         _islandsUpdater.IsIslandsUpdatingAllowed = false;
 
         _data.TutorialCompleted = true;
-        _saveSystem.SaveData(_data);
 
         _baseCamera.PlayOutAnimation();
         ui.ShowTutorialCompletedPanel(_baseCamera.AnimationDuration);
@@ -82,7 +82,4 @@ public class Tutorial : MonoBehaviour
 
     private void OnIslandUpdating() => _currentIslandUpdateHandler?.OnIslandUpdating();
     private void OnIslandUpdated() => _currentIslandUpdateHandler?.OnIslandUpdated();
-
-    public void LoadMenu() => LegacyProjectContext.Instance.ScenesLoader.LoadMenu();
-    public void LoadFirstLevel() => LegacyProjectContext.Instance.ScenesLoader.LoadLevel(1);
 }

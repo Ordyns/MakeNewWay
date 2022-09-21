@@ -5,7 +5,6 @@ public class BaseInstaller : MonoInstaller
 {
     [SerializeField] private HintSystem hintSystem;
     [SerializeField] private GuideSystem guideSystem;
-    [SerializeField] private IslandsUpdater islandsUpdater;
     [SerializeField] private BaseCamera baseCamera;
     [SerializeField] private HintRenderer hintRenderer;
     [SerializeField] private BaseUI baseUI;
@@ -23,7 +22,7 @@ public class BaseInstaller : MonoInstaller
         BindStepsViewModel(currentLevelNumber);
         BindLevelCompletedHandler(currentLevelNumber);
 
-        BindOtherBaseScipts();
+        Container.BindInstances(baseUI, baseCamera, baseSoundsPlayer);
 
         Container.Bind<BaseInitializer>().AsSingle().NonLazy();
     }
@@ -39,7 +38,7 @@ public class BaseInstaller : MonoInstaller
     }
 
     private void BindIslandsUpdater(){
-        Container.BindInstance(islandsUpdater).AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<IslandsUpdater>().AsSingle().WithArguments((MonoBehaviour) this, baseCamera.Camera);
 
         Container.DeclareSignal<IslandUpdatedSignal>();
         Container.DeclareSignal<IslandUpdatingSignal>();
@@ -53,19 +52,11 @@ public class BaseInstaller : MonoInstaller
     }
 
     private void BindStepsViewModel(int currentLevelNumber){
-        System.Func<PlayerData, bool> getter = data => data.CompletedLevelsWithBonus.Contains(currentLevelNumber);
-        Container.Bind<bool>().FromResolveGetter<PlayerData>(getter).WhenInjectedInto<StepsViewModel>();
-        Container.Bind<StepsViewModel>().AsSingle();
+        bool isBonusReceivedEarlier = Container.Resolve<PlayerData>().CompletedLevelsWithBonus.Contains(currentLevelNumber);
+        Container.Bind<StepsViewModel>().AsSingle().WithArguments(isBonusReceivedEarlier);
     }
 
     private void BindLevelCompletedHandler(int currentLevelNumber){
-        Container.BindInstance(currentLevelNumber).WhenInjectedInto<LevelCompletedHandler>();
-        Container.Bind<LevelCompletedHandler>().AsSingle().NonLazy();
-    }
-
-    private void BindOtherBaseScipts(){
-        Container.BindInstance(baseUI).AsSingle();
-        Container.BindInstance(baseCamera).AsSingle();
-        Container.BindInstance(baseSoundsPlayer).AsSingle();
+        Container.Bind<LevelCompletedHandler>().AsSingle().WithArguments(currentLevelNumber).NonLazy();
     }
 }
