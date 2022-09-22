@@ -1638,6 +1638,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56b9292ba855def4ba8f054ea7e97fa5, type: 3}
+--- !u!114 &369980161 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2915978467135638880, guid: 56b9292ba855def4ba8f054ea7e97fa5, type: 3}
+  m_PrefabInstance: {fileID: 369980160}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68657b181dd90a140b98680bcc287543, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &399861000
 GameObject:
   m_ObjectHideFlags: 0
@@ -4164,6 +4175,7 @@ MonoBehaviour:
   hintRenderer: {fileID: 431657646}
   baseUI: {fileID: 1573575427}
   baseSoundsPlayer: {fileID: 1884384932}
+  reviewRequestPanel: {fileID: 369980161}
 --- !u!4 &1330619767
 Transform:
   m_ObjectHideFlags: 0

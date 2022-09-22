@@ -1,15 +1,18 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ReviewRequestPanel : MonoBehaviour
 {
-    [field:SerializeField] public int TargetLevelNumber { get; private set; }
+    public event System.Action PanelClosed;
+
+    [SerializeField] private int targetLevelNumber;
     [Space]
     [SerializeField] private Canvas canvas;
     [SerializeField] private AnimatedPanel animatedPanel;
     [Space]
     [SerializeField] private AnimatedButton rateGameButton;
     [SerializeField] private AnimatedButton closeButton;
+
+    public bool IsTargetLevel(int levelNumber) => levelNumber == targetLevelNumber;
 
     public void ShowPanel(){
         canvas.enabled = true;
@@ -23,7 +26,12 @@ public class ReviewRequestPanel : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void ClosePanel() => animatedPanel.Close(() => gameObject.SetActive(false));
+    private void ClosePanel(){
+        animatedPanel.Close(() => {
+            gameObject.SetActive(false);
+            PanelClosed?.Invoke();
+        });
+    } 
 
     private void RequestReview() => Reviews.RequestGooglePlayReview();
 }

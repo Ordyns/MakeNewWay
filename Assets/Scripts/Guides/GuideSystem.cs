@@ -35,7 +35,7 @@ public class GuideSystem : MonoBehaviour
         _currentLevelNumber = currentLevelNumber;
     }
 
-    private void Start() {
+    public void BeginGuide() {
         foreach(GuideView guideView in GuideViews){
             if(guideView.TargetLevelNumber == _currentLevelNumber)
                 _currentGuideView = guideView;

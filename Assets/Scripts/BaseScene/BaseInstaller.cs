@@ -9,6 +9,8 @@ public class BaseInstaller : MonoInstaller
     [SerializeField] private HintRenderer hintRenderer;
     [SerializeField] private BaseUI baseUI;
     [SerializeField] private BaseSoundsPlayer baseSoundsPlayer;
+    [Space]
+    [SerializeField] private ReviewRequestPanel reviewRequestPanel;
 
     public override void InstallBindings(){
         Container.Bind<StepsRecorder>().To<LevelStepsRecorder>().AsSingle().NonLazy();
@@ -17,14 +19,15 @@ public class BaseInstaller : MonoInstaller
         BindIslandsUpdater();
         BindHint();
 
+        Container.BindInstances(baseUI, baseCamera, baseSoundsPlayer);
+        Container.BindInstance(reviewRequestPanel).AsSingle();
+
         int currentLevelNumber = Container.Resolve<ScenesLoader>().LastLoadedLevelNumber;
         BindGuideSystem(currentLevelNumber);
         BindStepsViewModel(currentLevelNumber);
         BindLevelCompletedHandler(currentLevelNumber);
 
-        Container.BindInstances(baseUI, baseCamera, baseSoundsPlayer);
-
-        Container.Bind<BaseInitializer>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<BaseInitializer>().AsSingle().WithArguments(currentLevelNumber).NonLazy();
     }
 
     private void BindHint(){
