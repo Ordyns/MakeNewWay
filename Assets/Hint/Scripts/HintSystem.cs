@@ -27,7 +27,8 @@ public class HintSystem : MonoBehaviour
 
         CurrentStepIndex = -1;
         
-        CreateHintIslands(factory);
+        if(_steps.Count > 0)
+            CreateHintIslands(factory);
     }
 
     private void CreateHintIslands(HintIslandFactory factory){

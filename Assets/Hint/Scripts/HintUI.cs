@@ -35,10 +35,10 @@ public class HintUI : MonoBehaviour
         hintButton.OnClick.AddListener(OpenPanel);
         closeButton.OnClick.AddListener(ClosePanel);
 
-        hintButton.gameObject.SetActive(_hintViewModel.IsAdViewed);
+        hintButton.gameObject.SetActive(_hintViewModel.IsAdViewed && _hintViewModel.StepsCount > 0);
         viewAdButton.gameObject.SetActive(false);
 
-        if(_hintViewModel.IsAdViewed == false){
+        if(_hintViewModel.IsAdViewed == false && _hintViewModel.StepsCount > 0){
             bool isInternetReachable = await _hintViewModel.IsInternetReachable();
             viewAdButton?.gameObject.SetActive(isInternetReachable);
         }
