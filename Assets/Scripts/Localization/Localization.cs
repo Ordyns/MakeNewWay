@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
 using NaughtyAttributes;
 using System.Collections.ObjectModel;
 
@@ -18,9 +16,27 @@ public class Localization : MonoBehaviour
 
     private LocalizedStrings _currentLocalization;
 
-    private void Awake() {
+    private LinkedList<LocalizedText> _localizedTexts;
+
+    [Zenject.Inject]
+    private void Init(Zenject.SignalBus signalBus){
+        _localizedTexts = new LinkedList<LocalizedText>();
+        InitSignals(signalBus);
+
         CurrentLanguageCode = GetUserLanguage();
         LoadLocalization(CurrentLanguageCode);
+    }
+
+    private void InitSignals(Zenject.SignalBus signalBus){
+        signalBus.DeclareSignal<ObjectCreatedSignal<LocalizedText>>();
+        signalBus.Subscribe<ObjectCreatedSignal<LocalizedText>>(AddLocalizedText);
+
+        signalBus.DeclareSignal<ObjectDestroyedSignal<LocalizedText>>();
+        signalBus.Subscribe<ObjectDestroyedSignal<LocalizedText>>(RemoveLocalizedText);
+    }
+
+    private void Start() {
+        UpdateTexts();
     }
 
     private void LoadLocalization(string languageCode){
@@ -30,9 +46,24 @@ public class Localization : MonoBehaviour
 
     public void ChangeLanguage(string languageCode){
         LoadLocalization(languageCode);
-        LanguageChanged?.Invoke();
         CurrentLanguageCode = languageCode;
+        LanguageChanged?.Invoke();
+
         PlayerPrefs.SetString("Language", languageCode);
+
+        UpdateTexts();
+    }
+
+    private void UpdateTexts(){
+        var current = _localizedTexts.First;
+        while(current != null){
+            if(current == null)
+                _localizedTexts.Remove(current);
+
+            current.Value.UpdateText(GetLocalizedValue(current.Value.LocalizationKey));
+
+            current = current.Next;
+        }
     }
 
     public string ChangeToNextLanguage(){
@@ -55,9 +86,19 @@ public class Localization : MonoBehaviour
             return _currentLocalization.LocalizationList.Find(l => l.Key == key).Value;
         }
         catch{
-            Debug.LogError("LocalizationErorr: Key not founded! \n key = " + key);
+            Debug.LogError("LocalizationErorr: Key not founded! \n key: " + key);
             return null;
         }
+    }
+
+    private void AddLocalizedText(ObjectCreatedSignal<LocalizedText> signal){
+        LocalizedText localizedText = signal.Object;
+        localizedText.UpdateText(GetLocalizedValue(localizedText.LocalizationKey));
+        _localizedTexts.AddLast(localizedText);
+    }
+
+    private void RemoveLocalizedText(ObjectDestroyedSignal<LocalizedText> signal){
+        _localizedTexts.Remove(signal.Object);
     }
 
     private string GetUserLanguage(){

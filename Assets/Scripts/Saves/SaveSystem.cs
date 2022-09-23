@@ -1,15 +1,13 @@
-﻿using System.IO;
+using System.IO;
 using UnityEngine;
 
 public class SaveSystem<T> where T: ISaveable, new()
 {
     private readonly string _fullPath;
     private readonly string _targetDirectory;
-    private readonly string _fileName;
+    private readonly string _fileName = new T().FileName + ".json";
 
-    public SaveSystem(T data){
-        _fileName = data.FileName + ".json";
-
+    public SaveSystem(){
         string editorPath = Path.Combine(Application.dataPath, "Saves/");
         _targetDirectory = Application.isEditor ? editorPath : Application.persistentDataPath;
         _fullPath = Path.Combine(_targetDirectory, _fileName);

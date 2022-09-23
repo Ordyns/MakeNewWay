@@ -37,13 +37,13 @@ public class SavesAdapter
             TutorialCompleted = legacyData.TutorialCompleted,
             ReviewRequested = legacyData.ReviewRequested
         };
-        new SaveSystem<PlayerData>(playerData).SaveData(playerData);
+        new SaveSystem<PlayerData>().SaveData(playerData);
     }
 
     private void AdaptToGuidesData(LegacyData legacyData){
         GuideSystem.Data guidesData = new GuideSystem.Data();
         guidesData.CompletedGuides = legacyData.CompletedLevelsWithGuides.ToList();
-        new SaveSystem<GuideSystem.Data>(guidesData).SaveData(guidesData);
+        new SaveSystem<GuideSystem.Data>().SaveData(guidesData);
     }
 
     private void AdaptToSettingsData(LegacyData legacyData){
@@ -51,7 +51,7 @@ public class SavesAdapter
             IsMusicEnabled = legacyData.isMusicEnabled,
             IsSoundsEnabled = legacyData.isSoundsEnabled
         };
-        new SaveSystem<Settings.Data>(settingsData).SaveData(settingsData);
+        new SaveSystem<Settings.Data>().SaveData(settingsData);
     }
 
     private class LegacyData
