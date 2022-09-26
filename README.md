@@ -10,8 +10,23 @@ The game has 24 different handmade levels
   </a>
 </p>
 
+# Table of contents
+- [How to create level](#how-to-create-level)
+  - [Rules](#rules)
+  - [First setup](#first-setup)
+  - [Level creation](#level-creation)
+  - [When the level is finished](#when-the-level-is-finished)
+- [Localization](#localization)
+  - [How to add new localization](#how-to-add-new-localization)
+- [Performance](#performance)
+- [Analytics](#analytics)
+- [Ads](#ads)
+- [Unity](#unity)
+- [Packages](#packages)
+
 # How to create level
-### **If you want to create a new level, you must follow several rules:**  
+### **Rules**  
+**If you want to create a new level, you must follow several rules:**
 - **Preferably**, use **LevelTemplate** (`Assets/Scenes/Level Template`). Make a copy and change it's name.  
 - The level name must be in a special format: **Level N**, where **N** is the level number (**N > 0**).  
 - Each level must have a **unique number**.  
