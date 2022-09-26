@@ -14,8 +14,9 @@ public class IslandsAnimator : MonoBehaviour
     private List<Island> _islands = new List<Island>();
     private List<Vector3> _originalSizes = new List<Vector3>();
 
-    public void Init(List<Island> islands){
-        _islands = islands;
+    [Zenject.Inject]
+    private void Init(IslandsProvider islandsProvider){
+        _islands = islandsProvider.Islands;
 
         foreach(Island island in _islands){
             _originalSizes.Add(island.transform.localScale);

@@ -3,7 +3,7 @@ using DG.Tweening;
 using System;
 
 [SelectionBase]
-public class MovableIsland : Island, ISwipeHandler
+public class MovableIsland : Island, ISwipeHandler, IUpdatableIsland
 {
     public MoveDirections IslandMoveDirections;
     [Space]
@@ -18,7 +18,7 @@ public class MovableIsland : Island, ISwipeHandler
     public bool OnSwipe(Direction direction, Action onUpdated){
         Vector3 moveDirection = ConvertDirectionToVector(direction);
 
-        if((Parent && Parent.AllChildIslandsCanBeUpdated(direction) == false) || CanMoveInDirection(direction) == false)
+        if((Parent && Parent.AllChildIslandsCanBeUpdated(direction) == false) || CanBeUpdated(direction) == false)
             return false;
 
         Transform targetTransform = Parent ? Parent.transform : transform;
@@ -27,7 +27,7 @@ public class MovableIsland : Island, ISwipeHandler
         return true;
     }
 
-    private bool CanMoveInDirection(Direction direction){
+    public bool CanBeUpdated(Direction direction){
         if(AllowedToMoveInDirection(direction) == false)
             return false;
 
@@ -38,8 +38,6 @@ public class MovableIsland : Island, ISwipeHandler
 
         return true;
     }
-
-    public override bool AdditionalUpdatingCondition(Direction direction) => CanMoveInDirection(direction);
 
     private bool AllowedToMoveInDirection(Direction direction){
         direction = DirectionExtensions.GetDirectionFromAngle(direction.ToDegrees() + transform.rotation.eulerAngles.y);

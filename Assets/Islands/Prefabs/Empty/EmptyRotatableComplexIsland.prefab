@@ -54,6 +54,13 @@ MonoBehaviour:
     DirectionOffsetInDegrees: 180
   - Island: {fileID: 5726855950918277256}
     DirectionOffsetInDegrees: 90
+  rotatableIslandsUpdateDirections:
+  - Island: {fileID: 1076656405441465636}
+    DirectionOffsetInDegrees: 180
+  - Island: {fileID: 40046823258395853}
+    DirectionOffsetInDegrees: 180
+  - Island: {fileID: 5726855950918277256}
+    DirectionOffsetInDegrees: 90
 --- !u!1001 &1479911063398125445
 PrefabInstance:
   m_ObjectHideFlags: 0

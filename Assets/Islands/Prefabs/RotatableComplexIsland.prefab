@@ -46,7 +46,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f1b9c80ba74db74faf50d60aaee2801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChildIslands: []
+  rotatableIsland: 1
+  rotatableIslandsUpdatingDirections:
+  - Island: {fileID: 615912446999359184}
+    DirectionOffsetInDegrees: 180
+  - Island: {fileID: 6756682661812794503}
+    DirectionOffsetInDegrees: 180
+  - Island: {fileID: 2410671083157354542}
+    DirectionOffsetInDegrees: 90
+  rotatableIslandsUpdateDirections:
+  - Island: {fileID: 615912446999359184}
+    DirectionOffsetInDegrees: 180
+  - Island: {fileID: 6756682661812794503}
+    DirectionOffsetInDegrees: 180
+  - Island: {fileID: 2410671083157354542}
+    DirectionOffsetInDegrees: 90
 --- !u!1001 &1478590291092262905
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -170,6 +184,10 @@ PrefabInstance:
       propertyPath: outputEnergyFlowDirection
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3911160869429942817, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8761647132791519843, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -185,6 +203,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 638171481115709677, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
   m_PrefabInstance: {fileID: 1478590291092262905}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2410671083157354542 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3887009564339681239, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
+  m_PrefabInstance: {fileID: 1478590291092262905}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d71e31f8271c5e4397fae8aba42174f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4430776230884694279
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -304,6 +333,10 @@ PrefabInstance:
       propertyPath: outputEnergyFlowDirection
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3911160869429942817, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8761647132791519843, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -319,6 +352,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 638171481115709677, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
   m_PrefabInstance: {fileID: 4430776230884694279}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &615912446999359184 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3887009564339681239, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
+  m_PrefabInstance: {fileID: 4430776230884694279}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d71e31f8271c5e4397fae8aba42174f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7509155961704498000
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -433,3 +477,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 638171481115709677, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
   m_PrefabInstance: {fileID: 7509155961704498000}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6756682661812794503 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3887009564339681239, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
+  m_PrefabInstance: {fileID: 7509155961704498000}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d71e31f8271c5e4397fae8aba42174f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

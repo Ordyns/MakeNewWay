@@ -777,19 +777,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67badda8c2d924d4aa503cc898659612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Parent: {fileID: 0}
-  isUpdating: 0
   IslandType: 2
   isInputMirrored: 0
   outputEnergyFlowDirection: 3
   inputEnergyFlowDirection: 0
-  OriginalRendererScale: {x: 1, y: 1, z: 1}
   defaultRenderer: {fileID: 2728320795287504245}
   cornerRenderer: {fileID: 0}
-  flipX: 0
-  flipZ: 0
-  updateRenderer: 1
-  energyFlowIndicatorsDistance: 5.5
 --- !u!1 &5483399108304304282
 GameObject:
   m_ObjectHideFlags: 0

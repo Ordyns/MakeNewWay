@@ -336,15 +336,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccb5ee648eec668428654180ea6dac8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Parent: {fileID: 0}
-  isUpdating: 0
   IslandType: 0
   isInputMirrored: 0
   outputEnergyFlowDirection: 0
   inputEnergyFlowDirection: 3
   defaultRenderer: {fileID: 2221160437410739334}
   cornerRenderer: {fileID: 2229971984353490306}
-  updatingSound: {fileID: 8300000, guid: 5a393672080e79645a50534581ecf1df, type: 3}
   IslandMoveDirections: 0
   movableIndicator: {fileID: 588734918016588206}
 --- !u!1 &638171481234813556

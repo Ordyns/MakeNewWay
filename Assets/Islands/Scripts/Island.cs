@@ -111,8 +111,6 @@ public class Island : MonoBehaviour
         return false;
     }
 
-    public virtual bool AdditionalUpdatingCondition(Direction direction) => true;
-
     public void EnergyIsGoing() => SetEnergyGoingState(true);
     public void EnergyIsNotGoing() => SetEnergyGoingState(false);
 
