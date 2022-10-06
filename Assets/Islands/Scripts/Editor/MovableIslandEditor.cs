@@ -11,24 +11,22 @@ public class MovableIslandEditor : IslandEditor
     private MovableIsland _movableIsland;
     private SerializedObject _serializedObject;
 
-    public override void AdditionalInit(){
+    public override void OnEnable(){
+        base.OnEnable();
+
         _movableIsland = (MovableIsland) target;
         _serializedObject = new SerializedObject(_movableIsland);
         
         _allDirectionsTexture = LoadEditorTexture($"Editor/Islands/MovableIsland/all_directions");
         _upperLeftToDownRightTexture = LoadEditorTexture($"Editor/Islands/MovableIsland/upper_left-down_right");
         _downLeftToUpperRightTexture = LoadEditorTexture($"Editor/Islands/MovableIsland/down_left-upper_right");
+
+        AdditionalSectionsDrawBegin += OnAdditionalSectionDraw;
     }
 
-    private Texture LoadEditorTexture(string path){
-        Texture standartTexture = (Texture) Resources.Load(path, typeof(Texture));
-        return standartTexture;
-    }
+    private Texture LoadEditorTexture(string path) => (Texture) Resources.Load(path, typeof(Texture));
 
-    public override void DrawAdditionalSection()
-    {
-        base.DrawAdditionalSection();
-
+    public void OnAdditionalSectionDraw(){
         _serializedObject.Update();
 
         GUILayout.Label("Move directions", HeadlineStyle);
@@ -54,7 +52,7 @@ public class MovableIslandEditor : IslandEditor
 
         GUIStyle buttonStyle = new GUIStyle(GUIStyle.none);
         if(_movableIsland.IslandMoveDirections == moveDirections)
-            buttonStyle.normal.background = (Texture2D) selectedOutline;
+            buttonStyle.normal.background = (Texture2D) SelectionOutline;
 
         GUILayout.FlexibleSpace();
         if(GUILayout.Button(texture, buttonStyle, GUILayout.Width(76), GUILayout.Height(76))){

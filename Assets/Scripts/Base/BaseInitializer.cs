@@ -6,6 +6,7 @@ public class BaseInitializer : IInitializable
     private IslandsAnimator _islandsAnimator;
     private BaseCamera _baseCamera;
     private BaseUI _baseUI;
+    private PathChecker _pathChecker;
 
     private GuideSystem _guideSystem;
     private ReviewRequestPanel _reviewRequestPanel;
@@ -43,9 +44,12 @@ public class BaseInitializer : IInitializable
     private void InitSignals(SignalBus signalBus, PathChecker pathChecker){
         signalBus.Subscribe<ILevelStarterSignal>(OnLevelStarted);
         signalBus.Subscribe<IslandUpdatedSignal>(pathChecker.CheckPath);
+
+        _pathChecker = pathChecker;
     }
     
     private void OnLevelStarted(){
+        _pathChecker.CheckPath();
         _islandsAnimator.Animate();
         _baseCamera.PlayInAnimation();
         _baseUI.ShowMainUI();

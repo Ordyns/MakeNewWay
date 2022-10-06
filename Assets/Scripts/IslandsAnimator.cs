@@ -18,10 +18,8 @@ public class IslandsAnimator : MonoBehaviour
     private void Init(IslandsProvider islandsProvider){
         _islands = islandsProvider.Islands;
 
-        foreach(Island island in _islands){
+        foreach(Island island in _islands)
             _originalSizes.Add(island.transform.localScale);
-            island.transform.localScale = Vector3.zero;
-        }
     }
 
     private IEnumerator Start() {
@@ -34,6 +32,6 @@ public class IslandsAnimator : MonoBehaviour
 
     public void Animate(){
         for (int i = 0; i < _islands.Count; i++)
-            _islands[i].transform.DOScale(_originalSizes[i], 0.3f).SetEase(Ease.OutCubic).SetDelay(_nextIslandAnimationDelay * i);
+            _islands[i].transform.DOScale(_originalSizes[i], 0.3f).ChangeStartValue(Vector3.zero).SetEase(Ease.OutCubic).SetDelay(_nextIslandAnimationDelay * i);
     }
 }

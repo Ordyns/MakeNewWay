@@ -256,9 +256,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IslandType: 3
-  isInputMirrored: 0
-  outputEnergyFlowDirection: 0
-  inputEnergyFlowDirection: 0
+  Type: 3
+  DefaultRendererFieldName: defaultRenderer
+  CornerRendererFieldName: cornerRenderer
   defaultRenderer: {fileID: 5255748040070597613}
   cornerRenderer: {fileID: 0}
 --- !u!1 &2900167723664737278

@@ -337,9 +337,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IslandType: 4
-  isInputMirrored: 0
-  outputEnergyFlowDirection: 3
-  inputEnergyFlowDirection: 0
+  Type: 4
+  DefaultRendererFieldName: defaultRenderer
+  CornerRendererFieldName: cornerRenderer
   defaultRenderer: {fileID: 2221160437410739334}
   cornerRenderer: {fileID: 0}
 --- !u!1 &638171481234813556
@@ -1602,11 +1602,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1151388028547126963, guid: cfdec2923392872498f3aa36f35dd112, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.00000004371139
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1151388028547126963, guid: cfdec2923392872498f3aa36f35dd112, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: -0.00000008742278
       objectReference: {fileID: 0}
     - target: {fileID: 1151388028547126963, guid: cfdec2923392872498f3aa36f35dd112, type: 3}
       propertyPath: m_LocalRotation.z

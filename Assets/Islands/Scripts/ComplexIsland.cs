@@ -59,13 +59,6 @@ public class ComplexIsland : MonoBehaviour
     }
 
     [System.Serializable]
-    private struct RotatableIslandUpdatingDirection{
-        public RotatableIsland Island;
-        [Space]
-        public int DirectionOffsetInDegrees;
-    }
-
-    [System.Serializable]
     private struct RotatableIslandUpdateDirection{
         public RotatableIsland Island;
         [Space]

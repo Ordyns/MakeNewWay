@@ -47,13 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotatableIsland: 1
-  rotatableIslandsUpdatingDirections:
-  - Island: {fileID: 615912446999359184}
-    DirectionOffsetInDegrees: 180
-  - Island: {fileID: 6756682661812794503}
-    DirectionOffsetInDegrees: 180
-  - Island: {fileID: 2410671083157354542}
-    DirectionOffsetInDegrees: 90
   rotatableIslandsUpdateDirections:
   - Island: {fileID: 615912446999359184}
     DirectionOffsetInDegrees: 180
@@ -110,11 +103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 513886287150033240, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.7071068
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 513886287150033240, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7071067
+      value: -0.00000008742278
       objectReference: {fileID: 0}
     - target: {fileID: 638171481115709676, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
       propertyPath: m_Name
@@ -370,9 +363,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7509155962174717739}
     m_Modifications:
+    - target: {fileID: -3307768996843200539, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 504656910301489244, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
       propertyPath: m_LocalScale.x
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 504656910301489244, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
       propertyPath: m_LocalScale.y
@@ -392,11 +389,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 504656910301489244, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -1
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 504656910301489244, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000008742278
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 638171481115709676, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
       propertyPath: m_Name
@@ -445,6 +442,10 @@ PrefabInstance:
     - target: {fileID: 638171481115709677, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887009564339681239, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
+      propertyPath: Type
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3887009564339681239, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
       propertyPath: IslandType

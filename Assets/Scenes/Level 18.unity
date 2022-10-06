@@ -397,6 +397,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2077811874}
     m_Modifications:
+    - target: {fileID: 511491387275101644, guid: bdc9ea0ad4108734fa8ef510592ce2cb, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1076656405441465636, guid: bdc9ea0ad4108734fa8ef510592ce2cb, type: 3}
       propertyPath: IslandType
       value: 4
@@ -464,6 +468,10 @@ PrefabInstance:
     - target: {fileID: 2621631438135120643, guid: bdc9ea0ad4108734fa8ef510592ce2cb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5255289334736062857, guid: bdc9ea0ad4108734fa8ef510592ce2cb, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdc9ea0ad4108734fa8ef510592ce2cb, type: 3}
@@ -757,6 +765,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -3.25
       objectReference: {fileID: 0}
+    - target: {fileID: 8190940394327316386, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8484055327424025793, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8834294252449322395, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -864,6 +880,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2077811874}
     m_Modifications:
+    - target: {fileID: 527125769727672359, guid: 9028ae1deb783f5469277232b01e4c82, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 527125769727672359, guid: 9028ae1deb783f5469277232b01e4c82, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2804162627227567484, guid: 9028ae1deb783f5469277232b01e4c82, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1005,6 +1029,14 @@ PrefabInstance:
     - target: {fileID: 3422216014760057801, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8190940394327316386, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8484055327424025793, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8834294252449322395, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
       propertyPath: m_IsActive
@@ -1187,6 +1219,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 300678373}
     m_Modifications:
+    - target: {fileID: -3307768996843200539, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -3307768996843200539, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 513886287150033240, guid: da2d5978a1787384d8550bd8a7d8c422, type: 3}
       propertyPath: m_LocalRotation.w
       value: -0.7071068
@@ -1621,6 +1661,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2077811874}
     m_Modifications:
+    - target: {fileID: -3307768996843200539, guid: f64f41d7b6c5ecb49b6578c70b8359d5, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3307768996843200539, guid: f64f41d7b6c5ecb49b6578c70b8359d5, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 513886287150033240, guid: f64f41d7b6c5ecb49b6578c70b8359d5, type: 3}
       propertyPath: m_LocalRotation.w
       value: -0.7071068
@@ -1703,6 +1751,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2077811874}
     m_Modifications:
+    - target: {fileID: 511491387275101644, guid: bdc9ea0ad4108734fa8ef510592ce2cb, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2621631438135120640, guid: bdc9ea0ad4108734fa8ef510592ce2cb, type: 3}
       propertyPath: m_Name
       value: EmptyRotatableComplexIsland
@@ -1755,6 +1807,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5085059696257683552, guid: bdc9ea0ad4108734fa8ef510592ce2cb, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5255289334736062857, guid: bdc9ea0ad4108734fa8ef510592ce2cb, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdc9ea0ad4108734fa8ef510592ce2cb, type: 3}
 --- !u!4 &1834804484 stripped
@@ -1762,39 +1822,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2621631438135120643, guid: bdc9ea0ad4108734fa8ef510592ce2cb, type: 3}
   m_PrefabInstance: {fileID: 1834804483}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1834804485 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5726855950918277256, guid: bdc9ea0ad4108734fa8ef510592ce2cb, type: 3}
-  m_PrefabInstance: {fileID: 1834804483}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d71e31f8271c5e4397fae8aba42174f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1834804486 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 40046823258395853, guid: bdc9ea0ad4108734fa8ef510592ce2cb, type: 3}
-  m_PrefabInstance: {fileID: 1834804483}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d71e31f8271c5e4397fae8aba42174f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1834804487 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1076656405441465636, guid: bdc9ea0ad4108734fa8ef510592ce2cb, type: 3}
-  m_PrefabInstance: {fileID: 1834804483}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d71e31f8271c5e4397fae8aba42174f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1901203775
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1802,6 +1829,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2077811874}
     m_Modifications:
+    - target: {fileID: -1658524873645583798, guid: d6704789523eb66499c9807cde45484a, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1658524873645583798, guid: d6704789523eb66499c9807cde45484a, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2987788567585438563, guid: d6704789523eb66499c9807cde45484a, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2987788567585438563, guid: d6704789523eb66499c9807cde45484a, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4336513663858727083, guid: d6704789523eb66499c9807cde45484a, type: 3}
       propertyPath: m_LocalRotation.w
       value: -0.7071068

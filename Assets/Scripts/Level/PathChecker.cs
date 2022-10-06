@@ -12,11 +12,7 @@ public class PathChecker
         _signalBus = signalBus;
 
         _islands = islandsProvider.Islands;
-        _startIsland = _islands.Find(island => island.IslandType == Island.IslandTypes.Start);
-    }
-
-    private void Start() {
-        CheckPath();
+        _startIsland = _islands.Find(island => island.Type == Island.IslandType.Start);
     }
 
     public void CheckPath(){
@@ -25,26 +21,27 @@ public class PathChecker
 
         while(currentIsland != null){
             if(currentIsland.TryGetNextIsland(out Island nextIsland)){
-                nextIsland.EnergyIsGoing();;
-                islandsWithoutEnergy.Remove(nextIsland);
+                if(nextIsland.IsEnergyIsland == false)
+                    break;
+                
+                if(Island.IsInputAndOutputCorrespond(nextIsland.GetInputDirection(), currentIsland.GetOutputDirection()) == false)
+                    break;
 
-                if(nextIsland.IslandType == Island.IslandTypes.Finish){
+                islandsWithoutEnergy.Remove(nextIsland);
+                nextIsland.AcivateEnergy();
+
+                if(nextIsland.Type == Island.IslandType.Finish){
                     _signalBus.Fire<LevelCompletedSignal>();
                     break;
                 }
 
                 currentIsland = nextIsland;
             }
-            else{
-                foreach(Island island in islandsWithoutEnergy){
-                    if(island.IslandType == Island.IslandTypes.Start)
-                        island.EnergyIsGoing();
-                    else
-                        island.EnergyIsNotGoing();
-                }
-
+            else 
                 break;
-            } 
         }
+
+        foreach(Island island in islandsWithoutEnergy)
+            island.DeactivateEnergy();
     }
 }

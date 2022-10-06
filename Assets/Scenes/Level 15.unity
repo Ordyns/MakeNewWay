@@ -472,6 +472,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 652544895}
     m_Modifications:
+    - target: {fileID: 2331452674516966034, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2621631438135120640, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
       propertyPath: m_Name
       value: EmptyMovableComplexIsland
@@ -559,6 +563,10 @@ PrefabInstance:
     - target: {fileID: 6625731024117341924, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8484055327424025793, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8834294252449322394, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -878,6 +886,26 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 6.5
       objectReference: {fileID: 0}
+    - target: {fileID: 8537020011471136142, guid: 7d95ca21e7c559144b8af6246c2e2f56, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537020011471136142, guid: 7d95ca21e7c559144b8af6246c2e2f56, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537020011661738204, guid: 7d95ca21e7c559144b8af6246c2e2f56, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537020012930324382, guid: 7d95ca21e7c559144b8af6246c2e2f56, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537020012930324382, guid: 7d95ca21e7c559144b8af6246c2e2f56, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d95ca21e7c559144b8af6246c2e2f56, type: 3}
 --- !u!4 &645817427 stripped
@@ -1108,6 +1136,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8190940394327316386, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8484055327424025793, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8834294252449322395, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1273,6 +1309,14 @@ PrefabInstance:
     - target: {fileID: 6909129830606118279, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8190940394327316386, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8484055327424025793, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8834294252449322394, guid: 51275487ee249d449ab6904ab45a4fbc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1838,6 +1882,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 652544895}
     m_Modifications:
+    - target: {fileID: 527125769727672359, guid: 9028ae1deb783f5469277232b01e4c82, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 527125769727672359, guid: 9028ae1deb783f5469277232b01e4c82, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2804162627227567484, guid: 9028ae1deb783f5469277232b01e4c82, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1920,6 +1972,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 652544895}
     m_Modifications:
+    - target: {fileID: -1658524873645583798, guid: d6704789523eb66499c9807cde45484a, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -1658524873645583798, guid: d6704789523eb66499c9807cde45484a, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2987788567585438563, guid: d6704789523eb66499c9807cde45484a, type: 3}
+      propertyPath: inputEnergyFlowDirection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2987788567585438563, guid: d6704789523eb66499c9807cde45484a, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4336513663858727083, guid: d6704789523eb66499c9807cde45484a, type: 3}
       propertyPath: m_LocalRotation.w
       value: -0.7071068
@@ -2122,6 +2190,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2549320161835868199, guid: 7d95ca21e7c559144b8af6246c2e2f56, type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2549320161835868199, guid: 7d95ca21e7c559144b8af6246c2e2f56, type: 3}
       propertyPath: m_LocalRotation.w
       value: -0.7071068
       objectReference: {fileID: 0}
@@ -2232,6 +2304,18 @@ PrefabInstance:
     - target: {fileID: 3223128674913020551, guid: 7d95ca21e7c559144b8af6246c2e2f56, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537020011661738204, guid: 7d95ca21e7c559144b8af6246c2e2f56, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537020012930324382, guid: 7d95ca21e7c559144b8af6246c2e2f56, type: 3}
+      propertyPath: isInputMirrored
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537020012930324382, guid: 7d95ca21e7c559144b8af6246c2e2f56, type: 3}
+      propertyPath: outputEnergyFlowDirection
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d95ca21e7c559144b8af6246c2e2f56, type: 3}

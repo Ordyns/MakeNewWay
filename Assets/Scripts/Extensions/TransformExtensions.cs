@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public static class TransformExtensions
 {
     public static List<T> GetAllChildrenWithComponent<T>(this Transform parent, bool includingInactive = true){
-        List<T> children = new List<T>();
+        LinkedList<T> children = new LinkedList<T>();
         for(int i = 0; i < parent.childCount; i++){
             var child = parent.GetChild(i);
             
@@ -12,11 +13,12 @@ public static class TransformExtensions
                 continue;
             
             if(child.TryGetComponent<T>(out T component))
-                children.Add(component);
+                children.AddLast(component);
             
-            children.AddRange(child.GetAllChildrenWithComponent<T>());
+            foreach(T island in child.GetAllChildrenWithComponent<T>(includingInactive))
+                children.AddLast(island);
         }
 
-        return children;
+        return children.ToList();
     }
 }

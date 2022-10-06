@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using static DirectionExtensions;
 
-[SelectionBase] [Serializable]
+[SelectionBase] [Serializable] [RequireComponent(typeof(IslandEnergy))]
 public class Island : MonoBehaviour
 {
     private ComplexIsland _parent;
@@ -18,59 +18,51 @@ public class Island : MonoBehaviour
         }
     }
 
-    [SerializeField] public IslandTypes IslandType;
-    [Space]
-    public bool isInputMirrored;
-    [Space]
-    [SerializeField] public Direction outputEnergyFlowDirection;
-    [SerializeField] public Direction inputEnergyFlowDirection;
+    [SerializeField] public IslandType Type;
+    public bool IsEnergyIsland => _islandEnergy && (_islandEnergy.IsInputEnabled || _islandEnergy.IsOutputEnabled);
 
 #if UNITY_EDITOR
-    public string OutputPropertyName => nameof(outputEnergyFlowDirection);
-    public string InputPropertyName => nameof(inputEnergyFlowDirection);
+    public string DefaultRendererFieldName = nameof(defaultRenderer);
+    public string CornerRendererFieldName = nameof(cornerRenderer);
 #endif
 
     [Header("Visual")]
-    public MeshRenderer defaultRenderer;
-    public MeshRenderer cornerRenderer;
+    [SerializeField] private MeshRenderer defaultRenderer;
+    [SerializeField] private MeshRenderer cornerRenderer;
 
     private MeshRenderer _currentRenderer;
 
-    private bool isEnergyGoing;
-    private Material _rendererMaterial;
-    private Color _defaultEmissionColor;
+    private IslandEnergy _islandEnergy;
 
-    private void Awake(){
-        InitRenderer();
-
-        if (IslandType == IslandTypes.Start)
-            EnergyIsGoing();
-        else
-            EnergyIsNotGoing();
+    private void OnValidate() {
+        _islandEnergy = GetComponent<IslandEnergy>();
     }
 
-    private void InitRenderer(){
-        _currentRenderer = IslandType == IslandTypes.Corner ? cornerRenderer : defaultRenderer;
+    private void Awake(){
+        RendererUpdated();
 
-        _rendererMaterial = _currentRenderer.material;
+        if (Type == IslandType.Start)
+            AcivateEnergy();
+        else
+            DeactivateEnergy();
+    }
 
-        _defaultEmissionColor = _rendererMaterial.GetColor("_EmissionColor");
+    private void RendererUpdated(){
+        _currentRenderer = Type == IslandType.Corner ? cornerRenderer : defaultRenderer;
+
+        Material material = null;
+        if((Application.isEditor && UnityEditor.EditorApplication.isPlaying) || Application.isEditor == false)
+            material = _currentRenderer.material;
+        
+        bool isOutputEnabled = Type != IslandType.Finish && Type != IslandType.Empty;
+        bool isInputEnabled = Type != IslandType.Start && Type != IslandType.Empty;
+        _islandEnergy?.Init(material, isOutputEnabled, isInputEnabled);
     }
 
     public bool TryGetNextIsland(out Island nextIsland){
-        if(TryGetIslandInDirection(GetOutputDirection(), out Island island, true)){
-            if(island.IslandType != IslandTypes.Empty){
-                bool isCorrespond = CheckInputAndOutputConformity(GetOutputDirection(), island.GetInputDirection());
-                if(isCorrespond){
-                    if(isEnergyGoing)
-                        island.EnergyIsGoing();
-                    else
-                        island.EnergyIsNotGoing();
-                }
-
-                nextIsland = island;
-                return isCorrespond;
-            }
+        if(_islandEnergy?.IsOutputEnabled == true && TryGetIslandInDirection(GetOutputDirection(), out Island island, true)){
+            nextIsland = island;
+            return true;
         }
 
         nextIsland = null;
@@ -111,48 +103,40 @@ public class Island : MonoBehaviour
         return false;
     }
 
-    public void EnergyIsGoing() => SetEnergyGoingState(true);
-    public void EnergyIsNotGoing() => SetEnergyGoingState(false);
-
-    private void SetEnergyGoingState(bool isGoing){
-        if (IslandType == IslandTypes.Empty)
+    public void AcivateEnergy(){
+        if(IsEnergyIsland == false)
             return;
 
-        if (_rendererMaterial == null)
-            InitRenderer();
-
-        isEnergyGoing = isGoing;
-        _rendererMaterial.SetColor("_EmissionColor", isGoing ? _defaultEmissionColor : Color.black);
+        _islandEnergy?.Activate();
     }
 
-    private bool CheckInputAndOutputConformity(Direction inputDirection, Direction outputDirection)
+    public void DeactivateEnergy(){
+        if(IsEnergyIsland == false || Type == IslandType.Start)
+            return;
+
+        _islandEnergy?.Deactivate();
+    }
+
+    public static bool IsInputAndOutputCorrespond(Direction inputDirection, Direction outputDirection)
         => DirectionExtensions.GetMirroredDirection(inputDirection) == outputDirection;
 
-    public Direction GetInputDirection(bool consideringRotation = true) => GetEnergyFlowDirection(inputEnergyFlowDirection, consideringRotation);
-    public Direction GetOutputDirection(bool consideringRotation = true) => GetEnergyFlowDirection(outputEnergyFlowDirection, consideringRotation);
+    public Direction GetInputDirection(bool consideringRotation = true) => _islandEnergy.GetInputDirection(consideringRotation);
+    public Direction GetOutputDirection(bool consideringRotation = true) => _islandEnergy.GetOutputDirection(consideringRotation);
 
-    private Direction GetEnergyFlowDirection(Direction direction, bool consideringRotation = true){
-        if(consideringRotation == false)
-            return direction;
-
-        float angle = direction.ToDegrees() + transform.rotation.eulerAngles.y;
-        return GetDirectionFromAngle(angle);
-    }
-
-    public Vector3 ConvertDirectionToVector(Direction direction){
+    protected Vector3 ConvertDirectionToVector(Direction direction){
         float angle = DirectionExtensions.ToDegrees(direction);
         return new Vector3(Mathf.Sin(angle / Mathf.Rad2Deg), 0, Mathf.Cos(angle / Mathf.Rad2Deg));
     }
 
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected() {
-        if(IslandType == IslandTypes.Empty)
+        if(Type == IslandType.Empty)
             return;
             
         Gizmos.color = Color.red;
         Gizmos.DrawCube(transform.position + ConvertDirectionToVector(GetInputDirection()) * 3.27f, Vector3.one / 2);
 
-        if(IslandType != IslandTypes.Finish){   
+        if(Type != IslandType.Finish){   
             Gizmos.color = Color.blue;
             Gizmos.DrawCube(transform.position + ConvertDirectionToVector(GetOutputDirection()) * 3.27f, Vector3.one / 2);
 
@@ -162,7 +146,7 @@ public class Island : MonoBehaviour
     }
 #endif
 
-    public enum IslandTypes
+    public enum IslandType
     {
         Default,
         Corner,
